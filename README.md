@@ -1,2 +1,1 @@
-# placemy
-Project Of Structure Realty - placemy 
+# to-do-nuxt
