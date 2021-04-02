@@ -1,6 +1,5 @@
 <template>
   <div class="main-block" style="postion:relative">
-    <div class="backdrop"></div>
     <Title />
     <div class="row my-50 d-flex justify-content-center">
       <Offers />

@@ -18,12 +18,17 @@
         </nuxt-link>
       </div>
     </header>
-    <Nuxt />
+    <slide-y-down-transition :duration="700">
+      <Nuxt />
+    </slide-y-down-transition>
   </div>
 </template>
 
 <script>
-export default {};
+import { SlideYDownTransition } from "vue2-transitions";
+export default {
+  components: {
+    SlideYDownTransition
+  }
+};
 </script>
-
-<style lang="scss" scoped></style>
