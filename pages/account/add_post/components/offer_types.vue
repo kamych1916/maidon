@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="offer-types">
     <h4>Новое объявление</h4>
     <div class="row mt-30">
       <div class="col-md-4 my-10">
@@ -155,59 +155,61 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.custom-radio input {
-  display: none;
-}
-.radio-btn {
-  background: #fff;
-  border: 3px solid transparent;
-  display: inline-block;
-  border-radius: 10px;
-  text-align: center;
-  box-shadow: 0 0 20px #c3c3c367;
-  cursor: pointer;
-  transition: 0.2s;
-}
-.radio-btn i {
-  color: #212529;
-  font-size: 50px;
-  transition: 0.2s;
-}
-.radio-btn h3 {
-  color: #212529;
-  font-size: 16px;
-  text-transform: uppercase;
-  transition: 0.2s;
-}
-.radio-btn:hover {
-  background: #212529;
-}
-.radio-btn:active {
-  transform: scale(0.95);
-}
-.radio-btn:hover i {
-  color: #fff;
-}
-.radio-btn:hover h3 {
-  color: #fff;
-}
-
-input:checked + .radio-btn {
-  background: #212529;
-  i,
-  h3 {
-    color: #fff;
+.offer-types {
+  .custom-radio input {
+    display: none;
   }
-}
-@media screen and (max-width: 1024px) {
-  .radio-btn:hover {
+  .radio-btn {
     background: #fff;
+    border: 3px solid transparent;
+    display: inline-block;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 0 20px #c3c3c367;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+  .radio-btn i {
+    color: #212529;
+    font-size: 50px;
+    transition: 0.2s;
+  }
+  .radio-btn h3 {
+    color: #212529;
+    font-size: 16px;
+    text-transform: uppercase;
+    transition: 0.2s;
+  }
+  .radio-btn:hover {
+    background: #3a8ee6;
+  }
+  .radio-btn:active {
+    transform: scale(0.95);
   }
   .radio-btn:hover i {
-    color: black;
+    color: #fff;
   }
   .radio-btn:hover h3 {
-    color: black;
+    color: #fff;
+  }
+
+  input:checked + .radio-btn {
+    background: #3a8ee6;
+    i,
+    h3 {
+      color: #fff;
+    }
+  }
+  @media screen and (max-width: 1024px) {
+    .radio-btn:hover {
+      background: #fff;
+    }
+    .radio-btn:hover i {
+      color: black;
+    }
+    .radio-btn:hover h3 {
+      color: black;
+    }
   }
 }
 </style>

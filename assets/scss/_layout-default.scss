@@ -10,15 +10,12 @@
       background-color: #3a8ee6;
     }
   }
-  .sidebar {
-    display: none;
+  .events-text {
+    display: inline;
   }
   @media screen and (max-width: 1024px) {
-    .events {
+    .events-text {
       display: none;
-    }
-    .sidebar {
-      display: block;
     }
   }
 }

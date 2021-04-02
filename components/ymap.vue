@@ -3,7 +3,7 @@
     <yandex-map
       :controls="['zoomControl']"
       :scroll-zoom="true"
-      zoom="7"
+      zoom="15"
       :clusterOptions="{}"
       :coords="coords"
       @click="onClick"

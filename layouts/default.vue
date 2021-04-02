@@ -9,16 +9,13 @@
       </nuxt-link>
       <div class="events">
         <nuxt-link to="/account/add_post" class="header-btn mx-10">
-          <i class="bi bi-plus-circle mr-10"></i>
-          Разместить объявление
+          <i class="bi bi-plus-circle"></i>
+          <span class="events-text ml-10">Разместить объявление</span>
         </nuxt-link>
         <nuxt-link to="/account/login" class="header-btn">
-          Войти
+          <i class="bi bi-person-circle"></i>
+          <span class="events-text ml-10">Войти</span>
         </nuxt-link>
-      </div>
-      <div class="sidebar ">
-        <i class="bi bi bi-list-ul mr-8"></i>
-        Меню
       </div>
     </header>
     <Nuxt />
