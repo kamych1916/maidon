@@ -1,13 +1,13 @@
 .header {
   .header-btn {
     padding: 10px 20px;
-    color: black;
+    color: #fff;
     text-decoration: none;
-    border-radius: 10px;
+    border-radius: 20px;
     transition: 0.2s;
+    background-color: #3a8ee6;
     &:hover {
-      color: #fff;
-      background-color: #3a8ee6;
+      background-color: #66b1ff;
     }
   }
   .events-text {

@@ -1,6 +1,6 @@
 <template>
   <div class="offer-types">
-    <h4>Новое объявление</h4>
+    <h4>Выберите тип сделки:</h4>
     <div class="row mt-30">
       <div class="col-md-4 my-10">
         <label class="custom-radio w-100 ">
