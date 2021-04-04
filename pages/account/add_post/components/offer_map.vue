@@ -18,10 +18,9 @@ import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
 import VueGeolocation from "vue-browser-geolocation";
 export default {
-  props: ["coord"],
+  props: ["mapCoords"],
   watch: {
-    coord: function(theData) {
-      console.log(theData);
+    mapCoords: function(theData) {
       if (theData) {
         this.coords = theData;
       }
