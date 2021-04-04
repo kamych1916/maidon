@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-template">
+  <div class="auth-template mt-50">
     <form>
       <h3>Восстановление пароля</h3>
 

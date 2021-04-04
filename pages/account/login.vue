@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="card-wrap d-flex"> -->
-  <div class="auth-template">
+  <div class="auth-template mt-50">
     <form @submit.prevent="onSubmit">
       <h3>Авторизация</h3>
 

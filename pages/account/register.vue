@@ -1,5 +1,5 @@
 <template>
-  <div class="auth-template">
+  <div class="auth-template mt-50">
     <form @submit.prevent="onSubmit()" autocomplete="off">
       <h3>Регистрация</h3>
 
