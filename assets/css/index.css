@@ -23,9 +23,9 @@
 @import "element-ui/lib/theme-chalk/select.css";
 
 .card-wrap {
-  padding: 20px;
+  padding: 30px;
   margin-bottom: 30px;
-  border-radius: 0.2857rem;
+  border-radius: 2rem;
   box-shadow: 0 1px 15px 0 hsl(0deg 0% 48% / 5%);
   background: #fff;
 }

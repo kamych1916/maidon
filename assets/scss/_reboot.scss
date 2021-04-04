@@ -12,3 +12,27 @@
 .el-input__suffix {
   padding-right: 15px;
 }
+
+.el-input-number__decrease {
+  border-radius: 22px 0px 0px 22px;
+}
+.el-input-number__increase {
+  border-radius: 0px 22px 22px 0px;
+}
+
+.el-input-number__decrease,
+.el-input-number__increase {
+  position: absolute;
+  z-index: 1;
+  top: 1px;
+  width: 40px;
+  height: 49px;
+  text-align: center;
+  background: #f5f7fa;
+  color: #606266;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
