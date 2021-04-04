@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrap text-center pb-50" v-if="access">
+  <div class="card-wrap text-center pb-50 mt-50" v-if="access">
     <span v-if="success">
       <i style="font-size: 6em; color: #027502" class="el-icon-success"></i
       ><br /><br />
