@@ -11,7 +11,7 @@
             v-model="picked_account"
           />
           <span class="radio-btn w-100 pb-20">
-            <i class="bi bi-person-fill"></i>
+            <i class="bi bi-person"></i>
             <h3>Собственник</h3>
           </span>
         </label>
@@ -20,7 +20,7 @@
         <label class="custom-radio w-100">
           <input
             type="radio"
-            value="agnet"
+            value="agent"
             @change="onClick()"
             v-model="picked_account"
           />
@@ -145,13 +145,13 @@
             <label class="custom-radio w-100">
               <input
                 type="radio"
-                value="home"
+                value="house"
                 @change="onClick()"
                 v-model="picked_object_living"
               />
               <span class="radio-btn w-100 pb-20">
                 <i class="bi bi-house-door"></i>
-                <h3>Дом</h3>
+                <h3>Дом/Дача</h3>
               </span>
             </label>
           </div>
@@ -159,7 +159,7 @@
             <label class="custom-radio w-100">
               <input
                 type="radio"
-                value="place"
+                value="ground"
                 @change="onClick()"
                 v-model="picked_object_living"
               />
@@ -175,13 +175,27 @@
             <label class="custom-radio w-100 ">
               <input
                 type="radio"
-                value="garage"
+                value="office"
                 @change="onClick()"
                 v-model="picked_object_commercy"
               />
               <span class="radio-btn w-100 pb-20">
-                <i class="bi bi-app"></i>
-                <h3>Гараж</h3>
+                <i class="bi bi-briefcase"></i>
+                <h3>Офис / Помещение</h3>
+              </span>
+            </label>
+          </div>
+          <div class="col-md-4 col-6 my-10">
+            <label class="custom-radio w-100 ">
+              <input
+                type="radio"
+                value="building"
+                @change="onClick()"
+                v-model="picked_object_commercy"
+              />
+              <span class="radio-btn w-100 pb-20">
+                <i class="bi bi-building"></i>
+                <h3>Здание</h3>
               </span>
             </label>
           </div>

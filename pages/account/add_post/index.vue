@@ -23,22 +23,28 @@
         </div>
         <div class="row">
           <div class="col-md-6 mt-30">
-            <OfferInfo
-              v-if="!(Object.keys(offerData.offer_info).length === 0)"
-              :value="offerData.offer_info"
+            <OfferObject
+              v-if="!(Object.keys(offerObject).length === 0)"
+              :offerObject="offerObject"
               @input="
                 newData => {
-                  offerData.offer_info = newData;
+                  offerObject = newData;
                 }
               "
             >
-            </OfferInfo>
-            <!-- <button
-              class="el-button el-button--primary is-round py-14 w-100"
-              type="submit"
+            </OfferObject>
+          </div>
+          <div class="col-md-6 mt-30">
+            <OfferPrice
+              v-if="!(Object.keys(offerPrice).length === 0)"
+              :offerPrice="offerPrice"
+              @input="
+                newData => {
+                  offerPrice = newData;
+                }
+              "
             >
-              Войти
-            </button> -->
+            </OfferPrice>
           </div>
         </div>
 
@@ -46,33 +52,42 @@
       </div>
     </form>
   </div>
+  <!-- <button
+class="el-button el-button--primary is-round py-14 w-100"
+type="submit"
+>
+Войти
+</button> -->
 </template>
 
 <script>
 import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
+import Helper from "~/pages/account/add_post/mixins/offer_helper.js";
 import OfferTypes from "@/pages/account/add_post/components/offer_types.vue";
 import OfferMap from "@/pages/account/add_post/components/offer_map.vue";
-import OfferInfo from "@/pages/account/add_post/components/offer_info.vue";
+import OfferObject from "@/pages/account/add_post/components/offer_object.vue";
+import OfferPrice from "@/pages/account/add_post/components/offer_price.vue";
 export default {
   components: {
     OfferTypes,
     OfferMap,
-    OfferInfo
+    OfferObject,
+    OfferPrice
   },
   data() {
     return {
       offerData: {
-        map_address: null,
-        offer_info: {}
+        map_address: null
       },
-      showFroms: null,
+      offerObject: {},
+      offerPrice: {},
       coords: []
     };
   },
   methods: {
     onSubmit() {
-      console.log("kek");
+      console.log(this.offerObject);
     },
     getMarker(queryString, cb) {
       if (queryString !== null && queryString !== "") {
@@ -93,33 +108,27 @@ export default {
     checkOfferTypes(data) {
       // console.log(OfferSellApartData.data().aboutData);
       this.offerData.map_address = null;
-      let picked_object =
-        data.picked_object_commercy || data.picked_object_living;
-      if (
-        data.picked_account !== null &&
-        data.picked_deal !== null &&
-        data.picked_estate !== null &&
-        picked_object
-      ) {
-        this.showFroms = true;
-        this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
-      }
-      // OwnerSellLivingApart
-      if (
-        data.picked_account == "owner" &&
-        data.picked_deal == "sell" &&
-        data.picked_estate == "living" &&
-        data.picked_object_living == "apartment"
-      ) {
-        this.offerData.offer_info = {
-          area: null,
-          rooms: null,
-          floor: 1,
-          floorsHouse: 1,
-          building_type: "newBuilding",
-          building_renovation: "cosmetic"
-        };
-      }
+      // let picked_object =
+      //   data.picked_object_commercy || data.picked_object_living;
+      // if (
+      //   data.picked_account !== null &&
+      //   data.picked_deal !== null &&
+      //   data.picked_estate !== null &&
+      //   picked_object
+      // ) {
+      //   this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
+      // }
+      let helperData = Helper.getInstance().offer.checkOfferTypes(
+        data.picked_account,
+        data.picked_deal,
+        data.picked_estate,
+        data.picked_object_living,
+        data.picked_object_commercy
+      );
+      helperData
+        ? ((this.offerObject = helperData.object),
+          (this.offerPrice = helperData.price))
+        : helperData;
     }
   }
 };
