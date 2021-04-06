@@ -21,6 +21,8 @@
 @import "element-ui/lib/theme-chalk/radio-group.css"; */
 @import "element-ui/lib/theme-chalk/notification.css";
 @import "element-ui/lib/theme-chalk/select.css";
+@import "element-ui/lib/theme-chalk/dialog.css";
+@import "element-ui/lib/theme-chalk/upload.css";
 
 .card-wrap {
   padding: 30px;
@@ -44,4 +46,15 @@ body {
     url("../fonts/Formular-Bold.ttf") format("truetype");
   font-weight: 700;
   font-style: normal;
+}
+/* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type="number"] {
+  -moz-appearance: textfield;
 }

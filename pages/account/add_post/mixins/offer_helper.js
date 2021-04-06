@@ -11,126 +11,58 @@ export default class Helper {
     offer = {
       checkOfferTypes (account, deal, estate, object_living, object_commercy) {
         // квартира + собственник + агент
-        if ((account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_living == "apartment") {
           return {
             object: {
               inputs: {
-                area: area_data,
-                count_rooms: count_rooms_data,
-                floor: floor_data,
-                floorsHouse: floorsHouse_data
+                area: object_living == "apartment" || object_living == "room" || object_commercy == "office"  ? area_data : null,
+                area_room: object_living == "room" ? area_room_data : null,
+                area_land: object_living == "ground" || object_living == "house" ? area_land_data : null,
+                area_house: object_living == "house" ? area_house_data : null,
+                area_building: object_commercy== "building" ? area_building_data : null,
+                count_rooms: object_living == "apartment" || object_living == "house" || object_living == "room" ? count_rooms_data : null,
+                count_rooms_rent: object_living == "room" ? count_rooms_rent_data : null,
+                floor: object_living == "apartment" || object_living == "house" || object_living == "room" ? floor_data: null,
+                floorsHouse: object_living == "apartment" || object_living == "house" || object_living == "room" ? floors_house_data : null,
+                floors_building: object_commercy== "building" ? floors_building_data : null,
               },
               selects: {
-                building_type: building_type_data,
-                building_renovation: building_renovation_data
+                office_type: object_commercy == "office" ? office_type_data : null,
+                building_type: object_living == "apartment" || object_living == "room" ? building_type_data : null,
+                building_renovation: object_living == "apartment" || object_living == "house" || object_living == "room" ? building_renovation_data : null,
+                ground_type:  object_living == "ground" || object_living == "house" ? ground_type_data: null
               }
             },
             price: {
               inputs: {
-                price_mounth: price_mounth_data,
-                deposit: deposit_data
+                price: deal == "sell" ? price_data : null,
+                price_mounth: deal == "rent_long" ? price_mounth_data : null,
+                price_day: deal == "rent_day" ? price_day_data : null,
+                percentageTransaction: account == "agent" ? percentageTransaction_data : null,
+                deposit: deal == "rent_long" ? deposit_data : null,
               },
               selects: {
-                prepayment: prepayment_data,
+                type_sell: deal == "sell" ? type_sell_data : null,
+                prepayment: deal == "rent_long" ? prepayment_data: null,
+                for_who: deal == "rent_long" || deal == "rent_day"  ? for_who_data: null
               }
             }
-          };
-        }
-        // комната + собственник + агент
-        else if ( (account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_living == "room"){
-          return {
-            object: {
-              inputs: {
-                area: area_data,
-                area_room: area_room_data,
-                count_rooms: count_rooms_data,
-                count_rooms_rent: count_rooms_rent_data,
-                floor: floor_data,
-                floorsHouse: floorsHouse_data
-              },
-              selects: {
-                building_type: building_type_data,
-                building_renovation: building_renovation_data
-              }
-            },
-            price: {}
-          };
-        }
-        // участок + собственник + агент
-        else if ((account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_living == "ground") {
-          return {
-            object: {
-              inputs: {
-                area_land: area_land_data,
-              },
-              selects: {
-                ground_type: ground_type_data
-              }
-            },
-            price: {}
-          };
-        }
-        // дом + собственник + агент
-        else if ((account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_living == "house") {
-          floorsHouse_data.max = 9
-          return {
-            object: {
-              inputs: {
-                area_house: area_house_data,
-                area_land: area_land_data,
-                count_rooms: count_rooms_data,
-                floorsHouse: floorsHouse_data
-              },
-              selects: {
-                building_type: building_type_data,
-                building_renovation: building_renovation_data
-              }
-            },
-            price: {}
-          };
-        }
-
-
-        if ((account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_commercy == "office") {
-          return {
-            object: {
-              inputs: {
-                area: area_data,
-              },
-              selects: {
-                office_type: office_type_data,
-              }
-            },
-            price: {}
-          };
-        }
-        else if ((account == "owner" || account=="agent") && (deal == "sell" || deal == "rent_long" || deal == "rent_day") && (estate == "living" || estate == "commercy") && object_commercy == "garage") {
-          return {
-            object: {
-              inputs: {
-                area_land: area_land_data,
-              },
-              selects: {
-                ground_type: ground_type_data
-              }
-            },
-            price: {}
-          };
-        }
+          }
       }
     }
 }
 
-const area_data = { title: 'Общая площадь', value: null, min: 1, max: 100000}
+const area_data = { title: 'Общая площадь', value: null, min: 1, max: 100000 }
 const area_room_data = { title: "Площадь комнаты", value: null, min: 1, max: 200 }
-const area_land_data = { title: "Площадь участка (соток)", value: null, min: 1, max: 10000 }
+const area_land_data = { title: "Площадь участка", value: null, min: 1, max: 100000 }
 const area_house_data = { title: "Площадь дома", value: null, min: 1, max: 10000 }
+const area_building_data = { title: 'Площаь здания', value: null, min: 1, max: 200000 }
 
 const count_rooms_data = { title: "Общее количество комнат", value: null, min: 1, max: 100 }
 const count_rooms_rent_data = { title: "Количество комнат в аренду", value: null, min: 1, max: 100 }
 
 const floor_data = { title: "Этаж", value: null, min: 1, max: 200 }
-const floorsHouse_data = { title: "Этажей в доме", value: null, min: 1, max: 200 }
+const floors_house_data = { title: "Этажей в доме", value: null, min: 1, max: 200 }
+const floors_building_data = { title: "Этажей в зданиие", value: null, min: 1, max: 100 }
 
 const office_type_data = {
   title: "Тип помещения",
@@ -260,11 +192,51 @@ const ground_type_data = {
   ]
 }
 
-
-
-const price_mounth_data = { title: 'Арендная плата в месяц', value: 1 }
-const price_day_data = { title: 'Арендная плата в сутки', value: 1 }
-const deposit_data = { title: 'Залог', value: 1 }
+const percentageTransaction_data = { title: 'Процент от сделки агенту', value: null, suffix: '%'}
+const price_data = { title: 'Цена', value: null, suffix: 'сомони'}
+const price_mounth_data = { title: 'Арендная плата в месяц', value: null, suffix: 'сомони' }
+const price_day_data = { title: 'Арендная плата в сутки', value: null, suffix: 'сомони' }
+const deposit_data = { title: 'Залог', value: null, suffix: 'сомони' }
+const type_sell_data = {
+  title: "Тип продажи",
+  value: "freeSell",
+  data: [
+    {
+      value: "freeSell",
+      label: "Свободная продажа"
+    },
+    {
+      value: "mortgage",
+      label: "Возможна ипотека"
+    },
+    {
+      value: "credit",
+      label: "Возможен кредит"
+    }
+  ]
+}
+const for_who_data = {
+  title: "Состав съемщиков",
+  value: "any",
+  data: [
+    {
+      value: "any",
+      label: "Любой"
+    },
+    {
+      value: "family",
+      label: "Семья"
+    },
+    {
+      value: "woman",
+      label: "Женщина"
+    },
+    {
+      value: "man",
+      label: "Мужчина"
+    }
+  ]
+}
 const prepayment_data = {
   title: 'Предоплата',
   value: 'prpt_one',

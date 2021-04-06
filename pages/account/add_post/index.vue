@@ -3,61 +3,121 @@
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="onSubmit()">
       <div ref="inputs">
-        <div class="card-wrap mt-50">
-          <div class="form-group">
-            <h4>Адрес</h4>
-            <el-autocomplete
-              :fetch-suggestions="getMarker"
-              v-model="offerData.map_address"
-              class="mt-14 mb-26 w-100"
-              suffix-icon="bi bi-geo-alt-fill"
-              name="address"
-              required
-              type="text"
-              placeholder="Укажите адрес"
-            ></el-autocomplete>
-          </div>
-          <client-only>
-            <OfferMap @onClickMap="onClickMap" :mapCoords="coords"></OfferMap>
-          </client-only>
-        </div>
-        <div class="row">
-          <div class="col-md-6 mt-30">
-            <OfferObject
-              v-if="!(Object.keys(offerObject).length === 0)"
-              :offerObject="offerObject"
-              @input="
-                newData => {
-                  offerObject = newData;
-                }
-              "
-            >
-            </OfferObject>
-          </div>
-          <div class="col-md-6 mt-30">
-            <OfferPrice
-              v-if="!(Object.keys(offerPrice).length === 0)"
-              :offerPrice="offerPrice"
-              @input="
-                newData => {
-                  offerPrice = newData;
-                }
-              "
-            >
-            </OfferPrice>
+        <div class="row mx-0">
+          <div class="card-wrap w-100 mt-50">
+            <div class="form-group">
+              <h4>Адрес</h4>
+              <el-autocomplete
+                :fetch-suggestions="getMarker"
+                v-model="offerData.map_address"
+                class="mt-14 mb-26 w-100"
+                suffix-icon="bi bi-geo-alt-fill"
+                name="address"
+                required
+                type="text"
+                placeholder="Укажите адрес"
+              ></el-autocomplete>
+            </div>
+            <client-only>
+              <OfferMap @onClickMap="onClickMap" :mapCoords="coords"></OfferMap>
+            </client-only>
           </div>
         </div>
+        <div v-if="accessToForm">
+          <div class="row">
+            <div class="col-md-6 mt-30">
+              <OfferObject
+                :offerObject="offerObject"
+                @input="
+                  newData => {
+                    offerObject = newData;
+                  }
+                "
+              >
+              </OfferObject>
+            </div>
+            <div class="col-md-6 mt-30">
+              <OfferPrice
+                :offerPrice="offerPrice"
+                @input="
+                  newData => {
+                    offerPrice = newData;
+                  }
+                "
+              >
+              </OfferPrice>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-wrap">
+                <h4>Планировка и фотографии</h4>
+                <div class="row">
+                  <div class="col">
+                    Фотографии<br />
+                    <el-upload
+                      action="#"
+                      list-type="picture-card"
+                      :auto-upload="false"
+                      :file-list="fileList"
+                    >
+                      <i slot="default" class="el-icon-plus"></i>
+                      <div slot="file" slot-scope="{ file }">
+                        <img
+                          class="el-upload-list__item-thumbnail"
+                          :src="file.url"
+                          alt=""
+                        />
+                        <span class="el-upload-list__item-actions">
+                          <span
+                            class="el-upload-list__item-preview"
+                            @click="handlePictureCardPreview(file)"
+                          >
+                            <i class="el-icon-zoom-in"></i>
+                          </span>
+                          <span
+                            v-if="!disabled"
+                            class="el-upload-list__item-delete"
+                            @click="handleDownload(file)"
+                          >
+                            <i class="el-icon-download"></i>
+                          </span>
+                          <span
+                            v-if="!disabled"
+                            class="el-upload-list__item-delete"
+                            @click="handleRemove(file)"
+                          >
+                            <i class="el-icon-delete"></i>
+                          </span>
+                        </span>
+                      </div>
+                    </el-upload>
+                  </div>
 
-        <div class="col-md-6"></div>
+                  <el-dialog :visible.sync="dialogVisible">
+                    <img width="100%" :src="dialogImageUrl" alt="" />
+                  </el-dialog>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <div class="card-wrap">
+                <h4>Условия размещения</h4>
+              </div>
+            </div>
+          </div>
+          <button
+            class="el-button el-button--primary is-round py-14 w-100"
+            type="submit"
+          >
+            Разместить объявление
+          </button>
+        </div>
       </div>
     </form>
   </div>
-  <!-- <button
-class="el-button el-button--primary is-round py-14 w-100"
-type="submit"
->
-Войти
-</button> -->
 </template>
 
 <script>
@@ -82,10 +142,27 @@ export default {
       },
       offerObject: {},
       offerPrice: {},
-      coords: []
+      coords: [],
+      accessToForm: false,
+
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled: false,
+      fileList: []
     };
   },
   methods: {
+    handleRemove(file, fileList) {
+      console.log(file, fileList);
+    },
+    handlePictureCardPreview(file) {
+      console.log(file);
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+    handleDownload(file) {
+      console.log(file);
+    },
     onSubmit() {
       console.log(this.offerObject);
     },
@@ -108,16 +185,17 @@ export default {
     checkOfferTypes(data) {
       // console.log(OfferSellApartData.data().aboutData);
       this.offerData.map_address = null;
-      // let picked_object =
-      //   data.picked_object_commercy || data.picked_object_living;
-      // if (
-      //   data.picked_account !== null &&
-      //   data.picked_deal !== null &&
-      //   data.picked_estate !== null &&
-      //   picked_object
-      // ) {
-      //   this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
-      // }
+      let picked_object =
+        data.picked_object_commercy || data.picked_object_living;
+      if (
+        data.picked_account !== null &&
+        data.picked_deal !== null &&
+        data.picked_estate !== null &&
+        picked_object
+      ) {
+        this.accessToForm = true;
+        // this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
+      }
       let helperData = Helper.getInstance().offer.checkOfferTypes(
         data.picked_account,
         data.picked_deal,

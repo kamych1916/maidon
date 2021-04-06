@@ -40,3 +40,11 @@
 .el-button {
   font-size: auto !important;
 }
+
+.el-tooltip__popper {
+  padding: 30px;
+}
+.el-input__suffix {
+  display: flex;
+  align-items: center;
+}
