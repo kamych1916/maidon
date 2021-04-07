@@ -23,7 +23,7 @@
             </client-only>
           </div>
         </div>
-        <div v-if="accessToForm">
+        <div v-if="true">
           <div class="row">
             <div class="col-md-6 mt-30">
               <OfferObject
@@ -52,38 +52,36 @@
             <div class="col">
               <div class="card-wrap">
                 <h4 draggable="true">Планировка и фотографии</h4>
-                <client-only>
-                  <draggable
-                    :list="list"
-                    :disabled="!enabled"
-                    class="row"
-                    ghost-class="ghost"
-                    :move="checkMove"
-                    @start="dragging = true"
-                    @end="dragging = false"
-                    :animation="200"
+                <draggable
+                  :list="list"
+                  :disabled="!enabled"
+                  class="row"
+                  ghost-class="ghost"
+                  :move="checkMove"
+                  @start="dragging = true"
+                  @end="dragging = false"
+                  :animation="400"
+                >
+                  <div
+                    class="col-md-3 my-20 "
+                    v-for="(element, index) in list"
+                    :key="element.name"
                   >
-                    <div
-                      class="col-md-3 my-20 "
-                      v-for="(element, index) in list"
-                      :key="element.name"
-                    >
-                      <div :class="[index === 0 ? 'active' : '', 'box-photo']">
-                        {{ element.name }}
-                      </div>
+                    <div :class="[index === 0 ? 'main' : '', 'box-photo']">
+                      {{ element.name }}
                     </div>
-                    <div
-                      slot="footer"
-                      role="group"
-                      aria-label="Basic example"
-                      key="footer"
-                      class="box-upload my-20 d-flex align-items-center justify-content-center"
-                      @click="checkMove()"
-                    >
-                      добавить фото
-                    </div>
-                  </draggable>
-                </client-only>
+                  </div>
+                  <div
+                    slot="footer"
+                    role="group"
+                    aria-label="Basic example"
+                    key="footer"
+                    class="box-upload my-20 d-flex align-items-center justify-content-center"
+                    @click="checkMove()"
+                  >
+                    добавить фото
+                  </div>
+                </draggable>
               </div>
             </div>
           </div>
@@ -136,13 +134,17 @@ export default {
         offerPrice: {}
       },
       coords: [],
-      accessToForm: true,
+      accessToForm: false,
 
       enabled: true,
       list: [
-        { name: "John", id: 0 },
-        { name: "Joao", id: 1 },
-        { name: "Kamol", id: 2 }
+        { name: "Dima", id: 0 },
+        { name: "Kamol", id: 1 },
+        { name: "Tiet", id: 2 },
+        { name: "Pasha", id: 3 },
+        { name: "Nekit", id: 4 },
+        { name: "Dasha", id: 5 },
+        { name: "Vanya", id: 6 }
       ],
       dragging: false
     };
@@ -219,15 +221,15 @@ export default {
   height: 200px;
   border: 1px dashed #c0ccda;
   border-radius: 6px;
+  cursor: grab;
 }
-.box-photo.active {
+.box-photo.main {
   background: #fffbf0;
 }
 .ghost {
   opacity: 0.5;
   background: #c8ebfb;
 }
-
 .box-upload {
   width: 100%;
   border-radius: 6px;
