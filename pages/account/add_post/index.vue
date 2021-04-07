@@ -27,10 +27,10 @@
           <div class="row">
             <div class="col-md-6 mt-30">
               <OfferObject
-                :offerObject="offerObject"
+                :offerObject="offerData.offerObject"
                 @input="
                   newData => {
-                    offerObject = newData;
+                    offerData.offerObject = newData;
                   }
                 "
               >
@@ -38,10 +38,10 @@
             </div>
             <div class="col-md-6 mt-30">
               <OfferPrice
-                :offerPrice="offerPrice"
+                :offerPrice="offerData.offerPrice"
                 @input="
                   newData => {
-                    offerPrice = newData;
+                    offerData.offerPrice = newData;
                   }
                 "
               >
@@ -51,53 +51,39 @@
           <div class="row mt-30">
             <div class="col">
               <div class="card-wrap">
-                <h4>Планировка и фотографии</h4>
-                <div class="row">
-                  <div class="col">
-                    Фотографии<br />
-                    <el-upload
-                      action="#"
-                      list-type="picture-card"
-                      :auto-upload="false"
-                      :file-list="fileList"
+                <h4 draggable="true">Планировка и фотографии</h4>
+                <client-only>
+                  <draggable
+                    :list="list"
+                    :disabled="!enabled"
+                    class="row"
+                    ghost-class="ghost"
+                    :move="checkMove"
+                    @start="dragging = true"
+                    @end="dragging = false"
+                    :animation="200"
+                  >
+                    <div
+                      class="col-md-3 my-20 "
+                      v-for="(element, index) in list"
+                      :key="element.name"
                     >
-                      <i slot="default" class="el-icon-plus"></i>
-                      <div slot="file" slot-scope="{ file }">
-                        <img
-                          class="el-upload-list__item-thumbnail"
-                          :src="file.url"
-                          alt=""
-                        />
-                        <span class="el-upload-list__item-actions">
-                          <span
-                            class="el-upload-list__item-preview"
-                            @click="handlePictureCardPreview(file)"
-                          >
-                            <i class="el-icon-zoom-in"></i>
-                          </span>
-                          <span
-                            v-if="!disabled"
-                            class="el-upload-list__item-delete"
-                            @click="handleDownload(file)"
-                          >
-                            <i class="el-icon-download"></i>
-                          </span>
-                          <span
-                            v-if="!disabled"
-                            class="el-upload-list__item-delete"
-                            @click="handleRemove(file)"
-                          >
-                            <i class="el-icon-delete"></i>
-                          </span>
-                        </span>
+                      <div :class="[index === 0 ? 'active' : '', 'box-photo']">
+                        {{ element.name }}
                       </div>
-                    </el-upload>
-                  </div>
-
-                  <el-dialog :visible.sync="dialogVisible">
-                    <img width="100%" :src="dialogImageUrl" alt="" />
-                  </el-dialog>
-                </div>
+                    </div>
+                    <div
+                      slot="footer"
+                      role="group"
+                      aria-label="Basic example"
+                      key="footer"
+                      class="box-upload my-20 d-flex align-items-center justify-content-center"
+                      @click="checkMove()"
+                    >
+                      добавить фото
+                    </div>
+                  </draggable>
+                </client-only>
               </div>
             </div>
           </div>
@@ -128,13 +114,16 @@ import OfferTypes from "@/pages/account/add_post/components/offer_types.vue";
 import OfferMap from "@/pages/account/add_post/components/offer_map.vue";
 import OfferObject from "@/pages/account/add_post/components/offer_object.vue";
 import OfferPrice from "@/pages/account/add_post/components/offer_price.vue";
+import draggable from "vuedraggable";
 export default {
   components: {
+    draggable,
     OfferTypes,
     OfferMap,
     OfferObject,
     OfferPrice
   },
+
   data() {
     return {
       offerData: {
@@ -142,39 +131,31 @@ export default {
         offerMap: {
           map_address: null,
           map_marker: null
-        }
+        },
+        offerObject: {},
+        offerPrice: {}
       },
-      offerObject: {},
-      offerPrice: {},
       coords: [],
-      accessToForm: false,
+      accessToForm: true,
 
-      dialogImageUrl: "",
-      dialogVisible: false,
-      disabled: false,
-      fileList: []
+      enabled: true,
+      list: [
+        { name: "John", id: 0 },
+        { name: "Joao", id: 1 },
+        { name: "Kamol", id: 2 }
+      ],
+      dragging: false
     };
   },
   methods: {
-    handleRemove(file, fileList) {
-      console.log(file, fileList);
-    },
-    handlePictureCardPreview(file) {
-      console.log(file);
-      this.dialogImageUrl = file.url;
-      this.dialogVisible = true;
-    },
-    handleDownload(file) {
-      console.log(file);
+    checkMove: function(e) {
+      //   window.console.log("Future index: " + e.draggedContext.futureIndex);
     },
     onSubmit() {
-      this.offerData.offerObject = this.offerObject;
-      this.offerData.offerPrice = this.offerPrice;
-      console.log(this.offerData);
       Api.getInstance()
         .offer.send_offer_data(this.offerData)
         .then(response => {
-          console.log("kek -> ", response);
+          console.log("всё гуд -> ", response);
         });
     },
     getMarker(queryString, cb) {
@@ -225,10 +206,35 @@ export default {
         data.picked_object_commercy
       );
       helperData
-        ? ((this.offerObject = helperData.object),
-          (this.offerPrice = helperData.price))
+        ? ((this.offerData.offerObject = helperData.object),
+          (this.offerData.offerPrice = helperData.price))
         : helperData;
     }
   }
 };
 </script>
+
+<style lang="scss">
+.box-photo {
+  height: 200px;
+  border: 1px dashed #c0ccda;
+  border-radius: 6px;
+}
+.box-photo.active {
+  background: #fffbf0;
+}
+.ghost {
+  opacity: 0.5;
+  background: #c8ebfb;
+}
+
+.box-upload {
+  width: 100%;
+  border-radius: 6px;
+  height: 200px;
+  background: #fbfdff;
+  border: 1px dashed #c0ccda;
+  margin-right: 15px;
+  margin-left: 15px;
+}
+</style>

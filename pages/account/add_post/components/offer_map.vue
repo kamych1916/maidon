@@ -4,7 +4,7 @@
       <yandex-map
         :controls="['zoomControl']"
         :scroll-zoom="true"
-        zoom="10"
+        :zoom="zoom"
         :clusterOptions="{}"
         :coords="coords"
         @click="onClick"
@@ -25,25 +25,27 @@ export default {
     mapCoords: function(theData) {
       if (theData) {
         this.coords = theData;
+        this.zoom = 16;
       }
     }
   },
   data() {
     return {
-      coords: [38.57979654142553, 68.78098173124879]
+      coords: [38.58088224121, 68.78626802802049],
+      zoom: 12
     };
   },
   created() {
-    this.getGEO();
+    // this.getGEO();
   },
   methods: {
     onClick(e) {
       this.coords = e.get("coords");
+      this.zoom = 16;
       let serverCoords = {
         x: this.coords[0],
         y: this.coords[1]
       };
-      console.log(serverCoords);
       Api.getInstance()
         .offer.get_address(serverCoords)
         .then(response => {
@@ -55,16 +57,16 @@ export default {
         .catch(error => {
           console.log("get_address -> ", error);
         });
-    },
-    getGEO() {
-      // VueGeolocation.getLocation()
-      //   .then(coordinates => {
-      //     this.coords = [coordinates.lat, coordinates.lng];
-      //   })
-      //   .catch(error => {
-      //     console.log("getLocation -> ", error);
-      //   });
     }
+    // getGEO() {
+    // VueGeolocation.getLocation()
+    //   .then(coordinates => {
+    //     this.coords = [coordinates.lat, coordinates.lng];
+    //   })
+    //   .catch(error => {
+    //     console.log("getLocation -> ", error);
+    //   });
+    // }
   }
 };
 </script>
