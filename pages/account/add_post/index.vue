@@ -9,7 +9,7 @@
               <h4>Адрес</h4>
               <el-autocomplete
                 :fetch-suggestions="getMarker"
-                v-model="offerData.map_address"
+                v-model="offerData.offerMap.map_address"
                 class="mt-14 mb-26 w-100"
                 suffix-icon="bi bi-geo-alt-fill"
                 name="address"
@@ -48,7 +48,7 @@
               </OfferPrice>
             </div>
           </div>
-          <div class="row">
+          <div class="row mt-30">
             <div class="col">
               <div class="card-wrap">
                 <h4>Планировка и фотографии</h4>
@@ -101,7 +101,7 @@
               </div>
             </div>
           </div>
-          <div class="row">
+          <div class="row mt-30">
             <div class="col">
               <div class="card-wrap">
                 <h4>Условия размещения</h4>
@@ -109,7 +109,7 @@
             </div>
           </div>
           <button
-            class="el-button el-button--primary is-round py-14 w-100"
+            class="el-button el-button--primary is-round py-14 w-100 mt-30"
             type="submit"
           >
             Разместить объявление
@@ -138,7 +138,11 @@ export default {
   data() {
     return {
       offerData: {
-        map_address: null
+        offerType: null,
+        offerMap: {
+          map_address: null,
+          map_marker: null
+        }
       },
       offerObject: {},
       offerPrice: {},
@@ -164,7 +168,14 @@ export default {
       console.log(file);
     },
     onSubmit() {
-      console.log(this.offerObject);
+      this.offerData.offerObject = this.offerObject;
+      this.offerData.offerPrice = this.offerPrice;
+      console.log(this.offerData);
+      Api.getInstance()
+        .offer.send_offer_data(this.offerData)
+        .then(response => {
+          console.log("kek -> ", response);
+        });
     },
     getMarker(queryString, cb) {
       if (queryString !== null && queryString !== "") {
@@ -174,17 +185,27 @@ export default {
           })
           .then(response => {
             this.coords = response.data[0].coords;
+            this.offerData.offerMap.map_marker = response.data[0].coords;
             let results = queryString ? response.data : "";
             cb(results);
           });
       }
     },
     onClickMap(data) {
-      this.offerData.map_address = data.map_address;
+      this.offerData.offerMap.map_address = data.map_address;
+      this.offerData.offerMap.map_marker = data.map_marker;
     },
     checkOfferTypes(data) {
       // console.log(OfferSellApartData.data().aboutData);
-      this.offerData.map_address = null;
+      this.offerData.offerType = {
+        account: data.picked_account,
+        deal: data.picked_deal,
+        estate: data.picked_estate,
+        object_living: data.picked_object_living,
+        object_commercy: data.picked_object_commercy
+      };
+      this.offerData.offerMap.map_address = null;
+      this.offerData.offerMap.map_marker = null;
       let picked_object =
         data.picked_object_commercy || data.picked_object_living;
       if (

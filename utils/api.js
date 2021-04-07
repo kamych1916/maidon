@@ -4,18 +4,17 @@ const API_BASE_URL = 'https://mirllex.site/server/api/v1';
 export default class Api {
     instance = null;
 
-
     static getInstance() {
-        if (Api.instance == null) {
-            Api.instance = new Api;
-        }
-        return Api.instance;
+      if (Api.instance == null) {
+          Api.instance = new Api;
+      }
+      return Api.instance;
     }
 
     lang = {
-        async GetLanguage(lang) {
-            return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
-        },
+      async GetLanguage(lang) {
+          return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
+      },
     }
 
     offer = {
@@ -25,6 +24,9 @@ export default class Api {
       async get_marker (userData) {
         return axios.post(`${API_BASE_URL}/geocoder_geocode`, userData)
       },
+      async send_offer_data (offerData) {
+        return axios.post(`${API_BASE_URL}/place_an_ad`, offerData)
+      }
     }
 
     auth = {
@@ -50,20 +52,20 @@ export default class Api {
       },
       async is_login(){
         return axios.get(`${API_BASE_URL}/is_login`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('st')}`
-                }
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('st')}`
             }
+          }
         )
       },
       async check_is_admin() {
         return axios.get(`${API_BASE_URL}/is_admin`,
-            {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('st')}`
-                }
+          {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('st')}`
             }
+          }
         )
       },
     }

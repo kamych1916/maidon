@@ -10,7 +10,8 @@
               input.title == 'Площадь участка' ||
                 input.title == 'Общая площадь' ||
                 input.title == 'Площадь комнаты' ||
-                input.title == 'Площадь дома'
+                input.title == 'Площадь дома' ||
+                input.title == 'Площадь здания'
             "
             required
             v-model="input.value"

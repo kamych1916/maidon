@@ -55,7 +55,7 @@ const area_data = { title: 'Общая площадь', value: null, min: 1, max
 const area_room_data = { title: "Площадь комнаты", value: null, min: 1, max: 200 }
 const area_land_data = { title: "Площадь участка", value: null, min: 1, max: 100000 }
 const area_house_data = { title: "Площадь дома", value: null, min: 1, max: 10000 }
-const area_building_data = { title: 'Площаь здания', value: null, min: 1, max: 200000 }
+const area_building_data = { title: 'Площадь здания', value: null, min: 1, max: 200000 }
 
 const count_rooms_data = { title: "Общее количество комнат", value: null, min: 1, max: 100 }
 const count_rooms_rent_data = { title: "Количество комнат в аренду", value: null, min: 1, max: 100 }
