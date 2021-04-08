@@ -2,7 +2,7 @@
   <div class="pb-100 pt-50">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="onSubmit()">
-      <div ref="inputs">
+      <div ref="inputs" v-if="accessToForm">
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
@@ -23,7 +23,7 @@
             </client-only>
           </div>
         </div>
-        <div v-if="true">
+        <div>
           <div class="row">
             <div class="col-md-6 mt-30">
               <OfferObject
@@ -51,9 +51,19 @@
           <div class="row mt-30">
             <div class="col">
               <div class="card-wrap">
-                <h4 draggable="true">Планировка и фотографии</h4>
+                <h4 draggable="true">Фотографии</h4>
+                <div
+                  class="d-flex align-items-center mt-20"
+                  v-if="offerData.offerPhothos.length > 0"
+                >
+                  <div class="example-box-photo"></div>
+                  <span style="line-height: 0;">
+                    &nbsp; - главная фотография
+                  </span>
+                </div>
+
                 <draggable
-                  :list="list"
+                  :list="offerData.offerPhothos"
                   :disabled="!enabled"
                   class="row"
                   ghost-class="ghost"
@@ -64,11 +74,11 @@
                 >
                   <div
                     class="col-md-3 my-20 "
-                    v-for="(element, index) in list"
-                    :key="element.name"
+                    v-for="(element, index) in offerData.offerPhothos"
+                    :key="index"
                   >
                     <div :class="[index === 0 ? 'main' : '', 'box-photo']">
-                      {{ element.name }}
+                      <img :src="element.imgSrc" class="photo" />
                     </div>
                   </div>
                   <div
@@ -76,28 +86,45 @@
                     role="group"
                     aria-label="Basic example"
                     key="footer"
-                    class="box-upload my-20 d-flex align-items-center justify-content-center"
+                    class="box-upload my-20 d-flex align-items-center justify-content-center text-center"
                     @click="checkMove()"
                   >
-                    добавить фото
+                    <input
+                      type="file"
+                      class="box-photo-input"
+                      accept="image/png, image/jpeg, image/jpg"
+                      @change="filesChange"
+                    />
+                    <div>
+                      <i
+                        style="font-size: 70px; opacity: 0.3; line-height: 0"
+                        class="bi bi-cloud-arrow-up-fill text-center"
+                      ></i
+                      ><br />
+                      добавить фото
+                    </div>
                   </div>
                 </draggable>
               </div>
             </div>
           </div>
-          <div class="row mt-30">
+          <!-- <div class="row mt-30">
             <div class="col">
               <div class="card-wrap">
                 <h4>Условия размещения</h4>
               </div>
             </div>
+          </div> -->
+          <div class="row justify-content-center">
+            <div class="col-md-4">
+              <button
+                class="el-button el-button--primary is-round py-14 w-100 mt-30"
+                type="submit"
+              >
+                Разместить объявление
+              </button>
+            </div>
           </div>
-          <button
-            class="el-button el-button--primary is-round py-14 w-100 mt-30"
-            type="submit"
-          >
-            Разместить объявление
-          </button>
         </div>
       </div>
     </form>
@@ -131,25 +158,29 @@ export default {
           map_marker: null
         },
         offerObject: {},
-        offerPrice: {}
+        offerPrice: {},
+        offerPhothos: []
       },
       coords: [],
       accessToForm: false,
 
       enabled: true,
-      list: [
-        { name: "Dima", id: 0 },
-        { name: "Kamol", id: 1 },
-        { name: "Tiet", id: 2 },
-        { name: "Pasha", id: 3 },
-        { name: "Nekit", id: 4 },
-        { name: "Dasha", id: 5 },
-        { name: "Vanya", id: 6 }
-      ],
       dragging: false
     };
   },
   methods: {
+    filesChange(e) {
+      const file = e.target.files[0];
+      let url = URL.createObjectURL(file);
+      this.offerData.offerPhothos.push({
+        imgSrc: url
+      });
+      const formData = new FormData();
+      formData.append(file.name, file);
+      console.log(file);
+      console.log(url);
+      console.warn(formData);
+    },
     checkMove: function(e) {
       //   window.console.log("Future index: " + e.draggedContext.futureIndex);
     },
@@ -222,9 +253,24 @@ export default {
   border: 1px dashed #c0ccda;
   border-radius: 6px;
   cursor: grab;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .photo {
+    padding: 10px;
+    max-height: 100%;
+    max-width: 100%;
+  }
 }
+.example-box-photo {
+  width: 20px;
+  height: 20px;
+  background-color: #fff7e1;
+  border: 1px dashed #ccc;
+}
+
 .box-photo.main {
-  background: #fffbf0;
+  background: #fff7e1;
 }
 .ghost {
   opacity: 0.5;
@@ -234,9 +280,21 @@ export default {
   width: 100%;
   border-radius: 6px;
   height: 200px;
-  background: #fbfdff;
+  background: #f5fcff;
   border: 1px dashed #c0ccda;
   margin-right: 15px;
   margin-left: 15px;
+  position: relative;
+  &:hover {
+    border: 1px dashed #409eff;
+  }
+  .box-photo-input {
+    z-index: 2;
+    cursor: pointer;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+  }
 }
 </style>
