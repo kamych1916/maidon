@@ -11,47 +11,56 @@ export default class Api {
       return Api.instance;
     }
 
-    lang = {
-      async GetLanguage(lang) {
-          return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
-      },
-    }
+    // lang = {
+    //   async GetLanguage(lang) {
+    //       return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
+    //   },
+    // }
 
     offer = {
       async get_address (userData) {
-        return axios.post(`${API_BASE_URL}/geocoder_reverse`, userData)
+        return axios.post(`${API_BASE_URL}/offer_geocoder_reverse`, userData)
       },
       async get_marker (userData) {
-        return axios.post(`${API_BASE_URL}/geocoder_geocode`, userData)
+        return axios.post(`${API_BASE_URL}/offer_geocoder_geocode`, userData)
       },
       async send_offer_data (offerData) {
-        return axios.post(`${API_BASE_URL}/place_an_ad`, offerData)
+        return axios.post(`${API_BASE_URL}/offer_place_an_ad`, offerData)
+      },
+      async upload_file (formData) {
+        return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+        )
       }
     }
 
     auth = {
       async login (userData) {
-        return axios.post(`${API_BASE_URL}/signin`, userData)
+        return axios.post(`${API_BASE_URL}/auth_signin`, userData)
       },
       async logout() {
-        return axios.delete(`${API_BASE_URL}/logout`)
+        return axios.delete(`${API_BASE_URL}/auth_logout`)
       },
       async register (userData) {
-        return axios.post(`${API_BASE_URL}/signup`, userData)
+        return axios.post(`${API_BASE_URL}/auth_signup`, userData)
       },
       async forgot_password(email) {
-        return axios.get(`${API_BASE_URL}/reset_password/?email=${email}`)
+        return axios.get(`${API_BASE_URL}/auth_reset_password/?email=${email}`)
       },
       async reset_password(code, password, email) {
-        return axios.post(`${API_BASE_URL}/change_password?code=${code}&new_password=${password}&email=${email}`)
+        return axios.post(`${API_BASE_URL}/auth_change_password?code=${code}&new_password=${password}&email=${email}`)
       },
       async send_activate_code(token) {
-        return axios.post(`${API_BASE_URL}/activ_user`, {
+        return axios.post(`${API_BASE_URL}/auth_activ_user`, {
           token: token
         })
       },
       async is_login(){
-        return axios.get(`${API_BASE_URL}/is_login`,
+        return axios.get(`${API_BASE_URL}/auth_is_login`,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem('st')}`
@@ -60,7 +69,7 @@ export default class Api {
         )
       },
       async check_is_admin() {
-        return axios.get(`${API_BASE_URL}/is_admin`,
+        return axios.get(`${API_BASE_URL}/auth_is_admin`,
           {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('st')}`

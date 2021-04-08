@@ -2,7 +2,7 @@
   <div class="pb-100 pt-50">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="onSubmit()">
-      <div ref="inputs" v-if="accessToForm">
+      <div ref="inputs" v-if="true">
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
@@ -78,6 +78,12 @@
                     :key="index"
                   >
                     <div :class="[index === 0 ? 'main' : '', 'box-photo']">
+                      <div
+                        class="delete"
+                        @click="offerData.offerPhothos.splice(index, 1)"
+                      >
+                        <i class="bi bi-x-circle-fill"></i>
+                      </div>
                       <img :src="element.imgSrc" class="photo" />
                     </div>
                   </div>
@@ -171,15 +177,21 @@ export default {
   methods: {
     filesChange(e) {
       const file = e.target.files[0];
-      let url = URL.createObjectURL(file);
-      this.offerData.offerPhothos.push({
-        imgSrc: url
-      });
-      const formData = new FormData();
-      formData.append(file.name, file);
-      console.log(file);
-      console.log(url);
-      console.warn(formData);
+      if (file !== undefined) {
+        let url = URL.createObjectURL(file);
+        this.offerData.offerPhothos.push({
+          imgSrc: url,
+          imgName: file.name
+        });
+        const formData = new FormData();
+        formData.append("file", file);
+        console.log(formData);
+        Api.getInstance()
+          .offer.upload_file(formData)
+          .then(response => {
+            console.log(response.data);
+          });
+      }
     },
     checkMove: function(e) {
       //   window.console.log("Future index: " + e.draggedContext.futureIndex);
@@ -256,10 +268,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
   .photo {
     padding: 10px;
     max-height: 100%;
     max-width: 100%;
+  }
+  .delete {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 6px;
+    cursor: pointer;
+    padding: 5px 10px;
+    margin: 5px;
+    color: white;
+    background-color: rgba(0, 0, 0, 0.4);
   }
 }
 .example-box-photo {
