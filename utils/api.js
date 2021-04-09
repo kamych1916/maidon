@@ -59,14 +59,8 @@ export default class Api {
           token: token
         })
       },
-      async is_login(){
-        return axios.get(`${API_BASE_URL}/auth_is_login`,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem('st')}`
-            }
-          }
-        )
+      async checkAccess(){
+        return axios.get(`${API_BASE_URL}/auth_is_login`)
       },
       async check_is_admin() {
         return axios.get(`${API_BASE_URL}/auth_is_admin`,

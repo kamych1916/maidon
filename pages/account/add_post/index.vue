@@ -2,7 +2,7 @@
   <div class="pb-100 pt-50">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="onSubmit()">
-      <div ref="inputs" v-if="true">
+      <div ref="inputs" v-if="accessToForm">
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
@@ -50,81 +50,31 @@
           </div>
           <div class="row mt-30">
             <div class="col">
+              <OfferPhotos @uploadPhoto="uploadPhoto"></OfferPhotos>
+            </div>
+          </div>
+          <div class="row mt-30">
+            <div class="col">
               <div class="card-wrap">
-                <h4 draggable="true">Фотографии</h4>
-                <div
-                  class="d-flex align-items-center mt-20"
-                  v-if="offerData.offerPhothos.length > 0"
+                <h4 draggable="true">Описание</h4>
+                <el-input
+                  required
+                  type="textarea"
+                  class="mt-20"
+                  style="border-radius: 100px"
+                  :autosize="{ minRows: 10, maxRows: 20 }"
+                  maxlength="3000"
+                  placeholder="Расскажите в каком состоянии объект, мебель, можно ли изменять интерьер; кого вы хотите видеть в жильцах, готовы ли к домашним животным; инфраструктура около дома, дополнительные платежи (счетчики и т.д.)."
+                  v-model="offerData.offerDescription"
                 >
-                  <div class="example-box-photo"></div>
-                  <span style="line-height: 0;">
-                    &nbsp; - главная фотография
-                  </span>
-                </div>
-
-                <draggable
-                  :list="offerData.offerPhothos"
-                  :disabled="!enabled"
-                  class="row"
-                  ghost-class="ghost"
-                  :move="checkMove"
-                  @start="dragging = true"
-                  @end="dragging = false"
-                  :animation="400"
-                >
-                  <div
-                    class="col-md-3 my-20 "
-                    v-for="(element, index) in offerData.offerPhothos"
-                    :key="index"
-                  >
-                    <div :class="[index === 0 ? 'main' : '', 'box-photo']">
-                      <div
-                        class="delete"
-                        @click="offerData.offerPhothos.splice(index, 1)"
-                      >
-                        <i class="bi bi-x-circle-fill"></i>
-                      </div>
-                      <img :src="element.imgSrc" class="photo" />
-                    </div>
-                  </div>
-                  <div
-                    slot="footer"
-                    role="group"
-                    aria-label="Basic example"
-                    key="footer"
-                    class="box-upload my-20 d-flex align-items-center justify-content-center text-center"
-                    @click="checkMove()"
-                  >
-                    <input
-                      type="file"
-                      class="box-photo-input"
-                      accept="image/png, image/jpeg, image/jpg"
-                      @change="filesChange"
-                    />
-                    <div>
-                      <i
-                        style="font-size: 70px; opacity: 0.3; line-height: 0"
-                        class="bi bi-cloud-arrow-up-fill text-center"
-                      ></i
-                      ><br />
-                      добавить фото
-                    </div>
-                  </div>
-                </draggable>
+                </el-input>
               </div>
             </div>
           </div>
-          <!-- <div class="row mt-30">
-            <div class="col">
-              <div class="card-wrap">
-                <h4>Условия размещения</h4>
-              </div>
-            </div>
-          </div> -->
-          <div class="row justify-content-center">
+          <div class="row justify-content-center mt-30">
             <div class="col-md-4">
               <button
-                class="el-button el-button--primary is-round py-14 w-100 mt-30"
+                class="el-button el-button--primary is-round py-14 w-100 "
                 type="submit"
               >
                 Разместить объявление
@@ -145,14 +95,14 @@ import OfferTypes from "@/pages/account/add_post/components/offer_types.vue";
 import OfferMap from "@/pages/account/add_post/components/offer_map.vue";
 import OfferObject from "@/pages/account/add_post/components/offer_object.vue";
 import OfferPrice from "@/pages/account/add_post/components/offer_price.vue";
-import draggable from "vuedraggable";
+import OfferPhotos from "@/pages/account/add_post/components/offer_photos.vue";
 export default {
   components: {
-    draggable,
     OfferTypes,
     OfferMap,
     OfferObject,
-    OfferPrice
+    OfferPrice,
+    OfferPhotos
   },
 
   data() {
@@ -165,43 +115,31 @@ export default {
         },
         offerObject: {},
         offerPrice: {},
-        offerPhothos: []
+        offerPhothos: [],
+        offerDescription: null
       },
       coords: [],
-      accessToForm: false,
-
-      enabled: true,
-      dragging: false
+      accessToForm: false
     };
   },
   methods: {
-    filesChange(e) {
-      const file = e.target.files[0];
-      if (file !== undefined) {
-        let url = URL.createObjectURL(file);
-        this.offerData.offerPhothos.push({
-          imgSrc: url,
-          imgName: file.name
-        });
-        const formData = new FormData();
-        formData.append("file", file);
-        console.log(formData);
+    onSubmit() {
+      if (this.offerData.offerPhothos.length < 4) {
+        this.sendNTFS(
+          "Предупрждение!",
+          "Количество фотографий должен быть минимум 4!",
+          "warning"
+        );
+      } else {
         Api.getInstance()
-          .offer.upload_file(formData)
+          .offer.send_offer_data(this.offerData)
           .then(response => {
-            console.log(response.data);
+            console.log("всё гуд -> ", response);
           });
       }
     },
-    checkMove: function(e) {
-      //   window.console.log("Future index: " + e.draggedContext.futureIndex);
-    },
-    onSubmit() {
-      Api.getInstance()
-        .offer.send_offer_data(this.offerData)
-        .then(response => {
-          console.log("всё гуд -> ", response);
-        });
+    uploadPhoto(data) {
+      this.offerData.offerPhothos = data.offerPhothos;
     },
     getMarker(queryString, cb) {
       if (queryString !== null && queryString !== "") {
@@ -254,71 +192,10 @@ export default {
         ? ((this.offerData.offerObject = helperData.object),
           (this.offerData.offerPrice = helperData.price))
         : helperData;
+    },
+    sendNTFS(title, message, type) {
+      NTFS.getInstance().NTFS(title, message, type);
     }
   }
 };
 </script>
-
-<style lang="scss">
-.box-photo {
-  height: 200px;
-  border: 1px dashed #c0ccda;
-  border-radius: 6px;
-  cursor: grab;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-  .photo {
-    padding: 10px;
-    max-height: 100%;
-    max-width: 100%;
-  }
-  .delete {
-    position: absolute;
-    right: 0;
-    top: 0;
-    border-radius: 6px;
-    cursor: pointer;
-    padding: 5px 10px;
-    margin: 5px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-}
-.example-box-photo {
-  width: 20px;
-  height: 20px;
-  background-color: #fff7e1;
-  border: 1px dashed #ccc;
-}
-
-.box-photo.main {
-  background: #fff7e1;
-}
-.ghost {
-  opacity: 0.5;
-  background: #c8ebfb;
-}
-.box-upload {
-  width: 100%;
-  border-radius: 6px;
-  height: 200px;
-  background: #f5fcff;
-  border: 1px dashed #c0ccda;
-  margin-right: 15px;
-  margin-left: 15px;
-  position: relative;
-  &:hover {
-    border: 1px dashed #409eff;
-  }
-  .box-photo-input {
-    z-index: 2;
-    cursor: pointer;
-    opacity: 0;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-  }
-}
-</style>

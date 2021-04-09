@@ -1,9 +1,9 @@
 <template>
   <div class="title-block">
     <div class="row d-flex justify-content-center">
-      <div class="col-md-5 title my-30">
+      <h1 class="col-md-5 title my-30">
         Ищи на плейсмай
-      </div>
+      </h1>
       <div class="col-md-4 my-30">
         <div class="wrap-search">
           <el-select
