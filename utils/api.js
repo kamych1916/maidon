@@ -16,7 +16,7 @@ export default class Api {
     //       return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
     //   },
     // }
-
+z
     offer = {
       async get_address (userData) {
         return axios.post(`${API_BASE_URL}/offer_geocoder_reverse`, userData)

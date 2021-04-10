@@ -20,13 +20,17 @@
     >
       <div
         class="col-md-3 my-20 item"
-        v-for="(element, index) in offerPhothos"
+        v-for="(element, index) in offerImgSrc"
         :key="index"
       >
         <div :class="[index === 0 ? 'main' : '', 'box-photo']">
           <div
             class="delete"
-            @click="offerPhothos.splice(index, 1), emitData()"
+            @click="
+              offerImgSrc.splice(index, 1),
+                offerPhothos.splice(index, 1),
+                emitData()
+            "
           >
             <i class="bi bi-x-circle-fill"></i>
           </div>
@@ -70,6 +74,7 @@ export default {
   data() {
     return {
       offerPhothos: [],
+      offerImgSrc: [],
       enabled: true,
       dragging: false
     };
@@ -79,8 +84,10 @@ export default {
       const file = e.target.files[0];
       if (file !== undefined) {
         let url = URL.createObjectURL(file);
+        this.offerImgSrc.push({
+          imgSrc: url
+        });
         this.offerPhothos.push({
-          imgSrc: url,
           imgName: file.name
         });
         const formData = new FormData();

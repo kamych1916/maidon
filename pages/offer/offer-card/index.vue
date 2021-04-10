@@ -1,6 +1,8 @@
 <template>
-  <div class="card-wrap">
-    knock
+  <div>
+    <Breadcrumbs />
+
+    lol
   </div>
 </template>
 

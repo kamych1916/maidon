@@ -1,9 +1,7 @@
 <template>
   <div class="title-block">
     <div class="row d-flex justify-content-center">
-      <h1 class="col-md-5 title my-30">
-        Ищи на плейсмай
-      </h1>
+      <div class="col-md-5 title my-30">Ищи <br />на майдон</div>
       <div class="col-md-4 my-30">
         <div class="wrap-search">
           <el-select
@@ -33,9 +31,11 @@
             </el-option>
           </el-select>
           <div class="w-100 p-10">
-            <el-button type="primary" round class="w-100 py-14"
-              >найти</el-button
-            >
+            <nuxt-link to="/offer">
+              <el-button type="primary" round class="w-100 py-14">
+                найти
+              </el-button>
+            </nuxt-link>
           </div>
         </div>
       </div>

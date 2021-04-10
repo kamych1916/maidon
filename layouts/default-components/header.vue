@@ -4,7 +4,7 @@
   >
     <nuxt-link to="/" class="header-btn">
       <i class="bi bi-building mr-8"></i>
-      <span>placemy</span>
+      <span>maidon</span>
     </nuxt-link>
     <div class="events">
       <a
@@ -13,11 +13,11 @@
         class="header-btn mx-10 py-12"
       >
         <i class="bi bi-plus-circle ml-4"></i>
-        <span class="events-text ml-10">Разместить объявление</span>
+        <span class="events-text ml-10">Добавить объявление</span>
       </a>
       <a
+        href="javascript:void(0);"
         @click="checkAccess('account')"
-        to="/account/login"
         class="header-btn mx-10 py-12"
       >
         <i class="bi bi-person-circle mx-4"></i>
@@ -41,14 +41,14 @@ export default {
       //         : this.$router.push("/account/login");
       //     } else {
       //       response.data == true
-      //         ? this.$router.push("/account/add_post")
+      //         ? this.$router.push("/account/add_offer")
       //         : this.$router.push("/account/login");
       //     }
       //   });
       if (data == "account") {
         this.$router.push("/account/login");
       } else {
-        this.$router.push("/account/add_post");
+        this.$router.push("/account/add_offer");
       }
     }
   }

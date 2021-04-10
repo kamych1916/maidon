@@ -2,7 +2,7 @@
   <div class="pb-100 pt-50">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="onSubmit()">
-      <div ref="inputs" v-if="accessToForm">
+      <div ref="inputs">
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
@@ -23,7 +23,7 @@
             </client-only>
           </div>
         </div>
-        <div>
+        <div v-if="accessToForm">
           <div class="row">
             <div class="col-md-6 mt-30">
               <OfferObject
@@ -90,12 +90,12 @@
 <script>
 import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
-import Helper from "~/pages/account/add_post/mixins/offer_helper.js";
-import OfferTypes from "@/pages/account/add_post/components/offer_types.vue";
-import OfferMap from "@/pages/account/add_post/components/offer_map.vue";
-import OfferObject from "@/pages/account/add_post/components/offer_object.vue";
-import OfferPrice from "@/pages/account/add_post/components/offer_price.vue";
-import OfferPhotos from "@/pages/account/add_post/components/offer_photos.vue";
+import Helper from "~/pages/account/add_offer/mixins/offer_helper.js";
+import OfferTypes from "@/pages/account/add_offer/components/offer_types.vue";
+import OfferMap from "@/pages/account/add_offer/components/offer_map.vue";
+import OfferObject from "@/pages/account/add_offer/components/offer_object.vue";
+import OfferPrice from "@/pages/account/add_offer/components/offer_price.vue";
+import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
 export default {
   components: {
     OfferTypes,
@@ -124,19 +124,20 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.offerData.offerPhothos.length < 4) {
-        this.sendNTFS(
-          "Предупрждение!",
-          "Количество фотографий должен быть минимум 4!",
-          "warning"
-        );
-      } else {
-        Api.getInstance()
-          .offer.send_offer_data(this.offerData)
-          .then(response => {
-            console.log("всё гуд -> ", response);
-          });
-      }
+      console.log(this.offerData);
+      // if (this.offerData.offerPhothos.length < 4) {
+      //   this.sendNTFS(
+      //     "Предупрждение!",
+      //     "Количество фотографий должен быть минимум 4!",
+      //     "warning"
+      //   );
+      // } else {
+      //   Api.getInstance()
+      //     .offer.send_offer_data(this.offerData)
+      //     .then(response => {
+      //       console.log("всё гуд -> ", response);
+      //     });
+      // }
     },
     uploadPhoto(data) {
       this.offerData.offerPhothos = data.offerPhothos;
