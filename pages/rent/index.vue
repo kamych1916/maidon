@@ -1,6 +1,11 @@
 <template>
   <div class="card-wrap">
-    rent
+    <div>
+      <Breadcrumbs />
+    </div>
+    <div class="mt-20">
+      <ObjectLinks title="Снять недвижимость в Таджикистане" />
+    </div>
   </div>
 </template>
 

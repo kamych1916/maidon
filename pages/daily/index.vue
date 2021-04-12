@@ -4,7 +4,10 @@
       <Breadcrumbs />
     </div>
     <div class="mt-20">
-      <ObjectLinks title="Купить недвижимость в Таджикистане" link="buy" />
+      <ObjectLinks
+        title="Снять недвижимость посуточно в Таджикистане"
+        link="daily"
+      />
     </div>
   </div>
 </template>

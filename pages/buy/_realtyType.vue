@@ -2,9 +2,7 @@
   <div class="card-wrap">
     <div>
       <Breadcrumbs />
-    </div>
-    <div class="mt-20">
-      <ObjectLinks title="Купить недвижимость в Таджикистане" link="buy" />
+      {{ param }}
     </div>
   </div>
 </template>
@@ -16,6 +14,12 @@ export default {
       param: this.$route.params.realtyType
     };
   }
+  // async asyncData({ params, redirect }) {
+  //   console.log(params.realtyType);
+  //   return {
+  //     param: params.realtyType
+  //   };
+  // }
 };
 </script>
 

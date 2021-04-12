@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col-md-4 mt-30">
         <div class="wrap-img h-100">
-          <span class="title-img ">Новостройки</span>
+          <span class="title-img ">Жилые комплексы</span>
           <img
             src="/images/flatmy-newBuildings.jpg"
             style="object-fit: cover; "
