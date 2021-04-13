@@ -15,14 +15,16 @@
       <div class="col-md-8 ">
         <div class="row mt-30">
           <div class="col d-flex">
-            <div class="wrap-img h-100">
-              <span class="title-img ">Продажа квартир</span>
-              <img
-                src="/images/flatmy-buy.jpg"
-                style="object-fit: cover; "
-                width="100%"
-              />
-            </div>
+            <nuxt-link to="/buy/apartment">
+              <div class="wrap-img h-100">
+                <span class="title-img ">Продажа квартир</span>
+                <img
+                  src="/images/flatmy-buy.jpg"
+                  style="object-fit: cover; "
+                  width="100%"
+                />
+              </div>
+            </nuxt-link>
           </div>
           <div class="col d-flex">
             <div class="wrap-img h-100">

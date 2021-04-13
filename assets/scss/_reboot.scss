@@ -22,7 +22,15 @@
 .fw-600 {
   font-weight: 600 !important;
 }
-
+.el-breadcrumb__inner {
+  color: #c0c4cc !important;
+}
+.el-breadcrumb__inner.is-link:hover {
+  color: #409eff !important;
+}
+.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
+  color: #c0c4cc !important;
+}
 .el-input__inner {
   padding: 5px 30px;
   height: auto;
@@ -30,9 +38,6 @@
   background-color: #f2f3f7;
   border-radius: 25px;
   color: #409eff;
-  &::placeholder {
-    color: rgb(61, 61, 61);
-  }
 }
 .el-input__suffix {
   padding-right: 15px;
@@ -69,7 +74,9 @@
 .el-tooltip__popper {
   padding: 30px;
 }
-.el-input__suffix {
+.el-input__suffix,
+.el-input__prefix {
+  padding-left: 10px;
   display: flex;
   align-items: center;
 }

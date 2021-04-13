@@ -125,19 +125,19 @@ export default {
   methods: {
     onSubmit() {
       console.log(this.offerData);
-      // if (this.offerData.offerPhothos.length < 4) {
-      //   this.sendNTFS(
-      //     "Предупрждение!",
-      //     "Количество фотографий должен быть минимум 4!",
-      //     "warning"
-      //   );
-      // } else {
-      //   Api.getInstance()
-      //     .offer.send_offer_data(this.offerData)
-      //     .then(response => {
-      //       console.log("всё гуд -> ", response);
-      //     });
-      // }
+      if (this.offerData.offerPhothos.length < 4) {
+        this.sendNTFS(
+          "Предупрждение!",
+          "Количество фотографий должен быть минимум 4!",
+          "warning"
+        );
+      } else {
+        Api.getInstance()
+          .offer.send_offer_data(this.offerData)
+          .then(response => {
+            console.log("всё гуд -> ", response);
+          });
+      }
     },
     uploadPhoto(data) {
       this.offerData.offerPhothos = data.offerPhothos;
