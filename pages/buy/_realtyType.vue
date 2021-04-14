@@ -1,106 +1,12 @@
 <template>
-  <div class="card-wrap">
-    <div>
-      <Breadcrumbs />
-    </div>
-    <button class="map-btn el-button el-button--success is-round py-10 ">
-      смотреть на карте
-      <i class="bi bi-map ml-10 p-0"></i>
-    </button>
-    <h1 class="fs-28 my-20">Купить квартиру в Таджикистане</h1>
-
-    <div class="wrap-accordion">
-      <div class="wrap-collapse-btn " :class="[isAccorActive ? 'active' : '']">
-        <button
-          class="el-button el-button--primary is-round py-10 d-flex justify-content-between"
-          @click="openAccor()"
-        >
-          фильтры
-          <i class="el-icon-arrow-down ml-10 px-0"></i>
-        </button>
-        <button
-          class="el-button el-button--success is-round py-10 d-flex justify-content-between"
-        >
-          на карте
-          <i class="bi bi-map ml-10 px-0"></i>
-        </button>
+  <div>
+    <div class="card-wrap">
+      <div>
+        <Breadcrumbs />
       </div>
-      <div class="wrap-filters">
-        <div class="row">
-          <div class="col-xl-4 d-flex my-10 w-100 two-selects-wrap">
-            <el-select class="deal w-100" v-model="searchData.deals.value">
-              <el-option
-                v-for="item in searchData.deals.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-            <el-select class="object w-100" v-model="searchData.objects.value">
-              <el-option
-                v-for="item in searchData.objects.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-xl-3 my-10">
-            <el-select class="w-100" v-model="searchData.rooms.value">
-              <el-option
-                v-for="item in searchData.rooms.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-xl-5 my-10">
-            <el-input
-              placeholder="Адрес"
-              suffix-icon="bi bi-geo-alt-fill"
-            ></el-input>
-          </div>
-          <div class="col-xl-3 my-10">
-            <el-select class="w-100" v-model="searchData.typeObject.value">
-              <el-option
-                v-for="item in searchData.typeObject.options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="col-xl-3 my-10 d-flex size-wrap">
-            <el-input v-model="kek" class=" from">
-              <span slot="prefix">Площадь от</span>
-            </el-input>
-            <el-input v-model="lol" class=" to">
-              <span slot="prefix">до</span>
-              <span slot="suffix">м<sup>2</sup></span>
-            </el-input>
-          </div>
-          <div class="col-xl-4 my-10 d-flex price-wrap">
-            <el-input v-model="kek" class=" from">
-              <span slot="prefix">Цена от</span>
-            </el-input>
-            <el-input v-model="lol" class=" to">
-              <span slot="prefix">до</span>
-              <span slot="suffix">сомони</span>
-            </el-input>
-          </div>
-          <div class="col-xl-2 my-10">
-            <button class="el-button el-button--primary is-round py-16 w-100 ">
-              Найти
-            </button>
-          </div>
-        </div>
-      </div>
+      <div><Search :title="title" /></div>
     </div>
+    <div class="card-wrap">test</div>
   </div>
 </template>
 
@@ -110,105 +16,22 @@ import Api from "~/utils/api";
 export default {
   data() {
     return {
-      isAccorActive: true,
-
-      kek: null,
-      lol: null,
-      searchData: {
-        deals: {
-          value: "sell",
-          options: [
-            {
-              value: "sell",
-              label: "Купить"
-            },
-            {
-              value: "rent_long",
-              label: "Снять"
-            },
-            {
-              value: "rent_day",
-              label: "Посуточно"
-            }
-          ]
-        },
-        objects: {
-          value: "apartment",
-          options: [
-            {
-              value: "apartment",
-              label: "Квартиру"
-            },
-            {
-              value: "room",
-              label: "Комнату"
-            },
-            {
-              value: "house",
-              label: "Дом"
-            },
-            {
-              value: "ground",
-              label: "Участок"
-            },
-            {
-              value: "commercy",
-              label: "Коммерческую"
-            },
-            {
-              value: "building",
-              label: "Здание"
-            }
-          ]
-        },
-        rooms: {
-          value: "oneroom",
-          options: [
-            {
-              value: "oneroom",
-              label: "Однокомнатые"
-            },
-            {
-              value: "tworoom",
-              label: "Двухкомнатные"
-            },
-            {
-              value: "threeroom",
-              label: "Трёхкомнатные"
-            },
-            {
-              value: "fourroomormore",
-              label: "Четыре комнаты и более"
-            },
-            {
-              value: "allRooms",
-              label: "Все варианты"
-            }
-          ]
-        },
-        typeObject: {
-          value: "allTypes",
-          options: [
-            {
-              value: "allTypes",
-              label: "Вторичка, Новостройки"
-            },
-            {
-              value: "secondaryBuilding",
-              label: "Вторичный рынок"
-            },
-            {
-              value: "newBuilding",
-              label: "Новостройки"
-            }
-          ]
-        },
-        address: null
-      },
-      param: this.$route.params.realtyType
+      param: this.$route.params.realtyType,
+      title: null
     };
   },
   created() {
+    this.param == "apartment"
+      ? (this.title = "Купить квартиру в Таджикистане")
+      : "";
+    this.param == "commercy"
+      ? (this.title = "Купить коммерческую недвижимость в Таджикистане")
+      : "";
+    this.param == "house" ? (this.title = "Купить дом в Таджикистане") : "";
+    this.param == "ground"
+      ? (this.title = "Купить участок в Таджикистане")
+      : "";
+    this.param == "room" ? (this.title = "Купить комнату в Таджикистане") : "";
     this.get();
   },
   methods: {
@@ -237,123 +60,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss">
-.card-wrap {
-  position: relative;
-  .map-btn {
-    position: absolute;
-    right: 30px;
-    top: 30px;
-  }
-}
-.wrap-accordion {
-  overflow: hidden;
-  height: auto;
-  transition: height 1s ease, opacity 1s ease;
-  .wrap-collapse-btn {
-    display: none;
-    flex-direction: row;
-    justify-content: space-between;
-    cursor: pointer;
-  }
-  .wrap-collapse-btn.active {
-    padding-bottom: 10px;
-  }
-  .wrap-collapse-btn.active .el-icon-arrow-down {
-    transform: rotate(180deg);
-  }
-  .el-icon-arrow-down {
-    transition: 0.6s;
-  }
-
-  .wrap-collapse-btn.active + .wrap-filters {
-    opacity: 1;
-    height: auto;
-    transition: all 1s ease;
-  }
-  .wrap-filters {
-    height: 0;
-    opacity: 0;
-    overflow: hidden;
-    transition: height 1s ease, opacity 1s ease;
-    .content-inner {
-      padding: 20px;
-    }
-  }
-}
-.two-selects-wrap {
-  .deal {
-    .el-input__inner {
-      border-radius: 25px 0px 0px 25px !important;
-      // padding: 5px 0px 5px 0px !important;
-    }
-    .el-input__suffix {
-      // padding: 5px !important;
-    }
-  }
-  .object {
-    .el-input__inner {
-      border-left: 1px solid #ccc;
-      // padding: 5px 10px 5px 10px !important;
-      border-radius: 0px 25px 25px 0px !important;
-    }
-  }
-}
-.size-wrap {
-  .from {
-    width: 130%;
-    .el-input__inner {
-      border-radius: 25px 0px 0px 25px !important;
-      padding: 5px 0px 5px 110px !important;
-    }
-  }
-  .to {
-    .el-input__prefix {
-      padding-left: 0px;
-    }
-    .el-input__inner {
-      border-radius: 0px 25px 25px 0px !important;
-      padding: 5px 45px 5px 30px !important;
-    }
-  }
-}
-.price-wrap {
-  .from {
-    width: 80%;
-    .el-input__inner {
-      border-radius: 25px 0px 0px 25px !important;
-      padding: 5px 5px 5px 80px !important;
-    }
-  }
-  .to {
-    .el-input__prefix {
-      padding-left: 0px;
-    }
-    .el-input__inner {
-      border-radius: 0px 25px 25px 0px !important;
-      padding: 5px 80px 5px 30px !important;
-    }
-  }
-}
-
-@media (max-width: 1200px) {
-  .wrap-accordion {
-    .wrap-collapse-btn {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    }
-  }
-  .two-selects-wrap {
-    .object {
-      .el-input__inner {
-        padding: 5px 10px 5px 10px !important;
-      }
-    }
-  }
-  .map-btn {
-    display: none;
-  }
-}
-</style>
