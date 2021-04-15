@@ -128,7 +128,7 @@ export default {
       if (this.offerData.offerPhothos.length < 4) {
         this.sendNTFS(
           "Предупрждение!",
-          "Количество фотографий должен быть минимум 4!",
+          "Количество фотографий должно быть минимум 4!",
           "warning"
         );
       } else {

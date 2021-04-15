@@ -166,6 +166,7 @@
 </template>
 
 <script>
+import Api from "~/utils/api";
 const cleanSearchData = {
   sizeFrom: null,
   sizeTo: null,
@@ -392,9 +393,9 @@ export default {
   methods: {
     findOffers() {
       let url = "/";
-      var queryData = {};
+      let queryData = {};
       for (var member in queryData) delete queryData[member];
-      var data = this.searchData;
+      let data = this.searchData;
 
       if (data.deals.value == "buy") {
         url = url + "buy/";
@@ -414,6 +415,8 @@ export default {
         url = url + "ground";
       } else if (data.objects.value == "commercy") {
         url = url + "commercy";
+      } else if (data.objects.value == "building") {
+        url = url + "building";
       }
 
       if (data.rooms.value) {
@@ -431,12 +434,21 @@ export default {
       if (data.typeCommercy.value) {
         queryData.typeCommercy = data.typeCommercy.value;
       }
-
-      // this.searchData.rooms.value = "";
-      // this.searchData.repair.value = "";
-      // this.searchData.typeBuilding.value = "";
-      // this.searchData.typeGround.value = "";
-      // this.searchData.typeCommercy.value = "";
+      if (data.address) {
+        queryData.address = data.address;
+      }
+      if (data.sizeFrom) {
+        queryData.sizeFrom = data.sizeFrom;
+      }
+      if (data.sizeTo) {
+        queryData.sizeTo = data.sizeTo;
+      }
+      if (data.priceFrom) {
+        queryData.priceFrom = data.priceFrom;
+      }
+      if (data.priceTo) {
+        queryData.priceTo = data.priceTo;
+      }
 
       this.$router.push({
         path: url,
@@ -492,6 +504,11 @@ export default {
       this.searchData.typeBuilding.value = "";
       this.searchData.typeGround.value = "";
       this.searchData.typeCommercy.value = "";
+      this.searchData.address = "";
+      this.searchData.sizeFrom = "";
+      this.searchData.sizeTo = "";
+      this.searchData.priceFrom = "";
+      this.searchData.priceTo = "";
     },
     checkQuery() {
       this.clearSearchData();
@@ -518,9 +535,35 @@ export default {
         Object.keys(this.$route.query).length > 0
           ? this.$route.query.typeCommercy
           : "";
+      let address =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.address
+          : "";
+      let sizeFrom =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.sizeFrom
+          : "";
+      let sizeTo =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.sizeTo
+          : "";
+      let priceFrom =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.priceFrom
+          : "";
+      let priceTo =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.priceTo
+          : "";
+
+      this.searchData.address = address || this.searchData.address;
+      this.searchData.sizeFrom = sizeFrom || this.searchData.sizeFrom;
+      this.searchData.sizeTo = sizeTo || this.searchData.sizeTo;
+      this.searchData.priceFrom = priceFrom || this.searchData.priceFrom;
+      this.searchData.priceTo = priceTo || this.searchData.priceTo;
 
       this.searchData.deals.value = deal || this.searchData.deals.value;
-      this.searchData.objects.value = kind;
+      this.searchData.objects.value = kind || this.searchData.objects.value;
       this.searchData.rooms.value = rooms || this.searchData.rooms.value;
       this.searchData.repair.value = repair || this.searchData.repair.value;
       this.searchData.typeBuilding.value =
@@ -530,6 +573,15 @@ export default {
       this.searchData.typeCommercy.value =
         typeCommercy || this.searchData.typeCommercy.value;
       this.eventListenObjects(kind);
+
+      Api.getInstance()
+        .offer.get_offers(this.searchData)
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

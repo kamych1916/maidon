@@ -17,6 +17,9 @@ export const search = {
       this.param == "room"
         ? (this.title = "Купить комнату в Таджикистане")
         : "";
+      this.param == "building"
+        ? (this.title = "Купить здание в Таджикистане")
+        : "";
     } else if (deal == "daily") {
       this.param == "apartment"
         ? (this.title = "Снять посуточно квартиру в Таджикистане")
@@ -34,6 +37,9 @@ export const search = {
       this.param == "room"
         ? (this.title = "Снять посуточно комнату в Таджикистане")
         : "";
+      this.param == "building"
+        ? (this.title = "Арендовать посуточно здание в Таджикистане")
+        : "";
     } else if (deal == "rent") {
       this.param == "apartment"
         ? (this.title = "Снять квартиру в Таджикистане")
@@ -46,6 +52,9 @@ export const search = {
         ? (this.title = "Снять участок в Таджикистане")
         : "";
       this.param == "room" ? (this.title = "Снять комнату в Таджикистане") : "";
+      this.param == "building"
+        ? (this.title = "Арендовать здание в Таджикистане")
+        : "";
     }
     this.get();
   },
