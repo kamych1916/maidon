@@ -22,6 +22,16 @@
 .fw-600 {
   font-weight: 600 !important;
 }
+.border-rad-20 {
+  border-radius: 20px;
+}
+.border-rad-10 {
+  border-radius: 10px;
+}
+.border-rad-5 {
+  border-radius: 5px;
+}
+
 .el-breadcrumb__inner {
   color: #c0c4cc !important;
 }
@@ -31,6 +41,13 @@
 .el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
   color: #c0c4cc !important;
 }
+.el-carousel__arrow {
+  background-color: rgba(31, 45, 61, 0.5);
+}
+.el-carousel__arrow:hover {
+  background-color: rgba(31, 45, 61, 0.7);
+}
+
 .el-input__inner {
   padding: 5px 30px;
   height: auto;

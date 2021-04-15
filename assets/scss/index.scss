@@ -2,8 +2,6 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/list-group";
-@import "~bootstrap/scss/nav";
 // Переменные нашего проекта, ипользуюся для собственных компонентов и для корректировки переменных бутстрапа
 @import "variables";
 @import "auth";
@@ -14,17 +12,11 @@
 // Bootstrap утилиты
 @import "~bootstrap/scss/utilities/display";
 @import "~bootstrap/scss/utilities/flex";
-@import "~bootstrap/scss/utilities/overflow";
-@import "~bootstrap/scss/utilities/position";
 @import "~bootstrap/scss/utilities/background";
 @import "~bootstrap/scss/utilities/sizing";
-@import "~bootstrap/scss/utilities/text";
 @import "~bootstrap/scss/utilities/spacing";
-@import "~bootstrap/scss/buttons";
 // Bootstrap компоненты
 @import "~bootstrap/scss/reboot";
-@import "~bootstrap/scss/type";
 @import "~bootstrap/scss/grid";
-@import "~bootstrap/scss/images";
 
 // @import "~bootstrap/scss/bootstrap";

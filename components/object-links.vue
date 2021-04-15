@@ -8,28 +8,36 @@
         </h2>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=secondaryBuilding&object=apartment'"
+            :to="
+              link + '/apartment?typeBuilding=secondaryBuilding&rooms=oneroom'
+            "
           >
             Квартиры
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=secondaryBuilding&object=oneroom'"
+            :to="
+              link + '/apartment?typeBuilding=secondaryBuilding&rooms=oneroom'
+            "
           >
             Однокомнатные
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=secondaryBuilding&object=tworoom'"
+            :to="
+              link + '/apartment?typeBuilding=secondaryBuilding&rooms=tworoom'
+            "
           >
             Двухкомнатные
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=secondaryBuilding&object=threeroom'"
+            :to="
+              link + '/apartment?typeBuilding=secondaryBuilding&rooms=threeroom'
+            "
           >
             Трёхкомнатные
           </nuxt-link>
@@ -37,7 +45,8 @@
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
             :to="
-              link + '/apartment?type=secondaryBuilding&object=fourroomormore'
+              link +
+                '/apartment?typeBuilding=secondaryBuilding&rooms=fourroomormore'
             "
           >
             Четыре комнаты и более
@@ -50,31 +59,37 @@
         </h2>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=newBuilding&object=apartment'"
+            :to="link + '/apartment?typeBuilding=newBuilding&rooms=oneroom'"
           >
             Квартиры
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/apartment?type=newBuilding&object=oneroom'">
+          <nuxt-link
+            :to="link + '/apartment?typeBuilding=newBuilding&rooms=oneroom'"
+          >
             Однокомнатные
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/apartment?type=newBuilding&object=tworoom'">
+          <nuxt-link
+            :to="link + '/apartment?typeBuilding=newBuilding&rooms=tworoom'"
+          >
             Двухкомнатные
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=newBuilding&object=threeroom'"
+            :to="link + '/apartment?typeBuilding=newBuilding&rooms=threeroom'"
           >
             Трёхкомнатные
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
           <nuxt-link
-            :to="link + '/apartment?type=newBuilding&object=fourroomormore'"
+            :to="
+              link + '/apartment?typeBuilding=newBuilding&rooms=fourroomormore'
+            "
           >
             Четыре комнаты и более
           </nuxt-link>

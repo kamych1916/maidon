@@ -21,9 +21,13 @@
       </button>
     </div>
     <div class="search-filters">
-      <div class="row">
+      <div class="row gx-100">
         <div class="col-xl-4 d-flex my-10 w-100 search-two-selects">
-          <el-select class="deal w-100" v-model="searchData.deals.value">
+          <el-select
+            class="deal w-100"
+            v-model="searchData.deals.value"
+            @change="clearSearchData()"
+          >
             <el-option
               v-for="item in searchData.deals.options"
               :key="item.value"
@@ -32,7 +36,13 @@
             >
             </el-option>
           </el-select>
-          <el-select class="object w-100" v-model="searchData.objects.value">
+          <el-select
+            class="object w-100"
+            v-model="searchData.objects.value"
+            @change="
+              clearSearchData(), eventListenObjects(searchData.objects.value)
+            "
+          >
             <el-option
               v-for="item in searchData.objects.options"
               :key="item.value"
@@ -42,8 +52,12 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-3 my-10">
-          <el-select class="w-100" v-model="searchData.rooms.value">
+        <div class="col-xl-4 my-10" v-if="rooms">
+          <el-select
+            class="w-100"
+            v-model="searchData.rooms.value"
+            placeholder="Количество комнат"
+          >
             <el-option
               v-for="item in searchData.rooms.options"
               :key="item.value"
@@ -53,16 +67,14 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-5 my-10">
-          <el-input
-            placeholder="Адрес"
-            suffix-icon="bi bi-geo-alt-fill"
-          ></el-input>
-        </div>
-        <div class="col-xl-3 my-10">
-          <el-select class="w-100" v-model="searchData.typeObject.value">
+        <div class="col-xl-4 my-10" v-if="repair">
+          <el-select
+            class="w-100"
+            v-model="searchData.repair.value"
+            placeholder="Ремонт"
+          >
             <el-option
-              v-for="item in searchData.typeObject.options"
+              v-for="item in searchData.repair.options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -70,7 +82,59 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-3 my-10 d-flex search-size">
+        <div class="col-xl-4 my-10" v-if="typeBuilding">
+          <el-select
+            class="w-100"
+            v-model="searchData.typeBuilding.value"
+            placeholder="Тип застройки"
+          >
+            <el-option
+              v-for="item in searchData.typeBuilding.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-xl-4 my-10" v-if="typeGround">
+          <el-select
+            class="w-100"
+            v-model="searchData.typeGround.value"
+            placeholder="Статус участка"
+          >
+            <el-option
+              v-for="item in searchData.typeGround.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-xl-4 my-10" v-if="typeCommercy">
+          <el-select
+            class="w-100"
+            v-model="searchData.typeCommercy.value"
+            placeholder="Тип помещения"
+          >
+            <el-option
+              v-for="item in searchData.typeCommercy.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
+        <div class="col-xl-4 flex-fill d-flex my-10">
+          <el-input
+            v-model="searchData.address"
+            placeholder="Адрес"
+            suffix-icon="bi bi-geo-alt-fill"
+          ></el-input>
+        </div>
+        <div class="col-xl-4 my-10 d-flex search-size">
           <el-input v-model="searchData.sizeFrom" class="from">
             <span slot="prefix">Площадь от</span>
           </el-input>
@@ -89,7 +153,10 @@
           </el-input>
         </div>
         <div class="col-xl-2 my-10">
-          <button class="el-button el-button--primary is-round py-16 w-100 ">
+          <button
+            @click="findOffers()"
+            class="el-button el-button--primary is-round py-16 w-100 "
+          >
             Найти
           </button>
         </div>
@@ -99,111 +166,370 @@
 </template>
 
 <script>
+const cleanSearchData = {
+  sizeFrom: null,
+  sizeTo: null,
+  priceFrom: null,
+  priceTo: null,
+  address: null,
+  deals: {
+    value: "",
+    options: [
+      {
+        value: "buy",
+        label: "Купить"
+      },
+      {
+        value: "rent",
+        label: "Снять"
+      },
+      {
+        value: "daily",
+        label: "Посуточно"
+      }
+    ]
+  },
+  objects: {
+    value: "",
+    options: [
+      {
+        value: "apartment",
+        label: "Квартиру"
+      },
+      {
+        value: "room",
+        label: "Комнату"
+      },
+      {
+        value: "house",
+        label: "Дом"
+      },
+      {
+        value: "ground",
+        label: "Участок"
+      },
+      {
+        value: "commercy",
+        label: "Коммерческую"
+      },
+      {
+        value: "building",
+        label: "Здание"
+      }
+    ]
+  },
+  rooms: {
+    value: "",
+    options: [
+      {
+        value: "oneroom",
+        label: "Однокомнатые"
+      },
+      {
+        value: "tworoom",
+        label: "Двухкомнатные"
+      },
+      {
+        value: "threeroom",
+        label: "Трёхкомнатные"
+      },
+      {
+        value: "fourroomormore",
+        label: "Четыре комнаты и более"
+      },
+      {
+        value: "allRooms",
+        label: "Все варианты"
+      }
+    ]
+  },
+  repair: {
+    value: "",
+    options: [
+      {
+        value: "cosmetic",
+        label: "Косметический"
+      },
+      {
+        value: "euro",
+        label: "Евро"
+      },
+      {
+        value: "design",
+        label: "Дизайнерский"
+      },
+      {
+        value: "without",
+        label: "Без ремонта"
+      }
+    ]
+  },
+  typeBuilding: {
+    value: "",
+    options: [
+      {
+        value: "allTypes",
+        label: "Вторичка, Новостройки"
+      },
+      {
+        value: "secondaryBuilding",
+        label: "Вторичный рынок"
+      },
+      {
+        value: "newBuilding",
+        label: "Новостройки"
+      }
+    ]
+  },
+  typeGround: {
+    value: "",
+    options: [
+      {
+        value: "farm",
+        label: "Фермерское хоз-во"
+      },
+      {
+        value: "subsidiaryFarm",
+        label: "Личное подсобное хозяйство"
+      },
+      {
+        value: "secondaryBuilding",
+        label: "Садоводство"
+      },
+      {
+        value: "individualСonstruction",
+        label: "ИЖС"
+      },
+      {
+        value: "industrialDestination",
+        label: "Земля промназначения"
+      },
+      {
+        value: "nonProfitPartnership",
+        label: "ДНП"
+      }
+    ]
+  },
+  typeCommercy: {
+    value: "",
+    options: [
+      {
+        value: "office",
+        label: "Офис"
+      },
+      {
+        value: "garage",
+        label: "Гараж"
+      },
+      {
+        value: "warehouse",
+        label: "Склад"
+      },
+      {
+        value: "premisessFreeAppointment",
+        label: "Помещения свободного назначения"
+      },
+      {
+        value: "smallArchitecturalForms",
+        label: "Малые архитектурные формы"
+      },
+      {
+        value: "productionPremises",
+        label: "Производственное помещение"
+      },
+      {
+        value: "shop",
+        label: "Магазин"
+      },
+      {
+        value: "restaurant",
+        label: "Общепит"
+      },
+      {
+        value: "salon",
+        label: "Салон"
+      },
+      {
+        value: "recreationСenter",
+        label: "База отдыха"
+      },
+      {
+        value: "healthСare",
+        label: "Здравоохранение"
+      },
+      {
+        value: "service",
+        label: "Сервис"
+      },
+      {
+        value: "sport",
+        label: "Спорткомплекс"
+      }
+    ]
+  }
+};
 export default {
   props: ["title"],
   data() {
     return {
       isAccorActive: true,
-      searchData: {
-        sizeFrom: null,
-        sizeTo: null,
-        priceFrom: null,
-        priceTo: null,
-        address: null,
-        deals: {
-          value: "sell",
-          options: [
-            {
-              value: "sell",
-              label: "Купить"
-            },
-            {
-              value: "rent_long",
-              label: "Снять"
-            },
-            {
-              value: "rent_day",
-              label: "Посуточно"
-            }
-          ]
-        },
-        objects: {
-          value: "apartment",
-          options: [
-            {
-              value: "apartment",
-              label: "Квартиру"
-            },
-            {
-              value: "room",
-              label: "Комнату"
-            },
-            {
-              value: "house",
-              label: "Дом"
-            },
-            {
-              value: "ground",
-              label: "Участок"
-            },
-            {
-              value: "commercy",
-              label: "Коммерческую"
-            },
-            {
-              value: "building",
-              label: "Здание"
-            }
-          ]
-        },
-        rooms: {
-          value: "oneroom",
-          options: [
-            {
-              value: "oneroom",
-              label: "Однокомнатые"
-            },
-            {
-              value: "tworoom",
-              label: "Двухкомнатные"
-            },
-            {
-              value: "threeroom",
-              label: "Трёхкомнатные"
-            },
-            {
-              value: "fourroomormore",
-              label: "Четыре комнаты и более"
-            },
-            {
-              value: "allRooms",
-              label: "Все варианты"
-            }
-          ]
-        },
-        typeObject: {
-          value: "allTypes",
-          options: [
-            {
-              value: "allTypes",
-              label: "Вторичка, Новостройки"
-            },
-            {
-              value: "secondaryBuilding",
-              label: "Вторичный рынок"
-            },
-            {
-              value: "newBuilding",
-              label: "Новостройки"
-            }
-          ]
-        }
-      }
+      repair: true,
+      rooms: true,
+      typeBuilding: true,
+      typeGround: true,
+      typeCommercy: true,
+      searchData: cleanSearchData
     };
   },
+  mounted() {
+    if (window.screen.width < 1200) {
+      this.isAccorActive = false;
+    } else {
+      this.isAccorActive = true;
+    }
+    this.checkQuery();
+  },
   methods: {
+    findOffers() {
+      let url = "/";
+      var queryData = {};
+      for (var member in queryData) delete queryData[member];
+      var data = this.searchData;
+
+      if (data.deals.value == "buy") {
+        url = url + "buy/";
+      } else if (data.deals.value == "rent") {
+        url = url + "rent/";
+      } else if (data.deals.value == "daily") {
+        url = url + "daily/";
+      }
+
+      if (data.objects.value == "apartment") {
+        url = url + "apartment";
+      } else if (data.objects.value == "room") {
+        url = url + "room";
+      } else if (data.objects.value == "house") {
+        url = url + "house";
+      } else if (data.objects.value == "ground") {
+        url = url + "ground";
+      } else if (data.objects.value == "commercy") {
+        url = url + "commercy";
+      }
+
+      if (data.rooms.value) {
+        queryData.rooms = data.rooms.value;
+      }
+      if (data.repair.value) {
+        queryData.repair = data.repair.value;
+      }
+      if (data.typeBuilding.value) {
+        queryData.typeBuilding = data.typeBuilding.value;
+      }
+      if (data.typeGround.value) {
+        queryData.typeGround = data.typeGround.value;
+      }
+      if (data.typeCommercy.value) {
+        queryData.typeCommercy = data.typeCommercy.value;
+      }
+
+      // this.searchData.rooms.value = "";
+      // this.searchData.repair.value = "";
+      // this.searchData.typeBuilding.value = "";
+      // this.searchData.typeGround.value = "";
+      // this.searchData.typeCommercy.value = "";
+
+      this.$router.push({
+        path: url,
+        query: queryData
+      });
+    },
+
+    eventListenObjects(data) {
+      if (data == "apartment") {
+        this.repair = true;
+        this.rooms = true;
+        this.typeBuilding = true;
+        this.typeCommercy = false;
+        this.typeGround = false;
+      } else if (data == "room") {
+        this.repair = true;
+        this.rooms = false;
+        this.typeBuilding = true;
+        this.typeCommercy = false;
+        this.typeGround = false;
+      } else if (data == "house") {
+        this.repair = true;
+        this.rooms = false;
+        this.typeBuilding = false;
+        this.typeCommercy = false;
+        this.typeGround = true;
+      } else if (data == "ground") {
+        this.repair = false;
+        this.rooms = false;
+        this.typeBuilding = false;
+        this.typeCommercy = false;
+        this.typeGround = true;
+      } else if (data == "commercy") {
+        this.repair = false;
+        this.rooms = false;
+        this.typeBuilding = false;
+        this.typeCommercy = true;
+        this.typeGround = false;
+      } else if (data == "building") {
+        this.repair = false;
+        this.rooms = false;
+        this.typeBuilding = false;
+        this.typeCommercy = false;
+        this.typeGround = false;
+      }
+    },
     openAccor() {
       this.isAccorActive = !this.isAccorActive;
+    },
+    clearSearchData() {
+      this.searchData.rooms.value = "";
+      this.searchData.repair.value = "";
+      this.searchData.typeBuilding.value = "";
+      this.searchData.typeGround.value = "";
+      this.searchData.typeCommercy.value = "";
+    },
+    checkQuery() {
+      this.clearSearchData();
+      let deal = this.$route.path.split("/")[1];
+      let kind = this.$route.path.split("/")[2];
+
+      let rooms =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.rooms
+          : "";
+      let repair =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.repair
+          : "";
+      let typeBuilding =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.typeBuilding
+          : "";
+      let typeGround =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.typeGround
+          : "";
+      let typeCommercy =
+        Object.keys(this.$route.query).length > 0
+          ? this.$route.query.typeCommercy
+          : "";
+
+      this.searchData.deals.value = deal || this.searchData.deals.value;
+      this.searchData.objects.value = kind;
+      this.searchData.rooms.value = rooms || this.searchData.rooms.value;
+      this.searchData.repair.value = repair || this.searchData.repair.value;
+      this.searchData.typeBuilding.value =
+        typeBuilding || this.searchData.typeBuilding.value;
+      this.searchData.typeGround.value =
+        typeGround || this.searchData.typeGround.value;
+      this.searchData.typeCommercy.value =
+        typeCommercy || this.searchData.typeCommercy.value;
+      this.eventListenObjects(kind);
     }
   }
 };
