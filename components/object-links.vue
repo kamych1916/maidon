@@ -100,42 +100,44 @@
           Коммерческая
         </h2>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=office'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=office'">
             Офисы
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=premisessFreeAppointment'">
+          <nuxt-link
+            :to="link + '/commercy?typeCommercy=premisessFreeAppointment'"
+          >
             Помещения свободного назначения
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=warehouse'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=warehouse'">
             Склады
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=service'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=service'">
             Сервисы
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=shop'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=shop'">
             Магазины
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=restaurant'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=restaurant'">
             Общепиты
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=sport'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=sport'">
             Спорткомплексы
           </nuxt-link>
         </h3>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link :to="link + '/commercy?object=salon'">
+          <nuxt-link :to="link + '/commercy?typeCommercy=salon'">
             Салоны
           </nuxt-link>
         </h3>

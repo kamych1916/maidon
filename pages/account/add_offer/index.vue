@@ -124,19 +124,53 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log(this.offerData);
-      if (this.offerData.offerPhothos.length < 4) {
+      for (let data in this.offerData.offerObject.inputs) {
+        if (this.offerData.offerObject.inputs[data] != null) {
+          this.offerData.offerObject.inputs[data].value = parseInt(
+            Number(this.offerData.offerObject.inputs[data].value)
+          );
+        }
+      }
+      if (
+        this.offerData.offerPhothos.length >= 4 &&
+        this.offerData.offerPhothos.length <= 20
+      ) {
+        Api.getInstance()
+          .offer.send_offer_data(this.offerData)
+          .then(() => {
+            this.sendNTFS(
+              "Отлично!",
+              "Обьявление было добавлено успешно, ожидайте проверку модератором!",
+              "success"
+            );
+            setTimeout(() => {
+              this.$router.push("/");
+            }, 1500);
+          })
+          .catch(error => {
+            let status = error.response.status;
+            if (status == 409) {
+              this.sendNTFS(
+                "Ошибка",
+                "Подача обьявления имеет ошибку :(",
+                "error"
+              );
+            } else {
+              this.sendNTFS("Ошибка", "Системная ошибка :(", "error");
+            }
+          });
+      } else if (this.offerData.offerPhothos.length < 4) {
         this.sendNTFS(
           "Предупрждение!",
           "Количество фотографий должно быть минимум 4!",
           "warning"
         );
-      } else {
-        Api.getInstance()
-          .offer.send_offer_data(this.offerData)
-          .then(response => {
-            console.log("всё гуд -> ", response);
-          });
+      } else if (this.offerData.offerPhothos.length > 20) {
+        this.sendNTFS(
+          "Предупрждение!",
+          "Количество фотографий должно быть максимум 20!",
+          "warning"
+        );
       }
     },
     uploadPhoto(data) {

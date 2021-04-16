@@ -3,7 +3,7 @@
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
       <el-breadcrumb-item :to="item.path" v-for="(item, i) in crumbs" :key="i">
-        {{ item.name }}
+        {{ item.name || "" }}
       </el-breadcrumb-item>
     </el-breadcrumb>
   </div>

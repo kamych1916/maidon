@@ -29,7 +29,7 @@ export default class Api {
         }
       }
       // console.log(data);
-      // return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
+      return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
     // async get_sales_offers (deal, kind, type, object, repair) {
     //   return axios.get(`${API_BASE_URL}/get_sales_offers?deal=${deal}&kind=${kind}&type=${type}&object=${object}&repair=${repair}`)
