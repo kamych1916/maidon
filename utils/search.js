@@ -1,4 +1,3 @@
-import Api from "~/utils/api";
 export const search = {
   created() {
     let deal = this.$route.path.split("/")[1];
@@ -55,28 +54,6 @@ export const search = {
       this.param == "building"
         ? (this.title = "Арендовать здание в Таджикистане")
         : "";
-    }
-    this.get();
-  },
-  methods: {
-    get() {
-      let deal = this.$route.path.split("/")[1];
-      let kind = this.$route.path.split("/")[2];
-      let type =
-        Object.keys(this.$route.query).length > 0 ? this.$route.query.type : "";
-      let object =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.object
-          : "";
-      let repair =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.repair
-          : "";
-      // Api.getInstance()
-      //   .offer.get_sales_offers(deal, kind, type, object, repair)
-      //   .then(response => {
-      //     console.log("всё гуд -> ", response);
-      //   });
     }
   }
 };

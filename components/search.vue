@@ -154,7 +154,7 @@
         </div>
         <div class="col-xl-2 my-10">
           <button
-            @click="findOffers()"
+            @click="changePath()"
             class="el-button el-button--primary is-round py-16 w-100 "
           >
             Найти
@@ -374,11 +374,11 @@ export default {
   data() {
     return {
       isAccorActive: true,
-      repair: true,
-      rooms: true,
-      typeBuilding: true,
-      typeGround: true,
-      typeCommercy: true,
+      repair: false,
+      rooms: false,
+      typeBuilding: false,
+      typeGround: false,
+      typeCommercy: false,
       searchData: cleanSearchData
     };
   },
@@ -390,11 +390,17 @@ export default {
     }
     this.checkQuery();
   },
+  watch: {
+    $route(to, from) {
+      if (to !== from) {
+        this.checkQuery();
+      }
+    }
+  },
   methods: {
-    findOffers() {
+    changePath() {
       let url = "/";
       let queryData = {};
-      for (var member in queryData) delete queryData[member];
       let data = this.searchData;
 
       if (data.deals.value == "buy") {
@@ -574,13 +580,14 @@ export default {
         typeCommercy || this.searchData.typeCommercy.value;
       this.eventListenObjects(kind);
 
+      let objCopy = JSON.parse(JSON.stringify(this.searchData));
       Api.getInstance()
-        .offer.get_offers(this.searchData)
+        .offer.get_offers(objCopy)
         .then(response => {
-          console.log(response);
+          console.log("get_offers-> ", response);
         })
         .catch(error => {
-          console.log(error);
+          console.log("get_offers-> ", error);
         });
     }
   }

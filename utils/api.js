@@ -19,15 +19,17 @@ export default class Api {
 
   offer = {
     async get_offers(data) {
-      return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
-      // for (let prop in data) {
-      // console.log(Object.keys(data[prop]) ? "kek" : "lol");
-      // if (data[prop] == null) {
-      // delete data[prop];
-      // }
-      // delete prop.options;
-      // }
-      // return "";
+      for (let prop in data) {
+        delete data[prop].options;
+        if (data[prop].value == "") {
+          delete data[prop];
+        }
+        if (data[prop] == "") {
+          delete data[prop];
+        }
+      }
+      // console.log(data);
+      // return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
     // async get_sales_offers (deal, kind, type, object, repair) {
     //   return axios.get(`${API_BASE_URL}/get_sales_offers?deal=${deal}&kind=${kind}&type=${type}&object=${object}&repair=${repair}`)
