@@ -2,15 +2,17 @@
   <div class="col-md-12">
     <div class="row">
       <div class="col-md-4 mt-30">
-        <div class="wrap-img h-100">
-          <span class="title-img ">Жилые комплексы</span>
-          <img
-            src="/images/flatmy-newBuildings.jpg"
-            style="object-fit: cover; "
-            width="100%"
-            height="100%"
-          />
-        </div>
+        <nuxt-link to="/">
+          <div class="wrap-img h-100">
+            <span class="title-img ">Жилые комплексы</span>
+            <img
+              src="/images/flatmy-newBuildings.jpg"
+              style="object-fit: cover; "
+              width="100%"
+              height="100%"
+            />
+          </div>
+        </nuxt-link>
       </div>
       <div class="col-md-8 ">
         <div class="row mt-30">
@@ -27,36 +29,42 @@
             </nuxt-link>
           </div>
           <div class="col d-flex">
-            <div class="wrap-img h-100">
-              <span class="title-img ">Аренда квартир</span>
-              <img
-                src="/images/flatmy-rent.jpg"
-                style="object-fit: cover; "
-                width="100%"
-              />
-            </div>
+            <nuxt-link to="/rent/apartment">
+              <div class="wrap-img h-100">
+                <span class="title-img ">Аренда квартир</span>
+                <img
+                  src="/images/flatmy-rent.jpg"
+                  style="object-fit: cover; "
+                  width="100%"
+                />
+              </div>
+            </nuxt-link>
           </div>
         </div>
         <div class="row mt-30">
           <div class="col d-flex">
-            <div class="wrap-img h-100">
-              <span class="title-img ">Коммерческая</span>
-              <img
-                src="/images/flatmy-office.jpg"
-                style="object-fit: cover; "
-                width="100%"
-              />
-            </div>
+            <nuxt-link to="/buy/commercy">
+              <div class="wrap-img h-100">
+                <span class="title-img ">Коммерческая</span>
+                <img
+                  src="/images/flatmy-office.jpg"
+                  style="object-fit: cover; "
+                  width="100%"
+                />
+              </div>
+            </nuxt-link>
           </div>
           <div class="col d-flex">
-            <div class="wrap-img h-100">
-              <span class="title-img ">Аренда домов</span>
-              <img
-                src="/images/flatmy-home.jpg"
-                style="object-fit: cover; "
-                width="100%"
-              />
-            </div>
+            <nuxt-link to="/rent/house">
+              <div class="wrap-img h-100">
+                <span class="title-img ">Аренда домов</span>
+                <img
+                  src="/images/flatmy-home.jpg"
+                  style="object-fit: cover; "
+                  width="100%"
+                />
+              </div>
+            </nuxt-link>
           </div>
         </div>
       </div>
