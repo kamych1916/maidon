@@ -53,7 +53,7 @@
         <div>
           <i
             style="font-size: 70px; opacity: 0.3; line-height: 0"
-            class="bi bi-cloud-arrow-up-fill text-center"
+            class="bi bi-cloud-arrow-up-fill "
           ></i
           ><br />
           добавить фото

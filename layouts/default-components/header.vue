@@ -32,24 +32,24 @@ import Api from "~/utils/api";
 export default {
   methods: {
     checkAccess(data) {
-      Api.getInstance()
-        .auth.checkAccess()
-        .then(response => {
-          if (data == "account") {
-            response.data == true
-              ? this.$router.push("/account")
-              : this.$router.push("/account/login");
-          } else {
-            response.data == true
-              ? this.$router.push("/account/add_offer")
-              : this.$router.push("/account/login");
-          }
-        });
-      // if (data == "account") {
-      //   this.$router.push("/account/login");
-      // } else {
-      //   this.$router.push("/account/add_offer");
-      // }
+      // Api.getInstance()
+      //   .auth.checkAccess()
+      //   .then(response => {
+      //     if (data == "account") {
+      //       response.data == true
+      //         ? this.$router.push("/account")
+      //         : this.$router.push("/account/login");
+      //     } else {
+      //       response.data == true
+      //         ? this.$router.push("/account/add_offer")
+      //         : this.$router.push("/account/login");
+      //     }
+      //   });
+      if (data == "account") {
+        this.$router.push("/account/login");
+      } else {
+        this.$router.push("/account/add_offer");
+      }
     }
   }
 };
