@@ -4,9 +4,11 @@
       <div>
         <Breadcrumbs />
       </div>
-      <div><Search :title="title" /></div>
+      <div><Search @uploadOffers="uploadOffers" :title="title" /></div>
     </div>
-    <div class="card-wrap">test</div>
+    <div>
+      <OffersList :offerData="offerData" />
+    </div>
   </div>
 </template>
 
@@ -17,8 +19,14 @@ export default {
   data() {
     return {
       param: this.$route.params.realtyType,
-      title: null
+      title: null,
+      offerData: null
     };
+  },
+  methods: {
+    uploadOffers(data) {
+      this.offerData = data.offersList;
+    }
   }
 };
 </script>

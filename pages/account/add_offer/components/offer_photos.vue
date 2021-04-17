@@ -169,8 +169,8 @@ export default {
     opacity: 0;
     z-index: 10;
     cursor: pointer;
-    height: 100%;
-    width: 100%;
+    height: 100% !important;
+    width: 100% !important;
     position: absolute;
   }
 }

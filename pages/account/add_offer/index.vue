@@ -24,6 +24,7 @@
           </div>
         </div>
         <div v-if="accessToForm">
+          <!-- <div> -->
           <div class="row">
             <div class="col-md-6 mt-30">
               <OfferObject
@@ -131,12 +132,43 @@ export default {
           );
         }
       }
+      let objCopy = JSON.parse(JSON.stringify(this.offerData));
+      let data = objCopy;
+      for (let prop in data.offerObject) {
+        for (let i in data.offerObject[prop]) {
+          if (data.offerObject[prop][i] == null) {
+            delete data.offerObject[prop][i];
+          }
+        }
+        for (let s in data.offerObject[prop]) {
+          if (data.offerObject[prop][s] == null) {
+            delete data.offerObject[prop][s];
+          } else {
+            delete data.offerObject[prop][s].data;
+          }
+        }
+      }
+      for (let prop in data.offerPrice) {
+        for (let i in data.offerPrice[prop]) {
+          if (data.offerPrice[prop][i] == null) {
+            delete data.offerPrice[prop][i];
+          }
+        }
+        for (let s in data.offerPrice[prop]) {
+          if (data.offerPrice[prop][s] == null) {
+            delete data.offerPrice[prop][s];
+          } else {
+            delete data.offerPrice[prop][s].data;
+          }
+        }
+      }
       if (
         this.offerData.offerPhothos.length >= 4 &&
         this.offerData.offerPhothos.length <= 20
       ) {
+        console.log(data);
         Api.getInstance()
-          .offer.send_offer_data(this.offerData)
+          .offer.send_offer_data(data)
           .then(() => {
             this.sendNTFS(
               "Отлично!",

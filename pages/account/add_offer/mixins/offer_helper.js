@@ -66,7 +66,8 @@ export default class Helper {
             ground_type:
               object_living == "ground" || object_living == "house"
                 ? ground_type_data
-                : null
+                : null,
+            cities: cities_data
           }
         },
         price: {
@@ -141,6 +142,273 @@ const floors_building_data = {
   value: null,
   min: 1,
   max: 100
+};
+
+const cities_data = {
+  title: "Выберите город",
+  value: "dushanbe",
+  data: [
+    {
+      value: "dushanbe",
+      label: "Душанбе"
+    },
+    {
+      value: "Hudzhand",
+      label: "Худжанд"
+    },
+    {
+      value: "AburahmoniDzhomi",
+      label: "Абдурахмони Джоми"
+    },
+    {
+      value: "Aini",
+      label: "Айни"
+    },
+    {
+      value: "Asht",
+      label: "Ашт"
+    },
+    {
+      value: "Baldzhuvan",
+      label: "Бальджуван"
+    },
+    {
+      value: "BobdjonGafurov",
+      label: "Бободжон Гафуров"
+    },
+    {
+      value: "Bohtar",
+      label: "Бохтар (Курган-Тюбе)"
+    },
+    {
+      value: "Buston",
+      label: "Бустон (Чкаловск)"
+    },
+    {
+      value: "Vanzh",
+      label: "Вандж"
+    },
+    {
+      value: "Varzob",
+      label: "Варзоб"
+    },
+    {
+      value: "Vahdat",
+      label: "Вахдат"
+    },
+    {
+      value: "Vash",
+      label: "Вахш"
+    },
+    {
+      value: "Vose",
+      label: "Восе"
+    },
+    {
+      value: "Gissar",
+      label: "Гиссар"
+    },
+    {
+      value: "GornayaMatcha",
+      label: "Горная Матча"
+    },
+    {
+      value: "Guliston",
+      label: "Гулистон (Кайраккум)"
+    },
+    {
+      value: "Dangara",
+      label: "Дангара"
+    },
+    {
+      value: "Devashtich",
+      label: "Деваштич (Ганчи)"
+    },
+    {
+      value: "DzhaborRasulov",
+      label: "Джаббор Расулов"
+    },
+    {
+      value: "Dzhaihun",
+      label: "Джайхун (Кумсангир)"
+    },
+    {
+      value: "DzhaloliddinaBalhi",
+      label: "Джалолиддина Балхи (Руми)"
+    },
+    {
+      value: "Dzhami",
+      label: "Джами"
+    },
+    {
+      value: "Dusti",
+      label: "Дусти (Джиликуль)"
+    },
+    {
+      value: "Zafarbad",
+      label: "Зафарабад"
+    },
+    {
+      value: "Istaravshan",
+      label: "Истаравшан"
+    },
+    {
+      value: "Istiklol",
+      label: "Истиклол"
+    },
+    {
+      value: "Isfara",
+      label: "Исфара"
+    },
+    {
+      value: "Ishkamshim",
+      label: "Ишкашим"
+    },
+    {
+      value: "Kabodien",
+      label: "Кабодиён"
+    },
+    {
+      value: "Kanibadam",
+      label: "Канибадам"
+    },
+    {
+      value: "Kulyab",
+      label: "Куляб"
+    },
+    {
+      value: "Kushonien",
+      label: "Кушониён (Бохтар)"
+    },
+    {
+      value: "Lahsh",
+      label: "Лахш (Джиргиталь)"
+    },
+    {
+      value: "Levakand",
+      label: "Леваканд (Сарбанд)"
+    },
+    {
+      value: "Matcha",
+      label: "Матча"
+    },
+    {
+      value: "Muminabad",
+      label: "Муминабад"
+    },
+    {
+      value: "Murgab",
+      label: "Мургаб"
+    },
+    {
+      value: "Nosiri Husrav",
+      label: "Носири Хусрав"
+    },
+    {
+      value: "Nurabad",
+      label: "Нурабад"
+    },
+    {
+      value: "Nurek",
+      label: "Нурек"
+    },
+    {
+      value: "Pendjakent",
+      label: "Пенджикент"
+    },
+    {
+      value: "Pyandzh",
+      label: "Пяндж"
+    },
+    {
+      value: "Rasht",
+      label: "Рашт"
+    },
+    {
+      value: "Rogun",
+      label: "Рогун"
+    },
+    {
+      value: "Roshtkala",
+      label: "Рошткала"
+    },
+    {
+      value: "Rudaki",
+      label: "Рудаки"
+    },
+    {
+      value: "Rushan",
+      label: "Рушан"
+    },
+    {
+      value: "Sangvor",
+      label: "Сангвор (Тавильдара)"
+    },
+    {
+      value: "Spitamen",
+      label: "Спитамен"
+    },
+    {
+      value: "Tadzhikabad",
+      label: "Таджикабад"
+    },
+    {
+      value: "Temurmalik",
+      label: "Темурмалик"
+    },
+    {
+      value: "Tursunzade",
+      label: "Турсунзаде"
+    },
+    {
+      value: "Faizabad",
+      label: "Файзабад"
+    },
+    {
+      value: "Farhor",
+      label: "Фархор"
+    },
+    {
+      value: "Hamadani",
+      label: "Хамадани"
+    },
+    {
+      value: "Hovaling",
+      label: "Ховалинг"
+    },
+    {
+      value: "Horog",
+      label: "Хорог"
+    },
+    {
+      value: "Huroson",
+      label: "Хуросон"
+    },
+    {
+      value: "ShamsiddinShohin",
+      label: "Шамсиддин Шохин (Шуроабад)"
+    },
+    {
+      value: "Shahrinav",
+      label: "Шахринав"
+    },
+    {
+      value: "Shariston",
+      label: "Шахристон"
+    },
+    {
+      value: "Shahritus",
+      label: "Шахритус"
+    },
+    {
+      value: "Shugan",
+      label: "Шугнан"
+    },
+    {
+      value: "Yavan",
+      label: "Яван"
+    }
+  ]
 };
 
 const office_type_data = {

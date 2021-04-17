@@ -127,6 +127,21 @@
             </el-option>
           </el-select>
         </div>
+        <div class="col-xl-4 my-10">
+          <el-select
+            class="w-100"
+            v-model="searchData.cities.value"
+            placeholder="Выберите город"
+          >
+            <el-option
+              v-for="item in searchData.cities.options"
+              :key="item.value"
+              :label="item.label"
+              :value="item.value"
+            >
+            </el-option>
+          </el-select>
+        </div>
         <div class="col-xl-4 flex-fill d-flex my-10">
           <el-input
             v-model="searchData.address"
@@ -367,6 +382,271 @@ const cleanSearchData = {
         label: "Спорткомплекс"
       }
     ]
+  },
+  cities: {
+    value: "",
+    options: [
+      {
+        value: "dushanbe",
+        label: "Душанбе"
+      },
+      {
+        value: "Hudzhand",
+        label: "Худжанд"
+      },
+      {
+        value: "AburahmoniDzhomi",
+        label: "Абдурахмони Джоми"
+      },
+      {
+        value: "Aini",
+        label: "Айни"
+      },
+      {
+        value: "Asht",
+        label: "Ашт"
+      },
+      {
+        value: "Baldzhuvan",
+        label: "Бальджуван"
+      },
+      {
+        value: "BobdjonGafurov",
+        label: "Бободжон Гафуров"
+      },
+      {
+        value: "Bohtar",
+        label: "Бохтар (Курган-Тюбе)"
+      },
+      {
+        value: "Buston",
+        label: "Бустон (Чкаловск)"
+      },
+      {
+        value: "Vanzh",
+        label: "Вандж"
+      },
+      {
+        value: "Varzob",
+        label: "Варзоб"
+      },
+      {
+        value: "Vahdat",
+        label: "Вахдат"
+      },
+      {
+        value: "Vash",
+        label: "Вахш"
+      },
+      {
+        value: "Vose",
+        label: "Восе"
+      },
+      {
+        value: "Gissar",
+        label: "Гиссар"
+      },
+      {
+        value: "GornayaMatcha",
+        label: "Горная Матча"
+      },
+      {
+        value: "Guliston",
+        label: "Гулистон (Кайраккум)"
+      },
+      {
+        value: "Dangara",
+        label: "Дангара"
+      },
+      {
+        value: "Devashtich",
+        label: "Деваштич (Ганчи)"
+      },
+      {
+        value: "DzhaborRasulov",
+        label: "Джаббор Расулов"
+      },
+      {
+        value: "Dzhaihun",
+        label: "Джайхун (Кумсангир)"
+      },
+      {
+        value: "DzhaloliddinaBalhi",
+        label: "Джалолиддина Балхи (Руми)"
+      },
+      {
+        value: "Dzhami",
+        label: "Джами"
+      },
+      {
+        value: "Dusti",
+        label: "Дусти (Джиликуль)"
+      },
+      {
+        value: "Zafarbad",
+        label: "Зафарабад"
+      },
+      {
+        value: "Istaravshan",
+        label: "Истаравшан"
+      },
+      {
+        value: "Istiklol",
+        label: "Истиклол"
+      },
+      {
+        value: "Isfara",
+        label: "Исфара"
+      },
+      {
+        value: "Ishkamshim",
+        label: "Ишкашим"
+      },
+      {
+        value: "Kabodien",
+        label: "Кабодиён"
+      },
+      {
+        value: "Kanibadam",
+        label: "Канибадам"
+      },
+      {
+        value: "Kulyab",
+        label: "Куляб"
+      },
+      {
+        value: "Kushonien",
+        label: "Кушониён (Бохтар)"
+      },
+      {
+        value: "Lahsh",
+        label: "Лахш (Джиргиталь)"
+      },
+      {
+        value: "Levakand",
+        label: "Леваканд (Сарбанд)"
+      },
+      {
+        value: "Matcha",
+        label: "Матча"
+      },
+      {
+        value: "Muminabad",
+        label: "Муминабад"
+      },
+      {
+        value: "Murgab",
+        label: "Мургаб"
+      },
+      {
+        value: "Nosiri Husrav",
+        label: "Носири Хусрав"
+      },
+      {
+        value: "Nurabad",
+        label: "Нурабад"
+      },
+      {
+        value: "Nurek",
+        label: "Нурек"
+      },
+      {
+        value: "Pendjakent",
+        label: "Пенджикент"
+      },
+      {
+        value: "Pyandzh",
+        label: "Пяндж"
+      },
+      {
+        value: "Rasht",
+        label: "Рашт"
+      },
+      {
+        value: "Rogun",
+        label: "Рогун"
+      },
+      {
+        value: "Roshtkala",
+        label: "Рошткала"
+      },
+      {
+        value: "Rudaki",
+        label: "Рудаки"
+      },
+      {
+        value: "Rushan",
+        label: "Рушан"
+      },
+      {
+        value: "Sangvor",
+        label: "Сангвор (Тавильдара)"
+      },
+      {
+        value: "Spitamen",
+        label: "Спитамен"
+      },
+      {
+        value: "Tadzhikabad",
+        label: "Таджикабад"
+      },
+      {
+        value: "Temurmalik",
+        label: "Темурмалик"
+      },
+      {
+        value: "Tursunzade",
+        label: "Турсунзаде"
+      },
+      {
+        value: "Faizabad",
+        label: "Файзабад"
+      },
+      {
+        value: "Farhor",
+        label: "Фархор"
+      },
+      {
+        value: "Hamadani",
+        label: "Хамадани"
+      },
+      {
+        value: "Hovaling",
+        label: "Ховалинг"
+      },
+      {
+        value: "Horog",
+        label: "Хорог"
+      },
+      {
+        value: "Huroson",
+        label: "Хуросон"
+      },
+      {
+        value: "ShamsiddinShohin",
+        label: "Шамсиддин Шохин (Шуроабад)"
+      },
+      {
+        value: "Shahrinav",
+        label: "Шахринав"
+      },
+      {
+        value: "Shariston",
+        label: "Шахристон"
+      },
+      {
+        value: "Shahritus",
+        label: "Шахритус"
+      },
+      {
+        value: "Shugan",
+        label: "Шугнан"
+      },
+      {
+        value: "Yavan",
+        label: "Яван"
+      }
+    ]
   }
 };
 export default {
@@ -424,37 +704,35 @@ export default {
       } else if (data.objects.value == "building") {
         url = url + "building";
       }
+      data.rooms.value ? (queryData.rooms = data.rooms.value) : null;
 
-      if (data.rooms.value) {
-        queryData.rooms = data.rooms.value;
-      }
-      if (data.repair.value) {
-        queryData.repair = data.repair.value;
-      }
-      if (data.typeBuilding.value) {
-        queryData.typeBuilding = data.typeBuilding.value;
-      }
-      if (data.typeGround.value) {
-        queryData.typeGround = data.typeGround.value;
-      }
-      if (data.typeCommercy.value) {
-        queryData.typeCommercy = data.typeCommercy.value;
-      }
-      if (data.address) {
-        queryData.address = data.address;
-      }
-      if (data.sizeFrom) {
-        queryData.sizeFrom = data.sizeFrom;
-      }
-      if (data.sizeTo) {
-        queryData.sizeTo = data.sizeTo;
-      }
-      if (data.priceFrom) {
-        queryData.priceFrom = data.priceFrom;
-      }
-      if (data.priceTo) {
-        queryData.priceTo = data.priceTo;
-      }
+      data.repair.value ? (queryData.repair = data.repair.value) : null;
+
+      data.typeBuilding.value
+        ? (queryData.typeBuilding = data.typeBuilding.value)
+        : null;
+
+      data.typeGround.value
+        ? (queryData.typeGround = data.typeGround.value)
+        : null;
+
+      data.typeCommercy.value
+        ? (queryData.typeCommercy = data.typeCommercy.value)
+        : null;
+
+      data.cities.value ? (queryData.city = data.cities.value) : null;
+
+      data.address ? (queryData.address = data.address) : null;
+
+      data.address ? (queryData.address = data.address) : null;
+
+      data.sizeFrom ? (queryData.sizeFrom = data.sizeFrom) : null;
+
+      data.sizeTo ? (queryData.sizeTo = data.sizeTo) : null;
+
+      data.priceFrom ? (queryData.priceFrom = data.priceFrom) : null;
+
+      data.priceTo ? (queryData.priceTo = data.priceTo) : null;
 
       this.$router.push({
         path: url,
@@ -510,6 +788,7 @@ export default {
       this.searchData.typeBuilding.value = "";
       this.searchData.typeGround.value = "";
       this.searchData.typeCommercy.value = "";
+      this.searchData.cities.value = "";
       this.searchData.address = "";
       this.searchData.sizeFrom = "";
       this.searchData.sizeTo = "";
@@ -561,6 +840,8 @@ export default {
         Object.keys(this.$route.query).length > 0
           ? this.$route.query.priceTo
           : "";
+      let city =
+        Object.keys(this.$route.query).length > 0 ? this.$route.query.city : "";
 
       this.searchData.address = address || this.searchData.address;
       this.searchData.sizeFrom = sizeFrom || this.searchData.sizeFrom;
@@ -568,6 +849,7 @@ export default {
       this.searchData.priceFrom = priceFrom || this.searchData.priceFrom;
       this.searchData.priceTo = priceTo || this.searchData.priceTo;
 
+      this.searchData.cities.value = city || this.searchData.cities.value;
       this.searchData.deals.value = deal || this.searchData.deals.value;
       this.searchData.objects.value = kind || this.searchData.objects.value;
       this.searchData.rooms.value = rooms || this.searchData.rooms.value;
@@ -584,7 +866,10 @@ export default {
       Api.getInstance()
         .offer.get_offers(objCopy)
         .then(response => {
-          console.log("get_offers-> ", response);
+          console.log("get_offers-> ", response.data);
+          this.$emit("uploadOffers", {
+            offersList: response.data
+          });
         })
         .catch(error => {
           console.log("get_offers-> ", error);
