@@ -4,11 +4,22 @@ export default {
 
   // Global page headers (https://go.nuxtjs.dev/config-head)
   head: {
-    title: "to-do-nuxt",
+    title:
+      "Maidon - сайт недвижимости Таджикистана | Продажа, аренда квартир и другой недвижимости",
     meta: [
       { charset: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { hid: "description", name: "description", content: "" }
+      { name: "robots", content: "index, follow" },
+      {
+        name: "description",
+        content:
+          "Maidon - сайт недвижисоти об аренде и продаже недвижимости в Таджикистане. Описание объектов, фото, контакты продавца."
+      },
+      {
+        name: "keywords",
+        content:
+          "майдон, maidon, циан, cian, недвижимость, аренда, продажа, купить, снять, квартиры, дома, новостройки в Таджикистане, купить недвижимость в Таджикистане"
+      }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
   },

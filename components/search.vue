@@ -5,16 +5,18 @@
       <i class="bi bi-map ml-10 p-0"></i>
     </button>
     <h1 class="fs-28 my-20">{{ title }}</h1>
-    <div class="collapse-btn " :class="[isAccorActive ? 'active' : '']">
+    <div class="collapse-btn" :class="[isAccorActive ? 'active' : '']">
       <button
-        class="el-button el-button--primary is-round py-10 d-flex justify-content-between"
+        class="el-button el-button--primary py-10 d-flex justify-content-between"
         @click="openAccor()"
+        style="border-radius: 25px"
       >
         фильтры
         <i class="el-icon-arrow-down ml-10 px-0"></i>
       </button>
       <button
-        class="el-button el-button--success is-round py-10 d-flex justify-content-between"
+        class="el-button el-button--success  py-10 d-flex justify-content-between"
+        style="border-radius: 25px"
       >
         на карте
         <i class="bi bi-map ml-10 px-0"></i>
@@ -843,11 +845,15 @@ export default {
       let city =
         Object.keys(this.$route.query).length > 0 ? this.$route.query.city : "";
 
+      let page =
+        Object.keys(this.$route.query).length > 0 ? this.$route.query.page : "";
+
       this.searchData.address = address || this.searchData.address;
       this.searchData.sizeFrom = sizeFrom || this.searchData.sizeFrom;
       this.searchData.sizeTo = sizeTo || this.searchData.sizeTo;
       this.searchData.priceFrom = priceFrom || this.searchData.priceFrom;
       this.searchData.priceTo = priceTo || this.searchData.priceTo;
+      this.searchData.page = page || this.searchData.page;
 
       this.searchData.cities.value = city || this.searchData.cities.value;
       this.searchData.deals.value = deal || this.searchData.deals.value;
@@ -868,7 +874,7 @@ export default {
         .then(response => {
           console.log("get_offers-> ", response.data);
           this.$emit("uploadOffers", {
-            offersList: response.data
+            data: response.data
           });
         })
         .catch(error => {

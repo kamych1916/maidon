@@ -11,12 +11,6 @@ export default class Api {
     return Api.instance;
   }
 
-  // lang = {
-  //   async GetLanguage(lang) {
-  //       return axios.get(`${API_BASE_URL}/get_language?language=${lang}`, )
-  //   },
-  // }
-
   offer = {
     async get_offers(data) {
       for (let prop in data) {
@@ -28,12 +22,8 @@ export default class Api {
           delete data[prop];
         }
       }
-      // console.log(data);
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
-    // async get_sales_offers (deal, kind, type, object, repair) {
-    //   return axios.get(`${API_BASE_URL}/get_sales_offers?deal=${deal}&kind=${kind}&type=${type}&object=${object}&repair=${repair}`)
-    // },
     async get_address(userData) {
       return axios.post(`${API_BASE_URL}/offer_geocoder_reverse`, userData);
     },

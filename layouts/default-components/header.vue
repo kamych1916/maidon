@@ -6,13 +6,13 @@
       <i class="bi bi-building mr-8"></i>
       <span>maidon</span>
     </nuxt-link>
-    <div class="events">
+    <div class="events d-flex">
       <a
         href="javascript:void(0);"
         @click="checkAccess('offer')"
         class="header-btn mx-10 py-12"
       >
-        <i class="bi bi-plus-circle ml-4"></i>
+        <i class="bi bi-plus-circle "></i>
         <span class="events-text ml-10">Добавить объявление</span>
       </a>
       <a
@@ -20,7 +20,7 @@
         @click="checkAccess('account')"
         class="header-btn mx-10 py-12"
       >
-        <i class="bi bi-person-circle mx-4"></i>
+        <i class="bi bi-person-circle "></i>
         <span class="events-text ml-10">Войти</span>
       </a>
     </div>
