@@ -4,7 +4,7 @@
   >
     <nuxt-link to="/" class="header-btn">
       <i class="bi bi-building mr-8"></i>
-      <span>maidon</span>
+      <span>Maidon</span>
     </nuxt-link>
     <div class="events d-flex">
       <a

@@ -7,11 +7,7 @@
           Вторичный рынок
         </h2>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link
-            :to="
-              link + '/apartment?typeBuilding=secondaryBuilding&rooms=oneroom'
-            "
-          >
+          <nuxt-link :to="link + '/apartment?typeBuilding=secondaryBuilding'">
             Квартиры
           </nuxt-link>
         </h3>
@@ -58,9 +54,7 @@
           Новостройки
         </h2>
         <h3 class="fs-14 fw-500 my-20">
-          <nuxt-link
-            :to="link + '/apartment?typeBuilding=newBuilding&rooms=oneroom'"
-          >
+          <nuxt-link :to="link + '/apartment?typeBuilding=newBuilding'">
             Квартиры
           </nuxt-link>
         </h3>

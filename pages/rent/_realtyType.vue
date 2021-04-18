@@ -24,8 +24,8 @@ export default {
     };
   },
   methods: {
-    uploadOffers(data) {
-      this.offerData = data;
+    uploadOffers(list) {
+      this.offerData = list.data;
     }
   }
 };

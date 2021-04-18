@@ -24,6 +24,9 @@ export default class Api {
       }
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
+    async get_offer(data) {
+      return axios.get(`${API_BASE_URL}/offer/${data}`);
+    },
     async get_address(userData) {
       return axios.post(`${API_BASE_URL}/offer_geocoder_reverse`, userData);
     },

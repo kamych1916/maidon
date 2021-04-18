@@ -45,17 +45,20 @@
         class="box-upload my-20 d-flex align-items-center justify-content-center text-center"
       >
         <input
+          max-size="800"
           type="file"
           class="box-photo-input"
           accept="image/png, image/jpeg, image/jpg"
           @change="filesChange"
         />
         <div>
-          <i
-            style="font-size: 70px; opacity: 0.3; line-height: 0"
-            class="bi bi-cloud-arrow-up-fill "
-          ></i
-          ><br />
+          <div class="w-100 d-flex justify-content-center">
+            <i
+              style="font-size: 70px; opacity: 0.3; line-height: 0"
+              class="bi bi-cloud-arrow-up-fill "
+            >
+            </i>
+          </div>
           добавить фото
         </div>
       </div>
@@ -66,6 +69,7 @@
 <script>
 import draggable from "vuedraggable";
 import Api from "~/utils/api";
+import NTFS from "~/utils/notifications";
 
 export default {
   components: {
@@ -82,24 +86,33 @@ export default {
   methods: {
     filesChange(e) {
       const file = e.target.files[0];
+      console.log(file.size);
       if (file !== undefined) {
-        let url = URL.createObjectURL(file);
-        this.offerImgSrc.push({
-          imgSrc: url
-        });
-        this.offerPhothos.push({
-          imgName: file.name
-        });
-        const formData = new FormData();
-        formData.append("file", file);
-        Api.getInstance()
-          .offer.upload_file(formData)
-          .then(response => {
-            this.emitData();
-          })
-          .catch(error => {
-            console.log("upload_file-> ", error);
+        if (file.size > 1024 * 1024) {
+          this.sendNTFS(
+            "Предупрждение!",
+            "Размер фотографии не должно превышать одного мегабайт!",
+            "warning"
+          );
+        } else {
+          let url = URL.createObjectURL(file);
+          this.offerImgSrc.push({
+            imgSrc: url
           });
+          this.offerPhothos.push({
+            imgName: file.name
+          });
+          const formData = new FormData();
+          formData.append("file", file);
+          Api.getInstance()
+            .offer.upload_file(formData)
+            .then(response => {
+              this.emitData();
+            })
+            .catch(error => {
+              console.log("upload_file-> ", error);
+            });
+        }
       }
     },
 
@@ -107,6 +120,10 @@ export default {
       this.$emit("uploadPhoto", {
         offerPhothos: this.offerPhothos
       });
+    },
+
+    sendNTFS(title, message, type) {
+      NTFS.getInstance().NTFS(title, message, type);
     }
   }
 };

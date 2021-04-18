@@ -2,16 +2,48 @@
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }">Главная</el-breadcrumb-item>
-      <el-breadcrumb-item :to="item.path" v-for="(item, i) in crumbs" :key="i">
-        {{ item.name || "" }}
-      </el-breadcrumb-item>
+      <div v-if="!offerTitle">
+        <el-breadcrumb-item
+          :to="item.path"
+          v-for="(item, i) in crumbs"
+          :key="i"
+        >
+          {{ item.name || "" }}
+        </el-breadcrumb-item>
+      </div>
+      <div v-else>
+        <el-breadcrumb-item :to="{ path: '/' + params.dealPath }">
+          {{ params.deal }}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item
+          :to="{ path: '/' + params.dealPath + '/' + params.typePath }"
+        >
+          {{ params.type }}
+        </el-breadcrumb-item>
+        <el-breadcrumb-item>{{ offerTitle }}</el-breadcrumb-item>
+      </div>
     </el-breadcrumb>
   </div>
 </template>
 
 <script>
 export default {
+  props: {
+    offerTitle: {
+      type: String,
+      required: false,
+      default: null
+    }
+  },
   computed: {
+    params() {
+      const params = {};
+      params.dealPath = this.$route.path.split("/")[1];
+      params.deal = this.$i18n.t("route." + this.$route.path.split("/")[1]);
+      params.typePath = this.$route.path.split("/")[2];
+      params.type = this.$i18n.t("route." + this.$route.path.split("/")[2]);
+      return params;
+    },
     crumbs() {
       const crumbs = [];
       this.$route.matched.forEach((item, i, { length }) => {
@@ -31,7 +63,6 @@ export default {
             );
           }
         }
-
         crumbs.push(crumb);
       });
 
