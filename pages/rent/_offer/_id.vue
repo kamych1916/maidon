@@ -5,7 +5,7 @@
         <div class="col-lg">
           <Breadcrumbs :offerTitle="offerData.title" />
           <h1 class="mt-10" style="line-height: 1.2 !important;">
-            Купить {{ offerData.title }}
+            Снять {{ offerData.title }}
           </h1>
         </div>
         <div class="col-lg d-lg-flex justify-content-end">
@@ -15,6 +15,8 @@
           </div>
         </div>
       </div>
+
+      <!-- <h4>{{ offerData }}</h4> -->
     </div>
 
     <div class="row offer-inner" v-if="offerData">
@@ -52,33 +54,31 @@
             </slide>
           </hooper>
         </div>
-        <div class="card-wrap">
-          <div class="p-10">
-            <h1>Описание</h1>
-            <span style="white-space: pre-wrap;">
-              {{ offerData.offerDescription }}
-            </span>
-          </div>
-        </div>
       </div>
       <div class="col-lg-4" sticky-container>
         <div class="card-wrap" v-sticky>
           <div class="text-blue fs-28">
-            {{ offerData.offer_price.price.toLocaleString("ru") }} сомони
+            {{ offerData.offer_price.price_mounth }} сомони в месяц
           </div>
-          <div class="text-grey fs-14">
-            {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
-          </div>
-          <div class="mt-10">
-            Тип продажи -
-            <span style="text-transform:lowercase" class="text-blue">
-              {{ offerData.offer_price.type_sell }}
+          <div class="mt-10" v-if="offerData.offer_price.deposit">
+            Залог -
+            <span class="text-blue">
+              {{ offerData.offer_price.deposit }} сомони
             </span>
           </div>
-          <div class="mt-10" v-if="offerData.offer_price.percentageTransaction">
-            Процент от сделки агенту -
+          <div class="mt-10" v-else>
+            Без залога
+          </div>
+          <div class="mt-10">
+            Предоплата -
+            <span class="text-blue">
+              {{ offerData.offer_price.prepayment }}
+            </span>
+          </div>
+          <div class="mt-10">
+            Состав съемщиков -
             <span style="text-transform:lowercase" class="text-blue">
-              {{ offerData.offer_price.percentageTransaction }}%
+              {{ offerData.offer_price.for_who }}
             </span>
           </div>
         </div>
@@ -92,6 +92,7 @@ import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
 import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
+
 export default {
   components: {
     Hooper,
@@ -104,7 +105,6 @@ export default {
       offerData: null
     };
   },
-
   mounted() {
     if (this.offerId) {
       Api.getInstance()

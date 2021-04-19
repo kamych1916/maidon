@@ -3,13 +3,14 @@
 // Цвета
 $white: white;
 $light-gray: #9495a6;
+$blue: #409eff;
 
 // Размеры контейнера
 $container-max-widths: (
   sm: 540px,
   md: 720px,
   lg: 960px,
-  xl: 1320px,
+  xl: 1320px
 );
 
 $spacer: 1rem !default;
@@ -47,7 +48,7 @@ $spacers: (
   60: 60px,
   70: 60px,
   80: 60px,
-  100: 100px,
+  100: 100px
 );
 
 // This variable affects the `.h-*` and `.w-*` classes.
@@ -58,7 +59,7 @@ $sizes: map-merge(
     50: 50%,
     75: 75%,
     100: 100%,
-    auto: auto,
+    auto: auto
   ),
   $sizes
 );
@@ -73,7 +74,8 @@ $grid-row-columns: 6 !default;
 
 // Настройка типографии
 
-$font-stack: "Montserrat", "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$font-stack: "Montserrat", "Roboto", "Helvetica Neue", Helvetica, Arial,
+  sans-serif;
 $font-family-base: $font-stack;
 $font-size-base: 1rem;
 

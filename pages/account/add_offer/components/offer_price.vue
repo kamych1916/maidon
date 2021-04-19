@@ -3,7 +3,7 @@
     <h4 class="mb-20 ml-12">Цена и условия сделки</h4>
     <div v-for="(input, idi) of offerPrice.inputs" :key="idi">
       <div v-if="input" class="row mx-0 w-100">
-        <div class="col-md-6 my-10" v-if="input.title == 'Залог'">
+        <div class="col-xl-6 my-10" v-if="input.title == 'Залог'">
           {{ input.title }}
 
           <el-tooltip
@@ -29,7 +29,7 @@
             ></el-button>
           </el-tooltip>
         </div>
-        <div class="col-md-6 my-10" v-else-if="input.title == 'Цена'">
+        <div class="col-xl-6 my-10" v-else-if="input.title == 'Цена'">
           {{ input.title }}
           <el-tooltip
             class="item"
@@ -52,8 +52,8 @@
             ></el-button>
           </el-tooltip>
         </div>
-        <div class="col-md-6 my-10" v-else>{{ input.title }}</div>
-        <div class="col-md-6 my-10">
+        <div class="col-xl-6 my-10" v-else>{{ input.title }}</div>
+        <div class="col-xl-6 my-10">
           <div class="el-input el-input--suffix">
             <currency-input
               :max="100"
@@ -79,7 +79,7 @@
     </div>
     <div v-for="(select, ids) of offerPrice.selects" :key="ids">
       <div v-if="select" class="row mx-0 w-100">
-        <div class="col-md-6 my-10" v-if="select.title == 'Предоплата'">
+        <div class="col-xl-6 my-10" v-if="select.title == 'Предоплата'">
           {{ select.title }}
           <el-tooltip
             class="item"
@@ -101,8 +101,8 @@
             ></el-button>
           </el-tooltip>
         </div>
-        <div class="col-md-6 my-10" v-else>{{ select.title }}</div>
-        <div class="col-md-6 my-10">
+        <div class="col-xl-6 my-10" v-else>{{ select.title }}</div>
+        <div class="col-xl-6 my-10">
           <el-select class="w-100" v-model="select.value">
             <el-option
               v-for="item in select.data"

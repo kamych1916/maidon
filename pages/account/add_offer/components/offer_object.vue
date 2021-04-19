@@ -3,8 +3,8 @@
     <h4 class="mb-20 ml-12">Об объекте</h4>
     <div v-for="(input, idi) of offerObject.inputs" :key="idi">
       <div v-if="input" class="row mx-0 w-100">
-        <div class="col-md-6 my-10">{{ input.title }}</div>
-        <div class="col-md-6 my-10">
+        <div class="col-xl-6 my-10">{{ input.title }}</div>
+        <div class="col-xl-6 my-10">
           <el-input
             v-if="
               input.title == 'Площадь участка' ||
@@ -44,8 +44,8 @@
     </div>
     <div v-for="(select, ids) of offerObject.selects" :key="ids">
       <div class="row mx-0 w-100" v-if="select">
-        <div class="col-md-6 my-10">{{ select.title }}</div>
-        <div class="col-md-6 my-10">
+        <div class="col-xl-6 my-10">{{ select.title }}</div>
+        <div class="col-xl-6 my-10">
           <el-select class="w-100" v-model="select.value">
             <el-option
               v-for="item in select.data"

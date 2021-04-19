@@ -1,8 +1,8 @@
 <template>
   <div class="title-block">
     <div class="row d-flex justify-content-center">
-      <div class="col-md-5 title my-30">Ищи <br />на майдон</div>
-      <div class="col-md-4 my-30">
+      <div class="col-lg-5 title my-30">Ищи <br />на майдон</div>
+      <div class="col-lg-4 my-30">
         <div class="wrap-search">
           <el-select
             v-model="type_offer"

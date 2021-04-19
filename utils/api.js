@@ -1,5 +1,6 @@
 import axios from "axios";
 const API_BASE_URL = "https://mirllex.site/server/api/v1";
+const API_SERVICES_URL = "https://mirllex.site/services/api/v1";
 
 export default class Api {
   instance = null;
@@ -13,25 +14,16 @@ export default class Api {
 
   offer = {
     async get_offers(data) {
-      for (let prop in data) {
-        delete data[prop].options;
-        if (data[prop].value == "") {
-          delete data[prop];
-        }
-        if (data[prop] == "") {
-          delete data[prop];
-        }
-      }
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
     async get_offer(data) {
       return axios.get(`${API_BASE_URL}/offer/${data}`);
     },
     async get_address(userData) {
-      return axios.post(`${API_BASE_URL}/offer_geocoder_reverse`, userData);
+      return axios.post(`${API_SERVICES_URL}/offer_geocoder_reverse`, userData);
     },
     async get_marker(userData) {
-      return axios.post(`${API_BASE_URL}/offer_geocoder_geocode`, userData);
+      return axios.post(`${API_SERVICES_URL}/offer_geocoder_geocode`, userData);
     },
     async send_offer_data(offerData) {
       return axios.post(`${API_BASE_URL}/offer_place_an_ad`, offerData);
@@ -39,6 +31,7 @@ export default class Api {
     async upload_file(formData) {
       return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
         headers: {
+          location: "https://mirllex.site/services/api/v1/offer_uploadfile",
           "Content-Type": "multipart/form-data"
         }
       });

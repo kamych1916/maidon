@@ -1,6 +1,8 @@
 <template>
   <div class="search-wrap">
-    <button class="map-btn el-button el-button--success is-round py-10 ">
+    <button
+      class="map-btn d-none d-lg-block el-button el-button--success is-round py-10 "
+    >
       смотреть на карте
       <i class="bi bi-map ml-10 p-0"></i>
     </button>
@@ -24,7 +26,7 @@
     </div>
     <div class="search-filters">
       <div class="row gx-100">
-        <div class="col-xl-4 d-flex my-10 w-100 search-two-selects">
+        <div class="col-lg-4 d-flex my-10 w-100 search-two-selects">
           <el-select
             class="deal w-100"
             v-model="searchData.deals.value"
@@ -54,7 +56,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10" v-if="rooms">
+        <div class="col-lg-4 my-10" v-if="rooms">
           <el-select
             class="w-100"
             v-model="searchData.rooms.value"
@@ -69,7 +71,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10" v-if="repair">
+        <div class="col-lg-4 my-10" v-if="repair">
           <el-select
             class="w-100"
             v-model="searchData.repair.value"
@@ -84,7 +86,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10" v-if="typeBuilding">
+        <div class="col-lg-4 my-10" v-if="typeBuilding">
           <el-select
             class="w-100"
             v-model="searchData.typeBuilding.value"
@@ -99,7 +101,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10" v-if="typeGround">
+        <div class="col-lg-4 my-10" v-if="typeGround">
           <el-select
             class="w-100"
             v-model="searchData.typeGround.value"
@@ -114,7 +116,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10" v-if="typeCommercy">
+        <div class="col-lg-4 my-10" v-if="typeCommercy">
           <el-select
             class="w-100"
             v-model="searchData.typeCommercy.value"
@@ -129,7 +131,7 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 my-10">
+        <div class="col-lg-4 my-10">
           <el-select
             class="w-100"
             v-model="searchData.cities.value"
@@ -144,14 +146,14 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-xl-4 flex-fill d-flex my-10">
+        <div class="col-lg-4 flex-fill d-flex my-10">
           <el-input
             v-model="searchData.address"
             placeholder="Адрес"
             suffix-icon="bi bi-geo-alt-fill"
           ></el-input>
         </div>
-        <div class="col-xl-4 my-10 d-flex search-size">
+        <div class="col-lg-4 my-10 d-flex search-size">
           <el-input v-model="searchData.sizeFrom" class="from">
             <span slot="prefix">Площадь от</span>
           </el-input>
@@ -160,7 +162,7 @@
             <span slot="suffix">м<sup>2</sup></span>
           </el-input>
         </div>
-        <div class="col-xl-4 my-10 d-flex serach-price">
+        <div class="col-lg-4 my-10 d-flex serach-price">
           <el-input v-model="searchData.priceFrom" class="from">
             <span slot="prefix">Цена от</span>
           </el-input>
@@ -169,7 +171,7 @@
             <span slot="suffix">сомони</span>
           </el-input>
         </div>
-        <div class="col-xl-2 my-10">
+        <div class="col-lg-2 my-10">
           <button
             @click="changePath()"
             class="el-button el-button--primary is-round py-16 w-100 "
@@ -665,11 +667,7 @@ export default {
     };
   },
   mounted() {
-    if (window.screen.width < 1200) {
-      this.isAccorActive = false;
-    } else {
-      this.isAccorActive = true;
-    }
+    this.resizeFilters();
     this.checkQuery();
   },
   watch: {
@@ -869,6 +867,15 @@ export default {
       this.eventListenObjects(kind);
 
       let objCopy = JSON.parse(JSON.stringify(this.searchData));
+      for (let prop in objCopy) {
+        delete objCopy[prop].options;
+        if (objCopy[prop].value == "") {
+          delete objCopy[prop];
+        }
+        if (objCopy[prop] == "") {
+          delete objCopy[prop];
+        }
+      }
       Api.getInstance()
         .offer.get_offers(objCopy)
         .then(response => {
@@ -880,6 +887,13 @@ export default {
         .catch(error => {
           console.log("get_offers-> ", error);
         });
+    },
+    resizeFilters() {
+      if (window.screen.width < 992) {
+        this.isAccorActive = false;
+      } else {
+        this.isAccorActive = true;
+      }
     }
   }
 };
@@ -982,7 +996,7 @@ export default {
   }
 }
 
-@media (max-width: 1200px) {
+@media (max-width: 992px) {
   .search-wrap {
     .collapse-btn {
       display: flex;
@@ -996,9 +1010,6 @@ export default {
         padding: 5px 10px 5px 10px !important;
       }
     }
-  }
-  .map-btn {
-    display: none;
   }
 }
 </style>

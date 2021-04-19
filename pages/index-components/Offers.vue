@@ -1,10 +1,10 @@
 <template>
-  <div class="col-md-12">
+  <div class="col-lg-12">
     <div class="row">
-      <div class="col-md-4 mt-30">
+      <div class="col-lg-4 mt-30">
         <nuxt-link to="/">
           <div class="wrap-img h-100">
-            <span class="title-img ">Жилые комплексы</span>
+            <span class="title-img">Жилые комплексы</span>
             <img
               src="/images/flatmy-newBuildings.jpg"
               style="object-fit: cover; "
@@ -14,7 +14,7 @@
           </div>
         </nuxt-link>
       </div>
-      <div class="col-md-8 ">
+      <div class="col-lg-8 ">
         <div class="row mt-30">
           <div class="col d-flex">
             <nuxt-link to="/buy/apartment">
