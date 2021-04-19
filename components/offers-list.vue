@@ -5,14 +5,7 @@
       v-for="(item, index) in offerData.list_offers"
       :key="index"
     >
-      <div
-        class="row"
-        v-loading="
-          loadedList.some(el =>
-            offerData.list_offers.length * 7 == loadedList.length ? false : true
-          )
-        "
-      >
+      <div class="row">
         <div class="col-lg-4 w-100 mt-10">
           <hooper>
             <slide v-for="(img, index) in item.images" :key="index">
@@ -20,7 +13,6 @@
                 draggable="false"
                 class="w-100 h-100 border-rad-10"
                 :src="img.imgName"
-                @load="loadedList.push(true)"
                 fit="cover"
               ></el-image>
             </slide>
@@ -32,7 +24,6 @@
                 class="border-rad-5 w-100"
                 style="height: 80px"
                 :src="item.images[1].imgName"
-                @load="loadedList.push(true)"
                 fit="cover"
               ></el-image>
             </div>
@@ -41,7 +32,6 @@
                 class="border-rad-5 w-100"
                 style="height: 80px"
                 :src="item.images[2].imgName"
-                @load="loadedList.push(true)"
                 fit="cover"
               ></el-image>
             </div>
@@ -49,7 +39,6 @@
               <el-image
                 class="border-rad-5 w-100"
                 style="height: 80px"
-                @load="loadedList.push(true)"
                 :src="item.images[3].imgName"
                 fit="cover"
               ></el-image>
@@ -147,8 +136,7 @@ export default {
   },
   data() {
     return {
-      currentPath: this.$nuxt.$route.path,
-      loadedList: []
+      currentPath: this.$nuxt.$route.path
     };
   },
   methods: {
