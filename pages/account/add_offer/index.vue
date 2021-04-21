@@ -125,6 +125,8 @@ export default {
   },
   methods: {
     onSubmit() {
+
+      // Измение типа данных от input'ов - из String'а в Integer
       for (let data in this.offerData.offerObject.inputs) {
         if (this.offerData.offerObject.inputs[data] != null) {
           this.offerData.offerObject.inputs[data].value = parseInt(
@@ -134,6 +136,8 @@ export default {
       }
       let objCopy = JSON.parse(JSON.stringify(this.offerData));
       let data = objCopy;
+
+      // Удаление обьектов, которое не содержат в себе данные
       for (let prop in data.offerObject) {
         for (let i in data.offerObject[prop]) {
           if (data.offerObject[prop][i] == null) {
@@ -162,11 +166,18 @@ export default {
           }
         }
       }
+
+      // Удаление обьекта, которое содержит в себе url картинки
+      let photos = JSON.parse(JSON.stringify(this.offerData.offerPhothos));
+      photos.forEach((el, i) => {
+        delete photos[i].imgSrc;
+      });
+      data.offerPhothos = photos;
+
       if (
         this.offerData.offerPhothos.length >= 4 &&
         this.offerData.offerPhothos.length <= 20
       ) {
-        console.log(data);
         Api.getInstance()
           .offer.send_offer_data(data)
           .then(() => {

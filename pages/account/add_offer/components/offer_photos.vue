@@ -7,7 +7,6 @@
         &nbsp; - главная фотография
       </span>
     </div>
-
     <draggable
       :list="offerPhothos"
       :disabled="!enabled"
@@ -20,17 +19,13 @@
     >
       <div
         class="col-md-3 my-20 item"
-        v-for="(element, index) in offerImgSrc"
+        v-for="(element, index) in offerPhothos"
         :key="index"
       >
         <div :class="[index === 0 ? 'main' : '', 'box-photo']">
           <div
             class="delete"
-            @click="
-              offerImgSrc.splice(index, 1),
-                offerPhothos.splice(index, 1),
-                emitData()
-            "
+            @click="offerPhothos.splice(index, 1), emitData()"
           >
             <i class="bi bi-x-circle-fill"></i>
           </div>
@@ -78,7 +73,6 @@ export default {
   data() {
     return {
       offerPhothos: [],
-      offerImgSrc: [],
       enabled: true,
       dragging: false
     };
@@ -86,7 +80,6 @@ export default {
   methods: {
     filesChange(e) {
       const file = e.target.files[0];
-      console.log(file.size);
       if (file !== undefined) {
         if (file.size > 1024 * 1024) {
           this.sendNTFS(
@@ -96,10 +89,8 @@ export default {
           );
         } else {
           let url = URL.createObjectURL(file);
-          this.offerImgSrc.push({
-            imgSrc: url
-          });
           this.offerPhothos.push({
+            imgSrc: url,
             imgName: file.name
           });
           const formData = new FormData();

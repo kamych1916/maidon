@@ -29,9 +29,8 @@ export default class Api {
       return axios.post(`${API_BASE_URL}/offer_place_an_ad`, offerData);
     },
     async upload_file(formData) {
-      return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
+      return axios.post(`${API_BASE_URL}/offer_uploadfile/`, formData, {
         headers: {
-          location: "https://mirllex.site/services/api/v1/offer_uploadfile",
           "Content-Type": "multipart/form-data"
         }
       });
