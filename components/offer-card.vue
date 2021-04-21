@@ -188,7 +188,8 @@
           <div class="card-wrap" v-if="offerData.offer_price.deal == 'sell'">
             <div class="p-10">
               <div class="text-blue fs-28">
-                {{ offerData.offer_price.price.toLocaleString("ru") }} сомони
+                {{ offerData.offer_price.price.toLocaleString("ru") }}
+                <span class="fs-22">сомони</span>
               </div>
               <div class="text-grey fs-14">
                 {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
@@ -219,7 +220,7 @@
             <div class="p-10">
               <div class="text-blue fs-28">
                 {{ offerData.offer_price.price_mounth.toLocaleString("ru") }}
-                сомони в месяц
+                <span class="fs-22">сомони в месяц</span>
               </div>
               <div class="mt-10" v-if="offerData.offer_price.deposit">
                 Залог -
@@ -251,7 +252,7 @@
             <div class="p-10">
               <div class="text-blue fs-28">
                 {{ offerData.offer_price.price_day.toLocaleString("ru") }}
-                сомони в день
+                <span class="fs-22">сомони в день</span>
               </div>
               <div class="mt-10">
                 Состав съемщиков -
