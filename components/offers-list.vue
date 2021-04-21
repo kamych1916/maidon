@@ -158,17 +158,6 @@ export default {
 
 <style lang="scss">
 .offer {
-  .avatar {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border: 1px solid #f1f2f4;
-    background: #b9d7f7;
-    color: white;
-    border-radius: 4px;
-  }
   .hooper-prev {
     opacity: 0;
     transition: all 0.3s ease;

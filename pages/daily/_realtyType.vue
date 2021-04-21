@@ -4,7 +4,7 @@
       <div>
         <Breadcrumbs />
       </div>
-      <div><Search @uploadOffers="uploadOffers" :title="title" /></div>
+      <div><OfferSearch @uploadOffers="uploadOffers" :title="title" /></div>
     </div>
     <div>
       <OffersList :offerData="offerData" />

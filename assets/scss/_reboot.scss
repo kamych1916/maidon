@@ -37,6 +37,13 @@ body {
   border-radius: 5px !important;
 }
 
+.text-line-height {
+  line-height: 1;
+}
+.text-center {
+  text-align: center;
+}
+
 .text-grey {
   color: #c0c4cc;
 }
@@ -155,6 +162,18 @@ body {
       fill: white;
     }
   }
+}
+
+.avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border: 1px solid #f1f2f4;
+  background: #b9d7f7;
+  color: white;
+  border-radius: 4px;
 }
 
 @media (max-width: 1200px) {
