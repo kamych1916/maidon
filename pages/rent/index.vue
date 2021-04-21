@@ -10,7 +10,13 @@
 </template>
 
 <script>
-export default {};
+export default {
+  head() {
+    return {
+      title: "Снять недвижимость в Таджикистане"
+    };
+  }
+};
 </script>
 
 <style></style>

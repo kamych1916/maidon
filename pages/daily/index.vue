@@ -14,9 +14,9 @@
 
 <script>
 export default {
-  data() {
+  head() {
     return {
-      param: this.$route.params.realtyType
+      title: "Снять недвижимость посуточно в Таджикистане"
     };
   }
 };

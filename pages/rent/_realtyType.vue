@@ -15,6 +15,11 @@
 <script>
 import { search } from "~/utils/search";
 export default {
+  head() {
+    return {
+      title: this.title
+    };
+  },
   mixins: [search],
   data() {
     return {

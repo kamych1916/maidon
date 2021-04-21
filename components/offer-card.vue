@@ -1,4 +1,5 @@
 <template>
+  <!-- eslint-disable -->
   <div v-if="offerData" class="offer-card">
     <div class="card-wrap">
       <div class="row">
@@ -309,20 +310,25 @@ import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
 
 export default {
-  props: ["typeDeal"],
   components: {
     Hooper,
     Slide,
     HooperNavigation
   },
+  head() {
+    return {
+      title: this.whatTitle()
+    };
+  },
+  props: ["typeDeal"],
   data() {
     return {
       showTel: false,
       offerId: this.$route.params.id,
-      offerData: null
+      offerData: ""
     };
   },
-  mounted() {
+  created() {
     if (this.offerId) {
       console.log(this.offerId);
       Api.getInstance()
@@ -331,6 +337,19 @@ export default {
           this.offerData = response.data;
           console.log(this.offerData);
         });
+    }
+  },
+  methods: {
+    whatTitle() {
+      if (this.offerData) {
+        if (this.offerData.offer_price.deal == "rent_long") {
+          return "Снять " + this.offerData.title;
+        } else if (this.offerData.offer_price.deal == "sell") {
+          return "Купить " + this.offerData.title;
+        } else {
+          return "Посуточно " + this.offerData.title;
+        }
+      }
     }
   }
 };
