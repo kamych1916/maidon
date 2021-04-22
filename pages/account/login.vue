@@ -65,14 +65,19 @@ export default {
     };
   },
   methods: {
+    setCookie: function(cname, cvalue, exdays) {
+      var d = new Date();
+      d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+      var expires = "expires=" + d.toUTCString();
+      document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    },
     onSubmit() {
       Api.getInstance()
         .auth.login(this.userData)
         .then(response => {
+          this.setCookie("session_token", "kek", 1);
           this.sendNTFS("Отлично!", "Авторизация прошла успешно!", "success");
-          setTimeout(() => {
-            this.$router.push("/");
-          }, 1500);
+          this.$router.push("/account/profile");
         })
         .catch(error => {
           let status = error.response.status;

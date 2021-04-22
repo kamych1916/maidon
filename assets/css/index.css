@@ -20,6 +20,8 @@
 @import "element-ui/lib/theme-chalk/dialog.css";
 @import "element-ui/lib/theme-chalk/upload.css";
 @import "element-ui/lib/theme-chalk/pagination.css";
+@import "element-ui/lib/theme-chalk/tabs.css";
+@import "element-ui/lib/theme-chalk/popover.css";
 
 .card-wrap {
   padding: 30px;
