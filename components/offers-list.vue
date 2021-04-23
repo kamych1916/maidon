@@ -83,17 +83,35 @@
             <div>
               <div class="col mt-5 d-lg-flex justify-content-center">
                 <div class="avatar row">
-                  <i class="bi bi-briefcase fs-22" v-if="item.is_agent"></i>
-                  <i class="bi bi-person-check fs-22" v-else></i>
+                  <el-image
+                    draggable="false"
+                    class="w-100 h-100 border-rad-5"
+                    :src="item.user_avatar"
+                    fit="cover"
+                    v-if="item.user_avatar"
+                  ></el-image>
+                  <div v-else>
+                    <i class="bi bi-briefcase fs-22" v-if="item.is_agent"></i>
+                    <i class="bi bi-person-check fs-22" v-else></i>
+                  </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col mt-5 d-lg-flex justify-content-center">
-                  <span class="fs-12  ">{{ item.userInfo }}</span>
+                  <span class="fs-12">{{ item.userInfo }}</span>
                 </div>
               </div>
               <div class="row">
-                <div class="col mt-5 d-lg-flex justify-content-center">
+                <div
+                  class="col mt-5 d-lg-flex justify-content-center text-grey"
+                >
+                  <span class="fs-12" v-if="item.is_agent">собственник</span>
+                  <span class="fs-12" v-else>агент </span>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col my-5 d-lg-flex justify-content-center">
                   <span class="fs-12  ">{{ item.date }}</span>
                 </div>
               </div>

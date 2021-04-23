@@ -27,7 +27,8 @@
       <el-popover v-else width="160" class="mt-12" placement="top">
         <div>
           <div class="pb-10 w-100" style="border-bottom: 1px solid #ccc">
-            {{ readCookie("ui").surname }} {{ readCookie("ui").name }}
+            {{ readCookie("ui").name }}<br />
+            {{ readCookie("ui").surname }}
           </div>
           <nuxt-link to="/account/profile" class="w-100">
             <div class="w-100 my-10" to="/account/profile">
@@ -40,7 +41,7 @@
             </div>
           </nuxt-link>
           <div
-            class="py-10 w-100"
+            class="pt-10 w-100"
             style="border-top: 1px solid #ccc; cursor: pointer"
             @click="logOut()"
           >

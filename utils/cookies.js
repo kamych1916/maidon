@@ -24,7 +24,7 @@ export const cookiesEvents = {
       this.setCookie(cname, "", null);
     },
     readCookie(name) {
-      var result = document.cookie.match(new RegExp(name + "=([^;]+)"));
+      let result = document.cookie.match(new RegExp(name + "=([^;]+)"));
       result && (result = JSON.parse(result[1]));
       return result;
     }

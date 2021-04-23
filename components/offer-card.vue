@@ -288,11 +288,20 @@
                 </div>
                 <div class="col d-flex justify-content-end">
                   <div class="avatar">
-                    <i
-                      class="bi bi-briefcase fs-22"
-                      v-if="offerData.is_agent"
-                    ></i>
-                    <i class="bi bi-person-check fs-22" v-else></i>
+                    <el-image
+                      draggable="false"
+                      class="w-100 h-100 border-rad-5"
+                      :src="offerData.user_avatar"
+                      fit="cover"
+                      v-if="offerData.user_avatar"
+                    ></el-image>
+                    <div v-else>
+                      <i
+                        class="bi bi-briefcase fs-22"
+                        v-if="offerData.is_agent"
+                      ></i>
+                      <i class="bi bi-person-check fs-22" v-else></i>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -330,12 +339,10 @@ export default {
   },
   created() {
     if (this.offerId) {
-      console.log(this.offerId);
       Api.getInstance()
         .offer.get_offer(this.offerId)
         .then(response => {
           this.offerData = response.data;
-          console.log(this.offerData);
         });
     }
   },

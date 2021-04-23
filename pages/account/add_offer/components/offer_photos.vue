@@ -1,6 +1,6 @@
 <template>
   <div class="card-wrap">
-    <h4 draggable="true">Фотографии</h4>
+    <h4>Фотографии</h4>
     <div class="d-flex align-items-center mt-20" v-if="offerPhothos.length > 0">
       <div class="example-box-photo"></div>
       <span style="line-height: 0;">
@@ -29,7 +29,7 @@
           >
             <i class="bi bi-x-circle-fill"></i>
           </div>
-          <img :src="element.imgSrc" class="photo " />
+          <img :src="element.imgSrc" class="photo" />
         </div>
       </div>
       <div
@@ -67,12 +67,24 @@ import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
 
 export default {
+  props: {
+    putPhotos: {
+      type: Array,
+      required: false,
+      default: []
+    }
+  },
   components: {
     draggable
   },
+  watch: {
+    putPhotos(newVal, oldVal) {
+      if (newVal !== oldVal) this.offerPhothos = newVal;
+    }
+  },
   data() {
     return {
-      offerPhothos: [],
+      offerPhothos: this.putPhotos,
       enabled: true,
       dragging: false
     };

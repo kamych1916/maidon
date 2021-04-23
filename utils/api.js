@@ -29,7 +29,32 @@ export default class Api {
       return axios.post(`${API_BASE_URL}/offer_place_an_ad`, offerData);
     },
     async upload_file(formData) {
-      return axios.post(`${API_BASE_URL}/offer_uploadfile/`, formData, {
+      return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data"
+        }
+      });
+    }
+  };
+
+  account = {
+    async getOffers() {
+      return axios.get(`${API_BASE_URL}/get_user_offers`);
+    },
+    async patchInfo(data) {
+      return axios.post(`${API_BASE_URL}/patch_user`, data);
+    },
+    async patchPass(data) {
+      return axios.post(`${API_BASE_URL}/patch_pass`, data);
+    },
+    async delAvatar() {
+      return axios.delete(`${API_BASE_URL}/delete_user_avatar`);
+    },
+    async delOffer(data) {
+      return axios.post(`${API_BASE_URL}/delete_offer`, data);
+    },
+    async loadAvatar(formData) {
+      return axios.post(`${API_BASE_URL}/upload_user_avatar`, formData, {
         headers: {
           "Content-Type": "multipart/form-data"
         }

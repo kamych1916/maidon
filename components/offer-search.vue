@@ -879,7 +879,6 @@ export default {
       Api.getInstance()
         .offer.get_offers(objCopy)
         .then(response => {
-          console.log("get_offers-> ", response.data);
           this.$emit("uploadOffers", {
             data: response.data
           });
