@@ -76,6 +76,7 @@ export default {
         .auth.login(this.userData)
         .then(response => {
           this.setCookie("session_token", "kek", 1);
+          this.setCookie("ui", JSON.stringify(response.data), 1);
           this.sendNTFS("Отлично!", "Авторизация прошла успешно!", "success");
           this.$router.push("/account/profile");
         })

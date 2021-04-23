@@ -43,15 +43,6 @@
             <el-input
               class="mb-18"
               required
-              v-model="userData.patronymic"
-              clearable
-              name="patronomic"
-              placeholder="Отчество"
-              type="text"
-            ></el-input>
-            <el-input
-              class="mb-18"
-              required
               v-model="userData.tel"
               name="tel"
               clearable
@@ -107,17 +98,18 @@
 
 <script>
 import Tabs from "@/pages/account/components/tabs.vue";
+import { cookiesEvents } from "~/utils/cookies";
 export default {
+  mixins: [cookiesEvents],
   components: {
     Tabs
   },
   data() {
     return {
       userData: {
-        name: null,
-        surname: null,
-        patronymic: null,
-        tel: null
+        name: this.readCookie("ui").name,
+        surname: this.readCookie("ui").surname,
+        tel: this.readCookie("ui").tel
       },
       userPass: {
         last: null,

@@ -28,17 +28,6 @@
       <div class="form-group mb-18">
         <el-input
           required
-          v-model="userData.patronymic"
-          clearable
-          name="patronomic"
-          placeholder="Отчество"
-          type="text"
-        ></el-input>
-      </div>
-
-      <div class="form-group mb-18">
-        <el-input
-          required
           v-model="userData.tel"
           name="telephone"
           clearable
@@ -114,7 +103,6 @@ export default {
       userData: {
         name: null,
         surname: null,
-        patronymic: null,
         tel: null,
         email: null,
         password: null

@@ -27,7 +27,7 @@
       <el-popover v-else width="160" class="mt-12" placement="top">
         <div>
           <div class="pb-10 w-100" style="border-bottom: 1px solid #ccc">
-            Рахимов Камол
+            {{ readCookie("ui").surname }} {{ readCookie("ui").name }}
           </div>
           <nuxt-link to="/account/profile" class="w-100">
             <div class="w-100 my-10" to="/account/profile">
@@ -118,6 +118,7 @@ export default {
     },
     logOut() {
       this.delCookie("session_token");
+      this.delCookie("ui");
       this.isLogin = false;
       this.$router.push("/");
     }
