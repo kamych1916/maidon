@@ -33,12 +33,39 @@
                 >
                   добавить в топ
                 </button>
-                <button
-                  @click="dialogDel = true"
-                  class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5"
+                <el-popover
+                  width="260"
+                  class="mt-12"
+                  placement="top"
+                  :ref="'popover-' + el.id"
                 >
-                  удалить
-                </button>
+                  <div>
+                    <p>
+                      Вы уверены, что хотите <br />удалить данное объвление?
+                    </p>
+                    <div style="text-align: right; margin: 0">
+                      <el-button
+                        size="mini"
+                        type="text"
+                        @click="closePopover('popover-' + el.id)"
+                        >отмена</el-button
+                      >
+                      <el-button
+                        type="danger"
+                        size="mini"
+                        @click="delOffers(el)"
+                      >
+                        Да
+                      </el-button>
+                    </div>
+                  </div>
+                  <button
+                    slot="reference"
+                    class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5"
+                  >
+                    удалить
+                  </button>
+                </el-popover>
               </div>
             </div>
           </div>
@@ -126,30 +153,6 @@
             </form>
           </div>
         </div>
-        <el-dialog
-          title="Подтвердите действие"
-          :visible.sync="dialogDel"
-          :center="true"
-          class="del-dialog"
-        >
-          <div class="w-100 text-center">
-            <span>Вы уверены, что хотите удалить данное объвление?</span>
-          </div>
-          <span slot="footer" class="dialog-footer">
-            <button
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-              @click="dialogDel = false"
-            >
-              Отмена
-            </button>
-            <button
-              class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5"
-              @click="delOffers(el), (dialogDel = false)"
-            >
-              Удалить
-            </button>
-          </span>
-        </el-dialog>
       </div>
     </div>
   </div>
@@ -173,9 +176,10 @@ export default {
       offersList: null,
 
       dialogChange: false,
-      dialogDel: false,
+      popoverDel: false,
 
       offerData: {
+        id: null,
         title: null,
         photos: [],
         price: null,
@@ -198,6 +202,7 @@ export default {
       this.offerData.photos = data.offerPhothos;
     },
     openOffer(el) {
+      this.offerData.id = el.id;
       this.offerData.title = el.title;
       this.offerData.photos = el.photos;
       this.offerData.price = el.price;
@@ -206,6 +211,7 @@ export default {
       document.body.style.overflow = "hidden";
     },
     closeOffer() {
+      this.offerData.id = null;
       this.offerData.title = null;
       this.offerData.photos = [];
       this.offerData.price = null;
@@ -213,12 +219,49 @@ export default {
       this.dialogChange = false;
       document.body.style.overflow = "auto";
     },
+    closePopover(data) {
+      this.$refs[data][0].doClose();
+    },
     changeOffer() {
       if (
         this.offerData.photos.length >= 4 &&
         this.offerData.photos.length <= 20
       ) {
-        console.log("kek");
+        this.offersList.forEach((el, idx) => {
+          if (el.id == this.offerData.id) {
+            console.log(el, this.offerData);
+            if (JSON.stringify(el) === JSON.stringify(this.offerData)) {
+              this.sendNTFS(
+                "Предупрждение!",
+                "Вы не изменили данные",
+                "warning"
+              );
+            } else {
+              let newData = JSON.parse(JSON.stringify(this.offerData));
+              for (let i in newData.photos) {
+                delete newData.photos[i].imgSrc;
+              }
+
+              Api.getInstance()
+                .account.changeOffer(newData)
+                .then(response => {
+                  this.offersList[idx] = this.offerData;
+                  console.log(el, this.offerData);
+                  this.closeOffer();
+                })
+                .catch(error => {
+                  console.log("delOffers-> ", error);
+                  this.sendNTFS(
+                    "Ошибка!",
+                    "Объявление не было изменено!",
+                    "warning"
+                  );
+                });
+            }
+          } else {
+            console.log(el, this.offerData);
+          }
+        });
       } else if (this.offerData.photos.length < 4) {
         this.sendNTFS(
           "Предупрждение!",
@@ -235,17 +278,28 @@ export default {
     },
     delOffers(item) {
       Api.getInstance()
-        .account.delOffer({ id: item._id })
+        .account.delOffer({ id: item.id })
         .then(response => {
           this.offersList.forEach((el, idx) => {
-            if (el._id == item._id) {
-              this.offersList.splice(this.offersList[idx], 1);
+            if (el.id == item.id) {
+              console.log(this.$refs["popover-" + el.id]);
+              console.log(this.$refs["popover-" + el.id][0]);
+              this.$refs["popover-" + el.id][0].doClose();
+              this.offersList.splice(idx, 1);
             }
           });
           this.sendNTFS(
             "Уведомление!",
             "объявление успешно удалено",
             "success"
+          );
+        })
+        .catch(error => {
+          console.log("delOffers-> ", error);
+          this.sendNTFS(
+            "Предупрждение!",
+            "Объявление не было удалено!",
+            "warning"
           );
         });
     },

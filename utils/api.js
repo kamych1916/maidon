@@ -47,6 +47,9 @@ export default class Api {
     async patchPass(data) {
       return axios.post(`${API_BASE_URL}/patch_pass`, data);
     },
+    async changeOffer(data) {
+      return axios.post(`${API_BASE_URL}/offer_patch`, data);
+    },
     async delAvatar() {
       return axios.delete(`${API_BASE_URL}/delete_user_avatar`);
     },
