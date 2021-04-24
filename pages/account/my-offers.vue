@@ -91,12 +91,12 @@
                     >
                       изменить
                     </button>
-                    <button
+                    <div
                       @click="closeOffer()"
                       class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
                     >
                       отменить
-                    </button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -211,11 +211,11 @@ export default {
       document.body.style.overflow = "hidden";
     },
     closeOffer() {
-      this.offerData.id = null;
-      this.offerData.title = null;
-      this.offerData.photos = [];
-      this.offerData.price = null;
-      this.offerData.description = null;
+      // this.offerData.id = null;
+      // this.offerData.title = null;
+      // this.offerData.photos = [];
+      // this.offerData.price = null;
+      // this.offerData.description = null;
       this.dialogChange = false;
       document.body.style.overflow = "auto";
     },
@@ -229,24 +229,57 @@ export default {
       ) {
         this.offersList.forEach((el, idx) => {
           if (el.id == this.offerData.id) {
-            console.log(el, this.offerData);
-            if (JSON.stringify(el) === JSON.stringify(this.offerData)) {
-              this.sendNTFS(
-                "Предупрждение!",
-                "Вы не изменили данные",
-                "warning"
-              );
+            let checkInfo = true;
+            let data = this.offerData;
+
+            if (el.price == this.offerData.price) {
+              checkInfo = false;
             } else {
+              checkInfo = true;
+            }
+
+            if (el.description == data.description) {
+              checkInfo = false;
+            } else {
+              checkInfo = true;
+            }
+
+            let checkPhoto_1 = false;
+            let checkPhoto_2 = true;
+            console.log(el.photos);
+            console.log(data.photos);
+            // добавить условие по количеству изображений
+            for (let oldPhotos in el.photos) {
+              for (let newPhotos in data.photos) {
+                if (
+                  el.photos[oldPhotos].imgSrc == data.photos[newPhotos].imgSrc
+                ) {
+                  checkPhoto_2 = false;
+                }
+              }
+              if (!checkPhoto_1) {
+                checkPhoto_1 = checkPhoto_2;
+              }
+              checkPhoto_2 = true;
+            }
+
+            console.log(checkInfo, checkPhoto_1);
+
+            if (checkInfo || checkPhoto_1) {
               let newData = JSON.parse(JSON.stringify(this.offerData));
               for (let i in newData.photos) {
                 delete newData.photos[i].imgSrc;
               }
-
               Api.getInstance()
                 .account.changeOffer(newData)
                 .then(response => {
                   this.offersList[idx] = this.offerData;
-                  console.log(el, this.offerData);
+                  console.log("kek->", this.offersList);
+                  this.sendNTFS(
+                    "Отлично!",
+                    "Объявление было изменено, ожидайте проверку модератором!",
+                    "success"
+                  );
                   this.closeOffer();
                 })
                 .catch(error => {
@@ -256,10 +289,15 @@ export default {
                     "Объявление не было изменено!",
                     "warning"
                   );
+                  return;
                 });
+            } else {
+              this.sendNTFS(
+                "Предупрждение!",
+                "Вы не изменили данные",
+                "warning"
+              );
             }
-          } else {
-            console.log(el, this.offerData);
           }
         });
       } else if (this.offerData.photos.length < 4) {
