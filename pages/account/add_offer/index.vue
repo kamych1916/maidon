@@ -125,7 +125,6 @@ export default {
   },
   methods: {
     onSubmit() {
-
       // Измение типа данных от input'ов - из String'а в Integer
       for (let data in this.offerData.offerObject.inputs) {
         if (this.offerData.offerObject.inputs[data] != null) {
@@ -186,9 +185,7 @@ export default {
               "Обьявление было добавлено успешно, ожидайте проверку модератором!",
               "success"
             );
-            setTimeout(() => {
-              this.$router.push("/");
-            }, 1500);
+            this.$router.push("/");
           })
           .catch(error => {
             let status = error.response.status;
