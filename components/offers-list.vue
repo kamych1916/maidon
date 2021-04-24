@@ -105,7 +105,7 @@
                 <div
                   class="col mt-5 d-lg-flex justify-content-center text-grey"
                 >
-                  <span class="fs-12" v-if="item.is_agent">собственник</span>
+                  <span class="fs-12" v-if="!item.is_agent">собственник</span>
                   <span class="fs-12" v-else>агент </span>
                 </div>
               </div>
