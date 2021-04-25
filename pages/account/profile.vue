@@ -30,7 +30,7 @@
                   type="file"
                   class="box-photo-input"
                   accept="image/png, image/jpeg, image/jpg"
-                  @change="filesChange"
+                  @change="upload_avatar"
                   style="opacity: 0; position: absolute; z-index: -1; "
                 />
                 <label
@@ -39,7 +39,7 @@
                   >Изменить</label
                 >
               </div>
-              <div class="fs-14 text-blue cursor" @click="delAvatar()">
+              <div class="fs-14 text-blue cursor" @click="delete_avatar()">
                 Удалить
               </div>
             </div>
@@ -48,7 +48,7 @@
       </div>
       <div class="col-lg">
         <div class="card-wrap">
-          <form @submit.prevent="patchInfo()">
+          <form @submit.prevent="patch_info()">
             <el-input
               class="mb-18"
               required
@@ -91,7 +91,7 @@
       </div>
       <div class="col-lg">
         <div class="card-wrap">
-          <form @submit.prevent="patchPass()">
+          <form @submit.prevent="patch_pass()">
             <el-input
               class="mb-18"
               required
@@ -157,56 +157,62 @@ export default {
     this.userData.avatar = this.readCookie("ui").avatar;
   },
   methods: {
-    patchInfo() {
-      Api.getInstance().account.patchInfo(this.userData);
-    },
-    patchPass() {
+    patch_info() {
       Api.getInstance()
-        .account.patchPass(this.userPass)
+        .account.patch_info(this.userData)
         .then(response => {
-          this.sendNTFS("Отлично!", "пароль успешно изменён", "success");
+          //добавить изменения в куку ui
+          Api.typicalNTFS(false, "данные успешно изменены");
         })
         .catch(error => {
-          console.log("patchPass-> ", error);
-          let status = error.response.status;
-          if (status == 500) {
-            this.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
-          } else if (status == 409) {
-            this.sendNTFS("Ошибка", "Старый пароль не совпадает :(", "error");
-          }
+          Api.typicalNTFS(error.response.status);
         });
     },
-    delAvatar() {
+    patch_pass() {
       Api.getInstance()
-        .account.delAvatar()
+        .account.patch_pass(this.userPass)
+        .then(response => {
+          this.userPass.old_password = "";
+          this.userPass.new_password = "";
+          Api.typicalNTFS(false, "пароль успешно изменён");
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
+    delete_avatar() {
+      Api.getInstance()
+        .account.delete_avatar()
         .then(response => {
           this.userData.avatar = "";
           this.setCookie("ui", JSON.stringify(this.userData));
+          Api.typicalNTFS(false, "аватарка была удалена");
         })
         .catch(error => {
-          console.log("delAvatar-> ", error);
+          Api.typicalNTFS(error.response.status);
         });
     },
-    filesChange(e) {
+    upload_avatar(e) {
       const file = e.target.files[0];
       if (file !== undefined) {
-        if (file.size > 500 * 500) {
+        if (file.size > 256 * 256) {
           this.sendNTFS(
             "Предупрждение!",
-            "Размер фотографии не должно превышать пятиста килобайт!",
+            "Размер фотографии не должно превышать 256 килобайт!",
             "warning"
           );
         } else {
           const formData = new FormData();
           formData.append("file", file);
           Api.getInstance()
-            .account.loadAvatar(formData)
+            .account.upload_avatar(formData)
             .then(response => {
               this.userData.avatar = response.data.avatar;
               this.setCookie("ui", JSON.stringify(this.userData));
+              Api.typicalNTFS(false, "аватарка была загружена");
             })
             .catch(error => {
-              console.log("loadAvatar-> ", error);
+              Api.typicalNTFS(error.response.status);
             });
         }
       }

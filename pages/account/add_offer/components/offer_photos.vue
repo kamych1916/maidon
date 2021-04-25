@@ -44,7 +44,7 @@
           type="file"
           class="box-photo-input"
           accept="image/png, image/jpeg, image/jpg"
-          @change="filesChange"
+          @change="offer_uplodfile"
         />
         <div>
           <div class="w-100 d-flex justify-content-center">
@@ -90,7 +90,7 @@ export default {
     };
   },
   methods: {
-    filesChange(e) {
+    offer_uplodfile(e) {
       const file = e.target.files[0];
       if (file !== undefined) {
         if (file.size > 1024 * 1024) {
@@ -108,12 +108,12 @@ export default {
           const formData = new FormData();
           formData.append("file", file);
           Api.getInstance()
-            .offer.upload_file(formData)
+            .offer.offer_uplodfile(formData)
             .then(response => {
               this.emitData();
             })
             .catch(error => {
-              console.log("upload_file-> ", error);
+              Api.typicalNTFS(error.response.status);
             });
         }
       }

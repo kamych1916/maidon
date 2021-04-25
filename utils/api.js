@@ -1,6 +1,7 @@
 import axios from "axios";
 const API_BASE_URL = "https://mirllex.site/server/api/v1";
 const API_SERVICES_URL = "https://mirllex.site/services/api/v1";
+import NTFS from "~/utils/notifications";
 
 export default class Api {
   instance = null;
@@ -12,25 +13,79 @@ export default class Api {
     return Api.instance;
   }
 
+  static getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(";");
+    for (let i in ca) {
+      var c = ca[i];
+      while (c.charAt(0) == " ") {
+        c = c.substring(1);
+      }
+      if (c.indexOf(name) == 0) {
+        return c.substring(name.length, c.length).split('"')[1];
+      }
+    }
+    return "";
+  }
+  static sendNTFS(title, message, type) {
+    NTFS.getInstance().NTFS(title, message, type);
+  }
+
+  static typicalNTFS(status, successData) {
+    if (status) {
+      if (status == 500) {
+        Api.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
+      } else if (status == 422) {
+        Api.sendNTFS("Ошибка", "Сервер отправил неверные данные :(", "error");
+      } else if (status == 401) {
+        Api.sendNTFS("Ошибка", "Вы не авторизованы", "warning");
+        window.location.href = "/account/login";
+      } else if (status == 409) {
+        Api.sendNTFS("Ошибка", "Данные получены неверно", "warning");
+      } else if (status == 404) {
+        Api.sendNTFS("Ошибка", "Данный запрос не найден", "warning");
+      } else if (status == 426) {
+        Api.sendNTFS(
+          "Ошибка",
+          "Ваш аккаунт не активирован! Проверьте почту",
+          "warning"
+        );
+        setTimeout(() => {
+          window.location.href = "/account/activate";
+        }, 1000);
+      }
+    } else {
+      this.sendNTFS("Отлично!", successData, "success");
+    }
+  }
+
   offer = {
-    async get_offers(data) {
+    async get_filter_offers(data) {
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
     async get_offer(data) {
-      return axios.get(`${API_BASE_URL}/offer/${data}`);
+      return axios.get(`${API_BASE_URL}/get_offer/${data}`);
     },
     async get_address(userData) {
-      return axios.post(`${API_SERVICES_URL}/offer_geocoder_reverse`, userData);
+      return axios.post(`${API_SERVICES_URL}/get_address`, userData);
     },
     async get_marker(userData) {
-      return axios.post(`${API_SERVICES_URL}/offer_geocoder_geocode`, userData);
+      return axios.post(`${API_SERVICES_URL}/get_marker`, userData);
     },
-    async send_offer_data(offerData) {
-      return axios.post(`${API_BASE_URL}/offer_place_an_ad`, offerData);
+    async view_tel(id) {
+      return axios.post(`${API_BASE_URL}/view_tel`, id);
     },
-    async upload_file(formData) {
+    async create_offer(offerData) {
+      return axios.post(`${API_BASE_URL}/create_offer`, offerData, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async offer_uplodfile(formData) {
       return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
         headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
           "Content-Type": "multipart/form-data"
         }
       });
@@ -38,27 +93,48 @@ export default class Api {
   };
 
   account = {
-    async getOffers() {
-      return axios.get(`${API_BASE_URL}/get_user_offers`);
+    async get_user_offers() {
+      return axios.get(`${API_BASE_URL}/get_user_offers`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
-    async patchInfo(data) {
-      return axios.post(`${API_BASE_URL}/patch_user`, data);
+    async patch_info(data) {
+      return axios.post(`${API_BASE_URL}/patch_info`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
-    async patchPass(data) {
-      return axios.post(`${API_BASE_URL}/patch_pass`, data);
+    async patch_pass(data) {
+      return axios.post(`${API_BASE_URL}/patch_pass`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
-    async changeOffer(data) {
-      return axios.post(`${API_BASE_URL}/offer_patch`, data);
+    async change_offer(data) {
+      return axios.post(`${API_BASE_URL}/change_offer`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
-    async delAvatar() {
-      return axios.delete(`${API_BASE_URL}/delete_user_avatar`);
+    async delete_avatar() {
+      return axios.delete(`${API_BASE_URL}/delete_avatar`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
-    async delOffer(data) {
+    async delete_offer(data) {
       return axios.post(`${API_BASE_URL}/delete_offer`, data);
     },
-    async loadAvatar(formData) {
-      return axios.post(`${API_BASE_URL}/upload_user_avatar`, formData, {
+    async upload_avatar(formData) {
+      return axios.post(`${API_BASE_URL}/upload_avatar`, formData, {
         headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
           "Content-Type": "multipart/form-data"
         }
       });
@@ -66,33 +142,30 @@ export default class Api {
   };
 
   auth = {
-    async login(userData) {
-      return axios.post(`${API_BASE_URL}/auth_signin`, userData);
+    async signin(userData) {
+      return axios.post(`${API_BASE_URL}/signin`, userData);
     },
-    async logout() {
-      return axios.delete(`${API_BASE_URL}/auth_logout`);
-    },
-    async register(userData) {
-      return axios.post(`${API_BASE_URL}/auth_signup`, userData);
+    async signup(userData) {
+      return axios.post(`${API_BASE_URL}/signup`, userData);
     },
     async forgot_password(email) {
-      return axios.get(`${API_BASE_URL}/auth_reset_password/?email=${email}`);
+      return axios.get(`${API_BASE_URL}/reset_password/?email=${email}`);
     },
     async reset_password(code, password, email) {
       return axios.post(
-        `${API_BASE_URL}/auth_change_password?code=${code}&new_password=${password}&email=${email}`
+        `${API_BASE_URL}/change_password?code=${code}&new_password=${password}&email=${email}`
       );
     },
     async send_activate_code(token) {
-      return axios.post(`${API_BASE_URL}/auth_activ_user`, {
+      return axios.post(`${API_BASE_URL}/send_activate_code`, {
         token: token
       });
     },
-    async checkAccess() {
-      return axios.get(`${API_BASE_URL}/auth_is_login`);
+    async check_access() {
+      return axios.get(`${API_BASE_URL}/check_access`);
     },
     async check_is_admin() {
-      return axios.get(`${API_BASE_URL}/auth_is_admin`, {
+      return axios.get(`${API_BASE_URL}/is_admin`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("st")}`
         }
@@ -100,3 +173,9 @@ export default class Api {
     }
   };
 }
+
+// , {
+//         headers: {
+//           Authorization: `Bearer ${Api.getCookie("session_token")}`
+//         }
+//       }

@@ -1,6 +1,6 @@
 <template>
   <div class="auth-template mt-50">
-    <form @submit.prevent="onSubmit()" autocomplete="off">
+    <form @submit.prevent="signup()" autocomplete="off">
       <h3>Регистрация</h3>
 
       <div class="form-group mb-18">
@@ -111,41 +111,21 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    signup() {
       if (this.userData.password != this.passwordS) {
         this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
       } else {
         Api.getInstance()
-          .auth.register(this.userData)
+          .auth.signup(this.userData)
           .then(response => {
-            this.sendNTFS("Отлично!", "Регистрация прошла успешно!", "success");
-            setTimeout(() => {
-              this.$router.push("/account/login");
-            }, 1500);
+            Api.typicalNTFS(
+              false,
+              "Регистрация прошла успешно, подвердите свой аккаунт, проверьте почту свою почту!"
+            );
+            this.$router.push("/account/login");
           })
           .catch(error => {
-            let status = error.response.status;
-            if (status == 500) {
-              this.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
-            } else if (status == 422) {
-              this.sendNTFS(
-                "Ошибка",
-                "Сервер получил неверные данные :(",
-                "error"
-              );
-            } else if (status == 401) {
-              this.sendNTFS(
-                "Ошибка",
-                "Данный пользователь уже существует!",
-                "warning"
-              );
-            } else if (status == 409) {
-              this.sendNTFS(
-                "Ошибка",
-                "Область введена неправильно!",
-                "warning"
-              );
-            }
+            Api.typicalNTFS(error.response.status);
           });
       }
     },

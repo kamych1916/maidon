@@ -12,7 +12,7 @@
         <div class="col-lg d-lg-flex justify-content-end">
           <div class="mt-10 fs-14 text-grey">
             {{ offerData.date }} &nbsp;/&nbsp;
-            <span><i class="bi bi-eye"></i> 309</span>
+            <span><i class="bi bi-eye"></i> {{ offerData.view }}</span>
           </div>
         </div>
       </div>
@@ -130,7 +130,7 @@
         <div class="card-wrap">
           <div class="p-10">
             <h2>Описание</h2>
-            <span style="white-space: pre-wrap;">
+            <span style="white-space: pre-line;">
               {{ offerData.offerDescription }}
             </span>
           </div>
@@ -265,8 +265,8 @@
           </div>
           <div class="card-wrap">
             <div class="p-10">
-              <div class="row">
-                <div class="col-8">
+              <div class="row d-flex">
+                <div>
                   <div class="my-5 ">{{ offerData.userInfo }}</div>
                   <div class="fs-14 text-grey my-5" v-if="offerData.is_agent">
                     агентство недвижимости
@@ -274,7 +274,7 @@
                   <div class="fs-14 text-grey my-5" v-else>Собственник</div>
                   <button
                     class="el-button el-button--primary fs-14 py-5 px-5 my-5"
-                    @click="showTel = !showTel"
+                    @click="view_tel(offerData._id)"
                     v-if="!showTel"
                   >
                     показать телефон
@@ -286,7 +286,8 @@
                     >{{ offerData.tel }}</a
                   >
                 </div>
-                <div class="col d-flex justify-content-end">
+
+                <div class="col px-0 d-flex justify-content-end">
                   <div class="avatar">
                     <el-image
                       draggable="false"
@@ -337,12 +338,15 @@ export default {
       offerData: ""
     };
   },
-  created() {
+  mounted() {
     if (this.offerId) {
       Api.getInstance()
         .offer.get_offer(this.offerId)
         .then(response => {
           this.offerData = response.data;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
         });
     }
   },
@@ -357,6 +361,16 @@ export default {
           return "Посуточно " + this.offerData.title;
         }
       }
+    },
+    view_tel(id) {
+      Api.getInstance()
+        .offer.view_tel({ id: id })
+        .then(response => {
+          this.showTel = !this.showTel;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
     }
   }
 };

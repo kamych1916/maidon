@@ -668,12 +668,12 @@ export default {
   },
   mounted() {
     this.resizeFilters();
-    this.checkQuery();
+    this.get_filter_offers();
   },
   watch: {
     $route(to, from) {
       if (to !== from) {
-        this.checkQuery();
+        this.get_filter_offers();
       }
     }
   },
@@ -739,7 +739,6 @@ export default {
         query: queryData
       });
     },
-
     eventListenObjects(data) {
       if (data == "apartment") {
         this.repair = true;
@@ -795,7 +794,7 @@ export default {
       this.searchData.priceFrom = "";
       this.searchData.priceTo = "";
     },
-    checkQuery() {
+    get_filter_offers() {
       this.clearSearchData();
       let deal = this.$route.path.split("/")[1];
       let kind = this.$route.path.split("/")[2];
@@ -877,14 +876,14 @@ export default {
         }
       }
       Api.getInstance()
-        .offer.get_offers(objCopy)
+        .offer.get_filter_offers(objCopy)
         .then(response => {
           this.$emit("uploadOffers", {
             data: response.data
           });
         })
         .catch(error => {
-          console.log("get_offers-> ", error);
+          Api.typicalNTFS(error.response.status);
         });
     },
     resizeFilters() {

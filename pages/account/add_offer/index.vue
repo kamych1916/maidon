@@ -1,14 +1,14 @@
 <template>
   <div class="pb-100 pt-50">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
-    <form @submit.prevent="onSubmit()">
+    <form @submit.prevent="create_offer()">
       <div ref="inputs">
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
               <h4>Адрес</h4>
               <el-autocomplete
-                :fetch-suggestions="getMarker"
+                :fetch-suggestions="get_marker"
                 v-model="offerData.offerMap.map_address"
                 class="mt-14 mb-26 w-100"
                 suffix-icon="bi bi-geo-alt-fill"
@@ -51,7 +51,10 @@
           </div>
           <div class="row mt-30">
             <div class="col">
-              <OfferPhotos @uploadPhoto="uploadPhoto"></OfferPhotos>
+              <OfferPhotos
+                @uploadPhoto="uploadPhoto"
+                :putPhotos="[]"
+              ></OfferPhotos>
             </div>
           </div>
           <div class="row mt-30">
@@ -124,7 +127,7 @@ export default {
     };
   },
   methods: {
-    onSubmit() {
+    create_offer() {
       // Измение типа данных от input'ов - из String'а в Integer
       for (let data in this.offerData.offerObject.inputs) {
         if (this.offerData.offerObject.inputs[data] != null) {
@@ -178,26 +181,16 @@ export default {
         this.offerData.offerPhothos.length <= 20
       ) {
         Api.getInstance()
-          .offer.send_offer_data(data)
+          .offer.create_offer(data)
           .then(() => {
-            this.sendNTFS(
-              "Отлично!",
-              "Объявление было добавлено успешно, ожидайте проверку модератором!",
-              "success"
+            Api.typicalNTFS(
+              false,
+              "Объявление было добавлено успешно, ожидайте проверку модератором!"
             );
             this.$router.push("/");
           })
           .catch(error => {
-            let status = error.response.status;
-            if (status == 409) {
-              this.sendNTFS(
-                "Ошибка",
-                "Подача обьявления имеет ошибку :(",
-                "error"
-              );
-            } else {
-              this.sendNTFS("Ошибка", "Системная ошибка :(", "error");
-            }
+            Api.typicalNTFS(error.response.status);
           });
       } else if (this.offerData.offerPhothos.length < 4) {
         this.sendNTFS(
@@ -216,7 +209,7 @@ export default {
     uploadPhoto(data) {
       this.offerData.offerPhothos = data.offerPhothos;
     },
-    getMarker(queryString, cb) {
+    get_marker(queryString, cb) {
       if (queryString !== null && queryString !== "") {
         Api.getInstance()
           .offer.get_marker({
@@ -235,7 +228,6 @@ export default {
       this.offerData.offerMap.map_marker = data.map_marker;
     },
     checkOfferTypes(data) {
-      // console.log(OfferSellApartData.data().aboutData);
       this.offerData.offerType = {
         account: data.picked_account,
         deal: data.picked_deal,

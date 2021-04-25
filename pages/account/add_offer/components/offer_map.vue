@@ -7,7 +7,7 @@
         :zoom="zoom"
         :clusterOptions="{}"
         :coords="coords"
-        @click="onClick"
+        @click="get_address"
       >
         <ymap-marker marker-id="123" :coords="coords"></ymap-marker>
       </yandex-map>
@@ -39,7 +39,7 @@ export default {
     // this.getGEO();
   },
   methods: {
-    onClick(e) {
+    get_address(e) {
       this.coords = e.get("coords");
       this.zoom = 16;
       let serverCoords = {
@@ -55,7 +55,7 @@ export default {
           });
         })
         .catch(error => {
-          console.log("get_address -> ", error);
+          Api.typicalNTFS(error.response.status);
         });
     }
     // getGEO() {

@@ -30,13 +30,13 @@ export default {
     };
   },
   mounted() {
-    this.checkAccess();
+    this.send_activate_code();
   },
   destroyed() {
     this.stopTimer();
   },
   methods: {
-    checkAccess() {
+    send_activate_code() {
       Api.getInstance()
         .auth.send_activate_code(this.$router.currentRoute.query["access"])
         .then(response => {
@@ -50,7 +50,7 @@ export default {
             this.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
             setTimeout(() => {
               this.$router.push("/");
-            }, 1500);
+            }, 1000);
           } else if (status == 422) {
             this.access = false;
             this.$router.push("/");

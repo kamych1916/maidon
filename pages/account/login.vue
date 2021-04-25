@@ -1,7 +1,7 @@
 <template>
   <!-- <div class="card-wrap d-flex"> -->
   <div class="auth-template mt-50">
-    <form @submit.prevent="onSubmit">
+    <form @submit.prevent="signin">
       <h3>Авторизация</h3>
 
       <div class="form-group mb-10">
@@ -71,38 +71,21 @@ export default {
       var expires = "expires=" + d.toUTCString();
       document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
     },
-    onSubmit() {
+    signin() {
       Api.getInstance()
-        .auth.login(this.userData)
+        .auth.signin(this.userData)
         .then(response => {
           this.setCookie("ui", JSON.stringify(response.data), 1);
-          this.sendNTFS("Отлично!", "Авторизация прошла успешно!", "success");
+          this.setCookie(
+            "session_token",
+            JSON.stringify(response.data.session_token),
+            1
+          );
+          Api.typicalNTFS(false, "Авторизация прошла успешно!");
           this.$router.push("/account/profile");
         })
         .catch(error => {
-          let status = error.response.status;
-          if (status == 500) {
-            this.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
-          } else if (status == 422) {
-            this.sendNTFS(
-              "Ошибка",
-              "Сервер получил неверные данные :(",
-              "error"
-            );
-          } else if (status == 426) {
-            this.sendNTFS(
-              "Ошибка",
-              "Ваш аккаунт не активирован! Проверьте почту",
-              "error"
-            );
-            setTimeout(() => {
-              this.$router.push("/account/activate");
-            }, 1500);
-          } else if (status == 404) {
-            this.sendNTFS("Ошибка", "Данной почты не существует", "warning");
-          } else if (status == 401) {
-            this.sendNTFS("Ошибка", "Неверный логин или пароль", "warning");
-          }
+          Api.typicalNTFS(error.response.status);
         });
     },
     sendNTFS(title, message, type) {

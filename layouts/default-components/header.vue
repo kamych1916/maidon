@@ -9,7 +9,7 @@
     <div class="events d-flex">
       <a
         href="javascript:void(0);"
-        @click="checkAccess('offer')"
+        @click="check_access('offer')"
         class="header-btn mx-10 py-12"
       >
         <i class="bi bi-plus-circle "></i>
@@ -18,7 +18,7 @@
       <a
         v-if="!isLogin"
         href="javascript:void(0);"
-        @click="checkAccess('account')"
+        @click="check_access('account')"
         class="header-btn mx-10 py-12"
       >
         <i class="bi bi-person-circle "></i>
@@ -82,7 +82,7 @@ export default {
     this.changeBtnLogin();
   },
   methods: {
-    checkAccess(data) {
+    check_access(data) {
       if (this.getCookie("session_token")) {
         if (data == "account") {
           this.$router.push("/account/profile");
@@ -91,7 +91,7 @@ export default {
         }
       } else {
         Api.getInstance()
-          .auth.checkAccess()
+          .auth.check_access()
           .then(response => {
             if (data == "account") {
               response.data == true
@@ -102,13 +102,11 @@ export default {
                 ? this.$router.push("/account/add_offer")
                 : this.$router.push("/account/login");
             }
+          })
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
           });
       }
-      // if (data == "account") {
-      //   this.$router.push("/account/login");
-      // } else {
-      //   this.$router.push("/account/add_offer");
-      // }
     },
     changeBtnLogin() {
       if (this.getCookie("session_token")) {
