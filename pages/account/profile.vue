@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="checkAccess">
     <Tabs />
     <div class="row">
       <div class="col-lg-3">
@@ -138,6 +138,7 @@ export default {
   },
   data() {
     return {
+      checkAccess: false,
       userData: {
         name: null,
         surname: null,
@@ -151,17 +152,22 @@ export default {
     };
   },
   mounted() {
-    this.userData.name = this.readCookie("ui").name;
-    this.userData.surname = this.readCookie("ui").surname;
-    this.userData.tel = this.readCookie("ui").tel;
-    this.userData.avatar = this.readCookie("ui").avatar;
+    if (this.getCookie("session_token") && this.getCookie("ui")) {
+      this.userData.name = this.readCookie("ui").name;
+      this.userData.surname = this.readCookie("ui").surname;
+      this.userData.tel = this.readCookie("ui").tel;
+      this.userData.avatar = this.readCookie("ui").avatar;
+      this.checkAccess = true;
+    } else {
+      this.$router.push("login");
+    }
   },
   methods: {
     patch_info() {
       Api.getInstance()
         .account.patch_info(this.userData)
         .then(response => {
-          //добавить изменения в куку ui
+          this.setCookie("ui", JSON.stringify(this.userData));
           Api.typicalNTFS(false, "данные успешно изменены");
         })
         .catch(error => {

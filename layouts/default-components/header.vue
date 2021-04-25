@@ -12,7 +12,7 @@
         @click="check_access('offer')"
         class="header-btn mx-10 py-12"
       >
-        <i class="bi bi-plus-circle "></i>
+        <i class="bi bi-plus-circle"></i>
         <span class="events-text ml-10">Добавить объявление</span>
       </a>
       <a
@@ -21,14 +21,16 @@
         @click="check_access('account')"
         class="header-btn mx-10 py-12"
       >
-        <i class="bi bi-person-circle "></i>
+        <i class="bi bi-person-circle"></i>
         <span class="events-text ml-10">Войти</span>
       </a>
       <el-popover v-else width="160" class="mt-12" placement="top">
         <div>
-          <div class="pb-10 w-100" style="border-bottom: 1px solid #ccc">
-            {{ readCookie("ui").name }}<br />
-            {{ readCookie("ui").surname }}
+          <div
+            class="pb-10 w-100"
+            style="border-bottom: 1px solid #ccc; word-break: break-word;"
+          >
+            {{ name }} {{ surname }}
           </div>
           <nuxt-link to="/account/profile" class="w-100">
             <div class="w-100 my-10" to="/account/profile">
@@ -53,7 +55,7 @@
           slot="reference"
           class="header-btn mx-10 py-14"
         >
-          <i class="bi bi-person-circle "></i>
+          <i class="bi bi-person-circle"></i>
           <span class="events-text ml-10">Аккаунт</span>
         </a>
       </el-popover>
@@ -68,17 +70,24 @@ export default {
   mixins: [cookiesEvents],
   data() {
     return {
+      name: "",
+      surname: "",
       isLogin: false
+      // userData: this.getCookie("session_token")
     };
   },
   watch: {
     $route(to, from) {
       if (to !== from) {
         this.changeBtnLogin();
+        this.name = this.readCookie("ui").name;
+        this.surname = this.readCookie("ui").surname;
       }
     }
   },
   mounted() {
+    this.name = this.readCookie("ui").name || "";
+    this.surname = this.readCookie("ui").surname || "";
     this.changeBtnLogin();
   },
   methods: {
@@ -90,22 +99,23 @@ export default {
           this.$router.push("/account/add_offer");
         }
       } else {
-        Api.getInstance()
-          .auth.check_access()
-          .then(response => {
-            if (data == "account") {
-              response.data == true
-                ? this.$router.push("/account/profile")
-                : this.$router.push("/account/login");
-            } else {
-              response.data == true
-                ? this.$router.push("/account/add_offer")
-                : this.$router.push("/account/login");
-            }
-          })
-          .catch(error => {
-            Api.typicalNTFS(error.response.status);
-          });
+        this.$router.push("/account/login");
+        // Api.getInstance()
+        //   .auth.check_access()
+        //   .then(response => {
+        //     if (data == "account") {
+        //       response.data == true
+        //         ? this.$router.push("/account/profile")
+        //         : this.$router.push("/account/login");
+        //     } else {
+        //       response.data == true
+        //         ? this.$router.push("/account/add_offer")
+        //         : this.$router.push("/account/login");
+        //     }
+        //   })
+        //   .catch(error => {
+        //     Api.typicalNTFS(error.response.status);
+        //   });
       }
     },
     changeBtnLogin() {

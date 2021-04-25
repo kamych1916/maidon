@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-100 pt-50">
+  <div class="pb-100 pt-50" v-if="checkAccess">
     <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
     <form @submit.prevent="create_offer()">
       <div ref="inputs">
@@ -100,7 +100,10 @@ import OfferMap from "@/pages/account/add_offer/components/offer_map.vue";
 import OfferObject from "@/pages/account/add_offer/components/offer_object.vue";
 import OfferPrice from "@/pages/account/add_offer/components/offer_price.vue";
 import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
+import { cookiesEvents } from "~/utils/cookies";
+
 export default {
+  mixins: [cookiesEvents],
   components: {
     OfferTypes,
     OfferMap,
@@ -111,6 +114,7 @@ export default {
 
   data() {
     return {
+      checkAccess: false,
       offerData: {
         offerType: null,
         offerMap: {
@@ -125,6 +129,13 @@ export default {
       coords: [],
       accessToForm: false
     };
+  },
+  mounted() {
+    if (this.getCookie("session_token") && this.getCookie("ui")) {
+      this.checkAccess = true;
+    } else {
+      this.$router.push("login");
+    }
   },
   methods: {
     create_offer() {

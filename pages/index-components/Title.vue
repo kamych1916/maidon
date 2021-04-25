@@ -31,11 +31,18 @@
             </el-option>
           </el-select>
           <div class="w-100 p-10">
-            <nuxt-link to="/offer">
-              <el-button type="primary" round class="w-100 py-14">
-                найти
-              </el-button>
-            </nuxt-link>
+            <el-button
+              @click="
+                kind_offer && type_offer
+                  ? $router.push('/' + kind_offer + '/' + type_offer)
+                  : ''
+              "
+              type="primary"
+              round
+              class="w-100 py-14"
+            >
+              найти
+            </el-button>
           </div>
         </div>
       </div>
@@ -58,8 +65,12 @@ export default {
           label: "дом"
         },
         {
-          value: "plot",
+          value: "grand",
           label: "участок"
+        },
+        {
+          value: "commercy",
+          label: "коммерческое"
         }
       ],
       type_options: [

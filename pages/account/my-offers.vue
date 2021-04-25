@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div v-if="checkAccess">
     <Tabs />
     <div class="row">
       <div
@@ -20,7 +20,9 @@
               ></el-image>
             </div>
             <div class="col-lg d-flex flex-column justify-content-between">
+              <!-- <nuxt-link :to="'/offer/' + el.id" class="text-blue"> -->
               <h3>{{ el.title }}</h3>
+              <!-- </nuxt-link> -->
               <div class="fs-14">
                 Просмотрели объявление -
                 <span class="text-blue">{{ el.view }}</span>
@@ -171,8 +173,10 @@ import { CurrencyInput } from "vue-currency-input";
 import Tabs from "@/pages/account/components/tabs.vue";
 import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
 import NTFS from "~/utils/notifications";
+import { cookiesEvents } from "~/utils/cookies";
 
 export default {
+  mixins: [cookiesEvents],
   components: {
     Tabs,
     CurrencyInput,
@@ -180,6 +184,7 @@ export default {
   },
   data() {
     return {
+      checkAccess: false,
       offersList: null,
 
       dialogChange: false,
@@ -196,7 +201,12 @@ export default {
     };
   },
   mounted() {
-    this.get_user_offers();
+    if (this.getCookie("session_token") && this.getCookie("ui")) {
+      this.checkAccess = true;
+      this.get_user_offers();
+    } else {
+      this.$router.push("login");
+    }
   },
   methods: {
     get_user_offers() {
@@ -204,6 +214,7 @@ export default {
         .account.get_user_offers()
         .then(response => {
           this.offersList = response.data;
+          console.log(this.offersList);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

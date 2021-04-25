@@ -27,6 +27,14 @@ export default class Api {
     }
     return "";
   }
+
+  static setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+    var expires = "expires=" + d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+  }
+
   static sendNTFS(title, message, type) {
     NTFS.getInstance().NTFS(title, message, type);
   }
@@ -39,6 +47,8 @@ export default class Api {
         Api.sendNTFS("Ошибка", "Сервер отправил неверные данные :(", "error");
       } else if (status == 401) {
         Api.sendNTFS("Ошибка", "Вы не авторизованы", "warning");
+        Api.setCookie("ui", "", null);
+        Api.setCookie("session_token", "", null);
         window.location.href = "/account/login";
       } else if (status == 409) {
         Api.sendNTFS("Ошибка", "Данные получены неверно", "warning");
