@@ -153,11 +153,15 @@ export default {
   },
   mounted() {
     if (this.getCookie("session_token") && this.getCookie("ui")) {
-      this.userData.name = this.readCookie("ui").name;
-      this.userData.surname = this.readCookie("ui").surname;
-      this.userData.tel = this.readCookie("ui").tel;
-      this.userData.avatar = this.readCookie("ui").avatar;
-      this.checkAccess = true;
+      if (this.readCookie("ui").is_moder) {
+        this.$router.push("moderation");
+      } else {
+        this.userData.name = this.readCookie("ui").name;
+        this.userData.surname = this.readCookie("ui").surname;
+        this.userData.tel = this.readCookie("ui").tel;
+        this.userData.avatar = this.readCookie("ui").avatar;
+        this.checkAccess = true;
+      }
     } else {
       this.$router.push("login");
     }

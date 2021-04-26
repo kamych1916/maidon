@@ -52,6 +52,18 @@ export default class Api {
         window.location.href = "/account/login";
       } else if (status == 409) {
         Api.sendNTFS("Ошибка", "Данные получены неверно", "warning");
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
+      } else if (status == 403) {
+        Api.sendNTFS(
+          "Ошибка",
+          "У вас нет доступа к данной странице",
+          "warning"
+        );
+        setTimeout(() => {
+          window.location.href = "/";
+        }, 1000);
       } else if (status == 404) {
         Api.sendNTFS("Ошибка", "Данный запрос не найден", "warning");
       } else if (status == 426) {
@@ -105,6 +117,20 @@ export default class Api {
   account = {
     async get_user_offers() {
       return axios.get(`${API_BASE_URL}/get_user_offers`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async get_moder_offer() {
+      return axios.get(`${API_BASE_URL}/get_moder_offer`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async activ_offer(data) {
+      return axios.post(`${API_BASE_URL}/activ_offer`, data, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`
         }

@@ -31,6 +31,10 @@
                 Просмотрели телефон -
                 <span class="text-blue">{{ el.view_tel }}</span>
               </div>
+              <div class="fs-14 mt-20" v-if="el.cancel_info">
+                Информация от модератора -
+                <span class="text-red">{{ el.cancel_info }}</span>
+              </div>
               <div class="row mt-12">
                 <button
                   @click="openOffer(el)"
@@ -79,17 +83,14 @@
             </div>
           </div>
         </div>
-        <div
-          class="change-dialog"
-          :class="[dialogChange ? 'change-dialog-active' : '']"
-        >
+        <div class="dialog" :class="[dialogChange ? 'dialog-active' : '']">
           <div class="container">
             <form @submit.prevent="change_offer()">
               <div class="card-wrap mt-50">
                 <div class="row">
-                  <div class="col-lg">
-                    Изменение объявления -
-                    <span class="text-blue">{{ offerData.title }}</span>
+                  <div class="col-lg d-flex align-items-center">
+                    Изменение объявления -&nbsp;
+                    <span class="text-blue"> {{ offerData.title }}</span>
                   </div>
                   <div
                     class="col-lg d-flex justify-content-lg-end justify-content-center"
@@ -338,21 +339,6 @@ export default {
 </script>
 
 <style lang="scss">
-.change-dialog {
-  display: none;
-  background-color: #f5f5f5;
-  width: 100%;
-  height: 100vh;
-  overflow: auto;
-  transition: all 1s;
-}
-.change-dialog-active {
-  z-index: 1999;
-  position: fixed;
-  top: 0;
-  left: 0;
-  display: block !important;
-}
 .del-dialog {
   .el-dialog {
     width: 30%;

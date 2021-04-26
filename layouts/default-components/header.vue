@@ -32,12 +32,25 @@
           >
             {{ name }} {{ surname }}
           </div>
-          <nuxt-link to="/account/profile" class="w-100">
+          <nuxt-link
+            v-if="readCookie('ui').is_moder"
+            to="/account/moderation"
+            class="w-100"
+          >
+            <div class="w-100 my-10" to="/account/profile">
+              Модерация
+            </div>
+          </nuxt-link>
+          <nuxt-link
+            v-if="!readCookie('ui').is_moder"
+            to="/account/profile"
+            class="w-100"
+          >
             <div class="w-100 my-10" to="/account/profile">
               Профиль
             </div>
           </nuxt-link>
-          <nuxt-link to="/account/my-offers">
+          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/my-offers">
             <div class="w-100 my-10">
               Мои объвления
             </div>

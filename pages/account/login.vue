@@ -82,7 +82,11 @@ export default {
             1
           );
           Api.typicalNTFS(false, "Авторизация прошла успешно!");
-          this.$router.push("/account/profile");
+          if (response.data.is_moder) {
+            this.$router.push("/account/moderation");
+          } else {
+            this.$router.push("/account/profile");
+          }
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);
