@@ -53,6 +53,17 @@
             </slide>
           </hooper>
         </div>
+        <div class="card-wrap">
+          <div class="p-10">
+            <client-only>
+              <OfferMap
+                :mapCoords="offerData.map_marker"
+                :staticZoom="true"
+                :isStatic="true"
+              ></OfferMap>
+            </client-only>
+          </div>
+        </div>
         <!-- КРАТКАЯ ИНФОРМАЦИЯ -->
         <div class="card-wrap" v-if="!offerData.offer_object.office_type">
           <div class="row text-line-height">
@@ -318,12 +329,14 @@
 import Api from "~/utils/api";
 import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
+import OfferMap from "@/pages/account/add_offer/components/offer_map.vue";
 
 export default {
   components: {
     Hooper,
     Slide,
-    HooperNavigation
+    HooperNavigation,
+    OfferMap
   },
   head() {
     return {

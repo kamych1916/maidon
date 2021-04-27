@@ -6,7 +6,27 @@
         <div class="row mx-0">
           <div class="card-wrap w-100 mt-50">
             <div class="form-group">
-              <h4>Адрес</h4>
+              Адрес
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content=""
+                placement="top-start"
+              >
+                <div slot="content">
+                  Введите адрес вашего объекта в адресной строке и далее<br />
+                  отобразится метка на карте - сверьте пожалуйста правильно ли
+                  поставилась метка на карте. <br /><br />
+
+                  Так же вы можете кликнуть по карте, после чего <br />
+                  отобразится метка и предварительный адрес в адресной строке
+                </div>
+                <el-button
+                  type="text"
+                  icon="bi bi-question-circle"
+                  size="mini"
+                ></el-button>
+              </el-tooltip>
               <el-autocomplete
                 :fetch-suggestions="get_marker"
                 v-model="offerData.offerMap.map_address"
