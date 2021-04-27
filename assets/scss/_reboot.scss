@@ -71,11 +71,16 @@ body {
 .el-breadcrumb__inner {
   color: #c0c4cc !important;
 }
-.el-breadcrumb__inner.is-link:hover {
-  color: #409eff !important;
+.el-breadcrumb__inner.is-link {
+  &:hover {
+    color: #409eff !important;
+  }
 }
-.el-breadcrumb__item:last-child .el-breadcrumb__inner:hover {
-  color: #c0c4cc !important;
+.el-breadcrumb__item:last-child .el-breadcrumb__inner {
+  color: #409eff !important;
+  :hover {
+    color: #c0c4cc !important;
+  }
 }
 
 .el-input__inner {
