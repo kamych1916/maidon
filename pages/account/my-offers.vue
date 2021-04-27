@@ -1,7 +1,7 @@
 <template>
-  <div v-if="checkAccess">
+  <div v-if="checkAccess && offersList">
     <Tabs />
-    <div class="row">
+    <div class="row" v-if="offersList.length > 0">
       <div
         class="col-lg-6"
         v-for="(el, idx) in offersList"
@@ -165,6 +165,11 @@
         </div>
       </div>
     </div>
+    <div class="row" v-else>
+      <div class="col">
+        <EmptyCat />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -215,7 +220,6 @@ export default {
         .account.get_user_offers()
         .then(response => {
           this.offersList = response.data;
-          console.log(this.offersList);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

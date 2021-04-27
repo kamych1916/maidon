@@ -65,7 +65,7 @@ export default {
           label: "дом"
         },
         {
-          value: "grand",
+          value: "ground",
           label: "участок"
         },
         {

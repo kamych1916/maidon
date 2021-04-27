@@ -287,7 +287,6 @@ export default {
         .account.get_moder_offer()
         .then(response => {
           this.moderOfferData = response.data;
-          console.log(this.moderOfferData);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

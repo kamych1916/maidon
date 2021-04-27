@@ -11,6 +11,8 @@
           placeholder="Имя"
           clearable
           type="text"
+          minlength="2"
+          maxlength="15"
         ></el-input>
       </div>
 
@@ -22,6 +24,8 @@
           placeholder="Фамилия"
           clearable
           type="text"
+          minlength="2"
+          maxlength="15"
         ></el-input>
       </div>
 
