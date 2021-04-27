@@ -111,6 +111,30 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col-md-6 ">
+                  <OfferObject
+                    :offerObject="offerData.offerObject"
+                    @input="
+                      newData => {
+                        offerData.offerObject = newData;
+                      }
+                    "
+                  >
+                  </OfferObject>
+                </div>
+                <div class="col-md-6">
+                  <OfferPrice
+                    :offerPrice="offerData.offerPrice"
+                    @input="
+                      newData => {
+                        offerData.offerPrice = newData;
+                      }
+                    "
+                  >
+                  </OfferPrice>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-lg">
                   <div class="card-wrap">
                     Описание
@@ -127,7 +151,7 @@
                     </el-input>
                   </div>
                 </div>
-                <div class="col-lg">
+                <!-- <div class="col-lg">
                   <div class="card-wrap">
                     <div class="row mx-0 w-100 align-items-center">
                       <div class="col-xl-3 my-10">Цена</div>
@@ -150,7 +174,7 @@
                       </div>
                     </div>
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="row">
                 <div class="col">
@@ -177,6 +201,9 @@
 import Api from "~/utils/api";
 import { CurrencyInput } from "vue-currency-input";
 import Tabs from "@/pages/account/components/tabs.vue";
+import Helper from "~/pages/account/add_offer/mixins/offer_helper.js";
+import OfferObject from "@/pages/account/add_offer/components/offer_object.vue";
+import OfferPrice from "@/pages/account/add_offer/components/offer_price.vue";
 import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
 import NTFS from "~/utils/notifications";
 import { cookiesEvents } from "~/utils/cookies";
@@ -186,7 +213,9 @@ export default {
   components: {
     Tabs,
     CurrencyInput,
-    OfferPhotos
+    OfferPhotos,
+    OfferObject,
+    OfferPrice
   },
   data() {
     return {
@@ -202,7 +231,9 @@ export default {
         title: null,
         photos: [],
         price: null,
-        description: null
+        description: null,
+        offerObject: {},
+        offerPrice: {}
       }
     };
   },
@@ -210,6 +241,17 @@ export default {
     if (this.getCookie("session_token") && this.getCookie("ui")) {
       this.checkAccess = true;
       this.get_user_offers();
+      // let helperData = Helper.getInstance().offer.checkOfferTypes(
+      //   data.picked_account,
+      //   data.picked_deal,
+      //   data.picked_estate,
+      //   data.picked_object_living,
+      //   data.picked_object_commercy
+      // );
+      // helperData
+      //   ? ((this.offerData.offerObject = helperData.object),
+      //     (this.offerData.offerPrice = helperData.price))
+      //   : helperData;
     } else {
       this.$router.push("login");
     }
