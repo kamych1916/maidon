@@ -8,7 +8,7 @@
       >
         <div class="row">
           <div class="col-lg-4 w-100 mt-10">
-            <hooper>
+            <hooper style="cursor: grab">
               <slide v-for="(img, index) in item.images" :key="index">
                 <el-image
                   draggable="false"
@@ -67,7 +67,7 @@
                 </h4>
                 <button
                   @click="$router.push(currentPath + '/' + item.id)"
-                  class="el-button el-button--primary py-10 px-50 fs-12 d-none d-lg-block"
+                  class="el-button el-button--primary is-round py-10 px-50 fs-12 d-none d-lg-block"
                 >
                   Подробнее
                 </button>
@@ -82,7 +82,7 @@
           <div class="col-lg-2 w-100 mt-10 ">
             <div class="w-100 h-100 d-flex flex-column justify-content-between">
               <div>
-                <div class="col mt-5 d-lg-flex justify-content-center">
+                <div class="col mt-10 d-flex justify-content-center">
                   <div class="avatar row">
                     <el-image
                       draggable="false"
@@ -97,35 +97,27 @@
                     </div>
                   </div>
                 </div>
-                <div class="row">
-                  <div class="col mt-5 d-lg-flex justify-content-center">
-                    <span class="fs-12">{{ item.userInfo }}</span>
+                <div class="fs-12 text-center">
+                  <div class="mt-10">
+                    <span>{{ item.userInfo }}</span>
                   </div>
-                </div>
-                <div class="row">
-                  <div
-                    class="col mt-5 d-lg-flex justify-content-center text-grey"
-                  >
-                    <span class="fs-12" v-if="!item.is_agent">собственник</span>
-                    <span class="fs-12" v-else>агент </span>
+                  <div class="mt-5 text-grey">
+                    <span v-if="!item.is_agent">собственник</span>
+                    <span v-else>агент </span>
                   </div>
-                </div>
 
-                <div class="row">
-                  <div
-                    class="col my-5 d-lg-flex justify-content-center fs-12 text-grey"
-                  >
-                    <span class="fs-12  ">{{ item.date }}</span
+                  <div class="mt-5 text-grey">
+                    <span>{{ item.date }}</span
                     >&nbsp;/&nbsp;
                     <span><i class="bi bi-eye"></i> {{ item.view }}</span>
                   </div>
                 </div>
               </div>
-              <div class="row d-block d-sm-none">
+              <div class="mt-10 row d-block d-sm-none">
                 <div class="col mt-5 d-flex justify-content-center">
                   <button
                     @click="$router.push(currentPath + '/' + item.id)"
-                    class="el-button el-button--primary py-10 w-100 fs-12"
+                    class="el-button el-button--primary is-round py-10 w-100 fs-12"
                   >
                     Подробнее
                   </button>
