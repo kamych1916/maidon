@@ -112,8 +112,12 @@
                 </div>
 
                 <div class="row">
-                  <div class="col my-5 d-lg-flex justify-content-center">
-                    <span class="fs-12  ">{{ item.date }}</span>
+                  <div
+                    class="col my-5 d-lg-flex justify-content-center fs-12 text-grey"
+                  >
+                    <span class="fs-12  ">{{ item.date }}</span
+                    >&nbsp;/&nbsp;
+                    <span><i class="bi bi-eye"></i> {{ item.view }}</span>
                   </div>
                 </div>
               </div>
