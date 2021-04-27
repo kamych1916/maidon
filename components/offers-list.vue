@@ -73,7 +73,7 @@
                 </button>
               </div>
               <div>
-                <p class="fs-14 mb-0">
+                <p class="fs-14 mb-0 text-grey">
                   {{ item.description }}
                 </p>
               </div>
