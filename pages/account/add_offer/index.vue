@@ -158,23 +158,18 @@ export default {
     }
   },
   methods: {
-    create_offer() {
-      // Измение типа данных от input'ов - из String'а в Integer
-      for (let data in this.offerData.offerObject.inputs) {
-        if (this.offerData.offerObject.inputs[data] != null) {
-          this.offerData.offerObject.inputs[data].value = parseInt(
-            Number(this.offerData.offerObject.inputs[data].value)
-          );
-        }
+    // Удаление обьектов, которое не содержат в себе данные
+    deleteEmptyObjects(data) {
+      for (let i in data.offerPhothos) {
+        delete data.offerPhothos[i].imgSrc;
       }
-      let objCopy = JSON.parse(JSON.stringify(this.offerData));
-      let data = objCopy;
-
-      // Удаление обьектов, которое не содержат в себе данные
       for (let prop in data.offerObject) {
         for (let i in data.offerObject[prop]) {
           if (data.offerObject[prop][i] == null) {
             delete data.offerObject[prop][i];
+          } else {
+            delete data.offerObject[prop][i].min;
+            delete data.offerObject[prop][i].max;
           }
         }
         for (let s in data.offerObject[prop]) {
@@ -182,6 +177,7 @@ export default {
             delete data.offerObject[prop][s];
           } else {
             delete data.offerObject[prop][s].data;
+            delete data.offerObject[prop][s].title;
           }
         }
       }
@@ -189,6 +185,9 @@ export default {
         for (let i in data.offerPrice[prop]) {
           if (data.offerPrice[prop][i] == null) {
             delete data.offerPrice[prop][i];
+          } else {
+            delete data.offerPrice[prop][i].title;
+            delete data.offerPrice[prop][i].suffix;
           }
         }
         for (let s in data.offerPrice[prop]) {
@@ -199,20 +198,24 @@ export default {
           }
         }
       }
-
-      // Удаление обьекта, которое содержит в себе url картинки
-      let photos = JSON.parse(JSON.stringify(this.offerData.offerPhothos));
-      photos.forEach((el, i) => {
-        delete photos[i].imgSrc;
-      });
-      data.offerPhothos = photos;
-
+      return data;
+    },
+    create_offer() {
+      // Измение типа данных от input'ов - из String'а в Integer
+      for (let data in this.offerData.offerObject.inputs) {
+        if (this.offerData.offerObject.inputs[data] != null) {
+          this.offerData.offerObject.inputs[data].value = parseInt(
+            Number(this.offerData.offerObject.inputs[data].value)
+          );
+        }
+      }
+      let objCopy = JSON.parse(JSON.stringify(this.offerData));
       if (
         this.offerData.offerPhothos.length >= 4 &&
         this.offerData.offerPhothos.length <= 20
       ) {
         Api.getInstance()
-          .offer.create_offer(data)
+          .offer.create_offer(this.deleteEmptyObjects(objCopy))
           .then(() => {
             Api.typicalNTFS(
               false,

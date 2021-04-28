@@ -52,9 +52,9 @@ export default class Api {
         window.location.href = "/account/login";
       } else if (status == 409) {
         Api.sendNTFS("Ошибка", "Данные получены неверно", "warning");
-        setTimeout(() => {
-          window.location.href = "/";
-        }, 1000);
+        // setTimeout(() => {
+        //   window.location.href = "/";
+        // }, 1000);
       } else if (status == 403) {
         Api.sendNTFS(
           "Ошибка",

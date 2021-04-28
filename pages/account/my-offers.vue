@@ -8,7 +8,6 @@
         :key="idx"
         style="position: initial"
       >
-        {{ el }}
         <div class="card-wrap">
           <div class="row">
             <div class="col-lg">
@@ -136,6 +135,14 @@
                 </div>
               </div>
               <div class="row">
+                <div class="col">
+                  <OfferPhotos
+                    @uploadPhoto="uploadPhoto"
+                    :putPhotos="offerData.photos"
+                  ></OfferPhotos>
+                </div>
+              </div>
+              <div class="row">
                 <div class="col-lg">
                   <div class="card-wrap">
                     Описание
@@ -176,14 +183,6 @@
                     </div>
                   </div>
                 </div> -->
-              </div>
-              <div class="row">
-                <div class="col">
-                  <OfferPhotos
-                    @uploadPhoto="uploadPhoto"
-                    :putPhotos="offerData.photos"
-                  ></OfferPhotos>
-                </div>
               </div>
             </form>
           </div>
@@ -231,7 +230,6 @@ export default {
         id: null,
         title: null,
         photos: [],
-        price: null,
         description: null,
         offerObject: {},
         offerPrice: {}
@@ -242,17 +240,6 @@ export default {
     if (this.getCookie("session_token") && this.getCookie("ui")) {
       this.checkAccess = true;
       this.get_user_offers();
-      // let helperData = Helper.getInstance().offer.checkOfferTypes(
-      //   data.picked_account,
-      //   data.picked_deal,
-      //   data.picked_estate,
-      //   data.picked_object_living,
-      //   data.picked_object_commercy
-      // );
-      // helperData
-      //   ? ((this.offerData.offerObject = helperData.object),
-      //     (this.offerData.offerPrice = helperData.price))
-      //   : helperData;
     } else {
       this.$router.push("login");
     }
@@ -274,14 +261,13 @@ export default {
     },
     openOffer(el) {
       let agent, deal, estate, object_living, object_commercy;
-
       this.offersList.forEach((offer, idx) => {
         if (offer.id == el.id) {
           agent = offer.agent;
-          deal = offer.deal;
+          deal = offer.offerPrice.deal;
           estate = offer.type_object;
-          object_living = offer.offer_object.object;
-          object_commercy = offer.offer_object.object;
+          object_living = offer.offerObject.object;
+          object_commercy = offer.offerObject.object;
         }
       });
       let helperData = Helper.getInstance().offer.checkOfferTypes(
@@ -295,40 +281,45 @@ export default {
         ? ((this.offerData.offerObject = helperData.object),
           (this.offerData.offerPrice = helperData.price))
         : helperData;
-      Object.entries(this.offerData.offerObject.inputs).forEach(
-        ([oKey, oValue]) => {
-          if (oValue) {
-            Object.entries(el.offer_object).forEach(([elKey, elValue]) => {
-              if (oKey === elKey) {
-                this.offerData.offerObject.inputs[oKey].value =
-                  el.offer_object[elKey];
-              }
-            });
-          }
-        }
-      );
-      // for (let [offKey, offVal] in ofInputs) {
-      //   for (let [elKey, elVal] in elInputs) {
-      //     // if (ofInputs.offKey === elInputs.elKey) {
-      //     console.log(offKey, elKey);
-      //     // }
-      //   }
-      // }
 
+      for (let item in this.offerData.offerObject) {
+        Object.entries(this.offerData.offerObject[item]).forEach(
+          ([oKey, oValue]) => {
+            if (oValue) {
+              Object.entries(el.offerObject).forEach(([elKey, elValue]) => {
+                if (oKey === elKey) {
+                  this.offerData.offerObject[item][oKey].value =
+                    el.offerObject[elKey];
+                }
+              });
+            }
+          }
+        );
+      }
+      for (let item in this.offerData.offerPrice) {
+        Object.entries(this.offerData.offerPrice[item]).forEach(
+          ([oKey, oValue]) => {
+            if (oValue) {
+              Object.entries(el.offerPrice).forEach(([elKey, elValue]) => {
+                if (oKey === elKey) {
+                  this.offerData.offerPrice[item][oKey].value =
+                    el.offerPrice[elKey];
+                }
+              });
+            }
+          }
+        );
+      }
+      this.offerData.offerPrice.deal = el.offerPrice.deal;
+      this.offerData.offerObject.object = el.offerObject.object;
       this.offerData.id = el.id;
       this.offerData.title = el.title;
       this.offerData.photos = el.photos;
-      this.offerData.price = el.price;
       this.offerData.description = el.description;
       this.dialogChange = true;
       document.body.style.overflow = "hidden";
     },
     closeOffer() {
-      // this.offerData.id = null;
-      // this.offerData.title = null;
-      // this.offerData.photos = [];
-      // this.offerData.price = null;
-      // this.offerData.description = null;
       this.dialogChange = false;
       document.body.style.overflow = "auto";
     },
@@ -336,18 +327,63 @@ export default {
       this.$refs[data][0].doClose();
     },
 
-    checkChangesOfferData(el, data) {
-      let checkList = [];
-      el.price === this.offerData.price
-        ? checkList.push(false)
-        : checkList.push(true);
+    // Проверка на то что были ли изменения при нажатии на кнопку "изменить"
+    // checkChangesOfferData(el, data) {
+    //   let checkList = [];
 
-      el.description === data.description
-        ? checkList.push(false)
-        : checkList.push(true);
+    //   el.price === this.offerData.price
+    //     ? checkList.push(false)
+    //     : checkList.push(true);
 
-      let checkInfo = element => element === true;
-      return checkList.some(checkInfo);
+    //   el.description === data.description
+    //     ? checkList.push(false)
+    //     : checkList.push(true);
+
+    //   let checkInfo = element => element === true;
+    //   return checkList.some(checkInfo);
+    // },
+
+    // Удаление обьектов, которое не содержат в себе данные
+    deleteEmptyObjects(data) {
+      for (let i in data.photos) {
+        delete data.photos[i].imgSrc;
+      }
+      for (let prop in data.offerObject) {
+        for (let i in data.offerObject[prop]) {
+          if (data.offerObject[prop][i] == null) {
+            delete data.offerObject[prop][i];
+          } else {
+            delete data.offerObject[prop][i].min;
+            delete data.offerObject[prop][i].max;
+          }
+        }
+        for (let s in data.offerObject[prop]) {
+          if (data.offerObject[prop][s] == null) {
+            delete data.offerObject[prop][s];
+          } else {
+            delete data.offerObject[prop][s].data;
+            delete data.offerObject[prop][s].title;
+          }
+        }
+      }
+      for (let prop in data.offerPrice) {
+        for (let i in data.offerPrice[prop]) {
+          if (data.offerPrice[prop][i] == null) {
+            delete data.offerPrice[prop][i];
+          } else {
+            delete data.offerPrice[prop][i].title;
+            delete data.offerPrice[prop][i].suffix;
+          }
+        }
+        for (let s in data.offerPrice[prop]) {
+          if (data.offerPrice[prop][s] == null) {
+            delete data.offerPrice[prop][s];
+          } else {
+            delete data.offerPrice[prop][s].data;
+          }
+        }
+      }
+      return data;
     },
 
     change_offer() {
@@ -355,41 +391,40 @@ export default {
         this.offerData.photos.length >= 4 &&
         this.offerData.photos.length <= 20
       ) {
-        this.offersList.forEach((el, idx) => {
-          if (el.id == this.offerData.id) {
-            if (
-              this.checkChangesOfferData(el, this.offerData) ||
-              this.flagPhoto
-            ) {
-              let newData = JSON.parse(JSON.stringify(this.offerData));
-              for (let i in newData.photos) {
-                delete newData.photos[i].imgSrc;
-              }
-              Api.getInstance()
-                .account.change_offer(newData)
-                .then(response => {
-                  this.offersList[idx].price = this.offerData.price;
-                  this.offersList[idx].description = this.offerData.description;
-                  this.offersList[idx].photos = this.offerData.photos;
-                  Api.typicalNTFS(
-                    false,
-                    "Объявление было изменено, ожидайте проверку модератором!"
-                  );
-
-                  this.closeOffer();
-                })
-                .catch(error => {
-                  Api.typicalNTFS(error.response.status);
-                });
-            } else {
-              this.sendNTFS(
-                "Предупрждение!",
-                "Вы не изменили данные",
-                "warning"
-              );
-            }
-          }
-        });
+        // this.offersList.forEach((el, idx) => {
+        //   if (el.id == this.offerData.id) {
+        //     if (
+        //       this.checkChangesOfferData(el, this.offerData) ||
+        //       this.flagPhoto
+        //     ) {
+        let objCopy = JSON.parse(JSON.stringify(this.offerData));
+        Api.getInstance()
+          .account.change_offer(this.deleteEmptyObjects(objCopy))
+          .then(response => {
+            // this.offersList[idx].price = this.offerData.price;
+            // this.offersList[idx].description = this.offerData.description;
+            // this.offersList[idx].photos = this.offerData.photos;
+            Api.typicalNTFS(
+              false,
+              "Объявление было изменено, ожидайте проверку модератором!"
+            );
+            this.closeOffer();
+            setTimeout(() => {
+              this.$router.go(this.$router.currentRoute);
+            }, 2000);
+          })
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
+          });
+        // } else {
+        //   this.sendNTFS(
+        //     "Предупрждение!",
+        //     "Вы не изменили данные",
+        //     "warning"
+        //   );
+        // }
+        // }
+        // });
       } else if (this.offerData.photos.length < 4) {
         this.sendNTFS(
           "Предупрждение!",
