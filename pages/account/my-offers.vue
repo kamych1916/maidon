@@ -8,6 +8,7 @@
         :key="idx"
         style="position: initial"
       >
+        {{ el }}
         <div class="card-wrap">
           <div class="row">
             <div class="col-lg">
@@ -272,6 +273,48 @@ export default {
       this.flagPhoto = true;
     },
     openOffer(el) {
+      let agent, deal, estate, object_living, object_commercy;
+
+      this.offersList.forEach((offer, idx) => {
+        if (offer.id == el.id) {
+          agent = offer.agent;
+          deal = offer.deal;
+          estate = offer.type_object;
+          object_living = offer.offer_object.object;
+          object_commercy = offer.offer_object.object;
+        }
+      });
+      let helperData = Helper.getInstance().offer.checkOfferTypes(
+        agent,
+        deal,
+        estate,
+        object_living,
+        object_commercy
+      );
+      helperData
+        ? ((this.offerData.offerObject = helperData.object),
+          (this.offerData.offerPrice = helperData.price))
+        : helperData;
+      Object.entries(this.offerData.offerObject.inputs).forEach(
+        ([oKey, oValue]) => {
+          if (oValue) {
+            Object.entries(el.offer_object).forEach(([elKey, elValue]) => {
+              if (oKey === elKey) {
+                this.offerData.offerObject.inputs[oKey].value =
+                  el.offer_object[elKey];
+              }
+            });
+          }
+        }
+      );
+      // for (let [offKey, offVal] in ofInputs) {
+      //   for (let [elKey, elVal] in elInputs) {
+      //     // if (ofInputs.offKey === elInputs.elKey) {
+      //     console.log(offKey, elKey);
+      //     // }
+      //   }
+      // }
+
       this.offerData.id = el.id;
       this.offerData.title = el.title;
       this.offerData.photos = el.photos;
