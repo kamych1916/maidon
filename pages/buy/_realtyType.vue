@@ -4,10 +4,16 @@
       <div>
         <Breadcrumbs />
       </div>
-      <div><OfferSearch @uploadOffers="uploadOffers" :title="title" /></div>
+      <div>
+        <OfferSearch
+          @uploadOffers="uploadOffers"
+          @openMap="openMap"
+          :title="title"
+        />
+      </div>
     </div>
     <div>
-      <OffersList :offerData="offerData" />
+      <OffersList :offerData="offerData" :isMapShow="isMapShow" />
     </div>
   </div>
 </template>
@@ -23,12 +29,16 @@ export default {
   mixins: [search],
   data() {
     return {
+      isMapShow: false,
       param: this.$route.params.realtyType,
       title: null,
       offerData: null
     };
   },
   methods: {
+    openMap(item) {
+      this.isMapShow = item.data;
+    },
     uploadOffers(list) {
       this.offerData = list.data;
     }

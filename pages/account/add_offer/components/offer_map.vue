@@ -3,13 +3,23 @@
     <div>
       <yandex-map
         :controls="['zoomControl']"
-        :scroll-zoom="true"
-        :zoom="staticZoom ? 17 : zoom"
-        :clusterOptions="{}"
+        :cluster-options="clusterOptions"
         :coords="mapCoords.length > 0 ? mapCoords : coords"
         @click="get_address"
+        :show-all-markers="isListMarkers ? true : false"
+        :zoom="staticZoom ? 17 : zoom"
       >
+        <div v-if="mapMarkers.length > 0">
+          <ymap-marker
+            cluster-name="listMap"
+            v-for="(item, idx) in mapMarkers"
+            :key="idx"
+            :marker-id="idx"
+            :coords="item"
+          ></ymap-marker>
+        </div>
         <ymap-marker
+          v-else
           marker-id="123"
           :coords="mapCoords.length > 0 ? mapCoords : coords"
         ></ymap-marker>
@@ -27,17 +37,22 @@ export default {
     mapCoords: {
       type: Array,
       required: false,
-      default: [38.58088224121, 68.78626802802049]
-    },
-    isStatic: {
-      type: Boolean,
-      required: false,
-      default: false
+      default: Array
     },
     staticZoom: {
       type: Boolean,
       required: false,
       default: false
+    },
+    isListMarkers: {
+      type: Boolean,
+      required: false,
+      default: false
+    },
+    mapMarkers: {
+      type: Array,
+      required: false,
+      default: Array
     }
   },
   watch: {
@@ -51,7 +66,20 @@ export default {
   data() {
     return {
       coords: [38.58088224121, 68.78626802802049],
-      zoom: 12
+      zoom: 12,
+      clusterOptions: {
+        1: {
+          clusterDisableClickZoom: true,
+          clusterOpenBalloonOnClick: true,
+          clusterBalloonLayout: [
+            "<ul class=list>",
+            "{% for geoObject in properties.geoObjects %}",
+            '<li><a href=# class="list_item">{{ geoObject.properties.balloonContentHeader|raw }}</a></li>',
+            "{% endfor %}",
+            "</ul>"
+          ].join("")
+        }
+      }
     };
   },
   created() {
@@ -59,7 +87,7 @@ export default {
   },
   methods: {
     get_address(e) {
-      if (!this.isStatic) {
+      if (!this.staticZoom) {
         this.coords = e.get("coords");
         this.zoom = 17;
         let serverCoords = {

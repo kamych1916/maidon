@@ -1,6 +1,7 @@
 <template>
   <div class="search-wrap">
     <button
+      @click="openMap(true)"
       class="map-btn d-none d-lg-block el-button el-button--success is-round py-10 "
     >
       смотреть на карте
@@ -17,6 +18,7 @@
         <i class="el-icon-arrow-down ml-10 px-0"></i>
       </button>
       <button
+        @click="openMap(true)"
         class="el-button el-button--success  py-10 d-flex justify-content-between"
         style="border-radius: 25px"
       >
@@ -679,6 +681,7 @@ export default {
   },
   methods: {
     changePath() {
+      this.openMap(false);
       let url = "/";
       let queryData = {};
       let data = this.searchData;
@@ -885,6 +888,11 @@ export default {
         .catch(error => {
           Api.typicalNTFS(error.response.status);
         });
+    },
+    openMap(data) {
+      this.$emit("openMap", {
+        data: data
+      });
     },
     resizeFilters() {
       if (window.screen.width < 992) {

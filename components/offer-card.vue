@@ -59,7 +59,6 @@
               <OfferMap
                 :mapCoords="offerData.map_marker"
                 :staticZoom="true"
-                :isStatic="true"
               ></OfferMap>
             </client-only>
           </div>
