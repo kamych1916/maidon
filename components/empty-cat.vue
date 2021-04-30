@@ -9,7 +9,10 @@
       />
     </div>
     <div class="row d-flex justify-content-center text-center mt-20">
-      <div>
+      <div v-if="title" class="mb-20">
+        {{ title }}
+      </div>
+      <div v-else>
         <div>В данном разделе пока что нет объявлений.</div>
         <div class="mt-20 mb-10">
           <button
@@ -29,6 +32,13 @@
 import { cookiesEvents } from "~/utils/cookies";
 export default {
   mixins: [cookiesEvents],
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: ""
+    }
+  },
   methods: {
     check_access() {
       if (this.getCookie("session_token")) {

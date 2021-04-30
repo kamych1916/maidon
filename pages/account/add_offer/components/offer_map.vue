@@ -9,14 +9,17 @@
         :show-all-markers="isListMarkers ? true : false"
         :zoom="staticZoom ? 17 : zoom"
       >
-        <div v-if="mapMarkers.length > 0">
-          <ymap-marker
-            cluster-name="listMap"
-            v-for="(item, idx) in mapMarkers"
-            :key="idx"
-            :marker-id="idx"
-            :coords="item"
-          ></ymap-marker>
+        <div v-if="mapMarkers">
+          <div v-if="mapMarkers.length > 0">
+            <ymap-marker
+              cluster-name="listMap"
+              v-for="(item, idx) in mapMarkers"
+              :key="idx"
+              :marker-id="idx"
+              :coords="item.markers"
+              @click="openOfferCard(item.id)"
+            ></ymap-marker>
+          </div>
         </div>
         <ymap-marker
           v-else
@@ -30,14 +33,14 @@
 
 <script>
 import Api from "~/utils/api";
-import NTFS from "~/utils/notifications";
+// import NTFS from "~/utils/notifications";
 // import VueGeolocation from "vue-browser-geolocation";
 export default {
   props: {
     mapCoords: {
-      type: Array,
+      type: null,
       required: false,
-      default: Array
+      default: null
     },
     staticZoom: {
       type: Boolean,
@@ -50,21 +53,22 @@ export default {
       default: false
     },
     mapMarkers: {
-      type: Array,
+      type: null,
       required: false,
-      default: Array
+      default: null
     }
   },
   watch: {
     mapCoords: function(data) {
       if (data) {
-        this.coords = data;
+        this.coords = typeof data === "object" ? data.markers : data;
         this.zoom = 16;
       }
     }
   },
   data() {
     return {
+      // coords: [],
       coords: [38.58088224121, 68.78626802802049],
       zoom: 12,
       clusterOptions: {
@@ -86,6 +90,11 @@ export default {
     // this.getGEO();
   },
   methods: {
+    openOfferCard(data) {
+      this.$emit("openOfferCard", {
+        id: data
+      });
+    },
     get_address(e) {
       if (!this.staticZoom) {
         this.coords = e.get("coords");
