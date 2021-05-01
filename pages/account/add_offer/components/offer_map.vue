@@ -4,22 +4,30 @@
       <yandex-map
         :controls="['zoomControl']"
         :cluster-options="clusterOptions"
-        :coords="mapCoords.length > 0 ? mapCoords : coords"
+        :coords="
+          mapCoords === null
+            ? markerCoords || mapMarkers[0].markers
+            : mapCoords.length > 0
+            ? mapCoords
+            : coords
+        "
         @click="get_address"
         :show-all-markers="isListMarkers ? true : false"
         :zoom="staticZoom ? 17 : zoom"
       >
         <div v-if="mapMarkers">
           <div v-if="mapMarkers.length > 0">
-            <ymap-marker
-              cluster-name="listMap"
-              v-for="(item, idx) in mapMarkers"
-              :key="idx"
-              :marker-id="idx"
-              :coords="item.markers"
-              @click="openOfferCard(item.id)"
-            ></ymap-marker>
+            <div v-for="(item, idx) in mapMarkers" :key="idx">
+              <ymap-marker
+                cluster-name="listMap"
+                :marker-id="idx"
+                :coords="item.markers"
+                @click="openOfferCard(item)"
+              ></ymap-marker>
+            </div>
           </div>
+          <!-- :coords="uploadCoords(item.markers)" -->
+          <!-- :coords="(item.markers, (coords = item.markers))" -->
         </div>
         <ymap-marker
           v-else
@@ -69,6 +77,7 @@ export default {
   data() {
     return {
       // coords: [],
+      markerCoords: null,
       coords: [38.58088224121, 68.78626802802049],
       zoom: 12,
       clusterOptions: {
@@ -90,9 +99,14 @@ export default {
     // this.getGEO();
   },
   methods: {
+    // uploadCoords(data) {
+    //   this.coords = this.mapMarkers;
+    //   return data;
+    // },
     openOfferCard(data) {
+      this.markerCoords = data.markers;
       this.$emit("openOfferCard", {
-        id: data
+        id: data.id
       });
     },
     get_address(e) {

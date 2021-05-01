@@ -22,8 +22,8 @@
       <div v-else>
         <div class="card-wrap">
           <client-only>
+            <!-- :mapCoords="getMarkers('coords')" -->
             <OfferMap
-              :mapCoords="getMarkers('coords')"
               :mapMarkers="getMarkers()"
               :isListMarkers="isListMarkers"
               @openOfferCard="showOpenCard"
@@ -96,9 +96,9 @@ export default {
       this.offerData.list_offers.forEach(element => {
         if (element.id == data.id) {
           this.offerMapData = element;
-          this.$refs.offerCard.scrollIntoView({ behavior: "smooth" });
         }
       });
+      this.$refs.offerCard.scrollIntoView({ behavior: "smooth" });
     }
   }
 };
