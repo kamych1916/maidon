@@ -16,7 +16,11 @@
         label="Профиль"
         name="profile"
       ></el-tab-pane>
-      <el-tab-pane label="Сообщения" name="messages"></el-tab-pane>
+      <el-tab-pane
+        v-if="!readCookie('ui').is_moder"
+        label="Сообщения"
+        name="chat"
+      ></el-tab-pane>
       <el-tab-pane
         v-if="!readCookie('ui').is_moder"
         label="Жалобы"
