@@ -41,6 +41,11 @@
               Модерация
             </div>
           </nuxt-link>
+          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/my-offers">
+            <div class="w-100 my-10">
+              Мои объвления
+            </div>
+          </nuxt-link>
           <nuxt-link
             v-if="!readCookie('ui').is_moder"
             to="/account/profile"
@@ -50,11 +55,12 @@
               Профиль
             </div>
           </nuxt-link>
-          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/my-offers">
+          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/chat">
             <div class="w-100 my-10">
-              Мои объвления
+              Сообщения
             </div>
           </nuxt-link>
+
           <div
             class="pt-10 w-100"
             style="border-top: 1px solid #ccc; cursor: pointer"
