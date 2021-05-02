@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-lg-8">
           <Breadcrumbs :offerTitle="offerData.title" />
-          <h1 class="mt-10" style="line-height: 1.2 !important;">
+          <h1 class="fs-28 mt-10" style="line-height: 1.2 !important;">
             {{ typeDeal }} {{ offerData.title }}
           </h1>
         </div>
@@ -21,6 +21,13 @@
       <div class="col-lg-8">
         <!-- СЛАЙДЕР -->
         <div class="card-wrap">
+          <div
+            v-if="openSlider"
+            @click="openSlider()"
+            class="hooper-fullscreen fs-12 py-8 px-10 mx-8 my-5"
+          >
+            <i class="bi bi-arrows-fullscreen"></i>
+          </div>
           <hooper
             group="group1"
             :wheelControl="false"
@@ -52,6 +59,32 @@
               ></el-image>
             </slide>
           </hooper>
+          <div
+            v-if="openSlider"
+            class="dialog"
+            :class="[dialogSlider ? 'dialog-active' : '']"
+          >
+            <div
+              style="z-index:20001; right: 2px; top:10px"
+              @click="closeSlider()"
+              class=" hooper-fullscreen fs-14 py-12 px-18  mx-5 my-5"
+            >
+              <i class="bi bi-fullscreen-exit"></i>
+            </div>
+            <Carousel>
+              <CarouselSlide
+                v-for="(img, index) in offerData.offerPhothos"
+                :key="index"
+                class="carousel-slider"
+              >
+                <el-image
+                  draggable="false"
+                  :src="img.imgName"
+                  fit="cover"
+                ></el-image>
+              </CarouselSlide>
+            </Carousel>
+          </div>
         </div>
         <div class="card-wrap">
           <div class="p-10">
@@ -347,7 +380,8 @@ export default {
     return {
       showTel: false,
       offerId: this.$route.params.id,
-      offerData: ""
+      offerData: "",
+      dialogSlider: false
     };
   },
   mounted() {
@@ -363,6 +397,14 @@ export default {
     }
   },
   methods: {
+    openSlider() {
+      this.dialogSlider = true;
+      document.body.style.overflow = "hidden";
+    },
+    closeSlider() {
+      this.dialogSlider = false;
+      document.body.style.overflow = "auto";
+    },
     whatTitle() {
       if (this.offerData) {
         if (this.offerData.offer_price.deal == "rent_long") {
@@ -390,6 +432,20 @@ export default {
 
 <style lang="scss">
 .offer-card {
+  .hooper-fullscreen {
+    cursor: pointer;
+    position: absolute;
+    top: 45px;
+    right: 60px;
+    z-index: 10;
+    background-color: rgba(31, 45, 61, 0.6);
+    color: white;
+    border-radius: 30px;
+    transition: all 0.3s ease;
+    svg {
+      fill: white;
+    }
+  }
   .top-sticky {
     margin-top: 20px;
   }
@@ -405,7 +461,7 @@ export default {
       opacity: 1;
       .el-image {
         background-color: #409eff;
-        border: 2px solid #409eff !important;
+        // border: 2px solid #409eff !important;
         .el-image__inner {
           border-radius: 10px !important;
         }
