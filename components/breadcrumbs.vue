@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
-      <el-breadcrumb-item :to="{ path: '/' }" class="my-5"
+      <el-breadcrumb-item :to="{ path: '/' }" class="mt-10"
         >Главная</el-breadcrumb-item
       >
       <div v-if="!offerTitle">
@@ -9,22 +9,22 @@
           :to="item.path"
           v-for="(item, i) in crumbs"
           :key="i"
-          class="my-5"
+          class="mt-10"
         >
           {{ item.name || "" }}
         </el-breadcrumb-item>
       </div>
       <div v-else>
-        <el-breadcrumb-item :to="{ path: '/' + params.dealPath }" class="my-5">
+        <el-breadcrumb-item :to="{ path: '/' + params.dealPath }" class="mt-10">
           {{ params.deal }}
         </el-breadcrumb-item>
         <el-breadcrumb-item
           :to="{ path: '/' + params.dealPath + '/' + params.typePath }"
-          class="my-5"
+          class="mt-10"
         >
           {{ params.type }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item class="my-5">{{ offerTitle }}</el-breadcrumb-item>
+        <el-breadcrumb-item class="mt-10">{{ offerTitle }}</el-breadcrumb-item>
       </div>
     </el-breadcrumb>
   </div>
