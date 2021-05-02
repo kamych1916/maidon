@@ -68,6 +68,7 @@ export default {
   width: 100%;
   height: 100vh;
   z-index: 2000;
+  background: #141414;
   .btn {
     background-color: rgba(0, 0, 0, 0);
     border: 1px solid transparent;

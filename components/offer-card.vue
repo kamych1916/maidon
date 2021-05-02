@@ -24,7 +24,8 @@
           <div
             v-if="openSlider"
             @click="openSlider()"
-            class="hooper-fullscreen fs-12 py-8 px-10 mx-8 my-5"
+            class="hooper-fullscreen py-8 px-12 mx-4 my-4"
+            style="font-size: 12px !important;"
           >
             <i class="bi bi-arrows-fullscreen"></i>
           </div>
@@ -231,7 +232,7 @@
         <div v-sticky>
           <!-- ЕСЛИ ОБЬЯВЛЕНИЕ НА ПРОДАЖУ -->
           <div class="card-wrap" v-if="offerData.offer_price.deal == 'sell'">
-            <div class="p-10">
+            <div class="">
               <div class="text-blue fs-28">
                 {{ offerData.offer_price.price.toLocaleString("ru") }}
                 <span class="fs-22">сомони</span>
@@ -262,7 +263,7 @@
             class="card-wrap"
             v-else-if="offerData.offer_price.deal == 'rent_long'"
           >
-            <div class="p-10">
+            <div class="">
               <div class="text-blue fs-28">
                 {{ offerData.offer_price.price_mounth.toLocaleString("ru") }}
                 <span class="fs-22">сомони в месяц</span>
@@ -294,7 +295,7 @@
 
           <!-- ЕСЛИ ОБЬЯВЛЕНИЕ ПОСУТОЧНО -->
           <div class="card-wrap" v-else>
-            <div class="p-10">
+            <div class="">
               <div class="text-blue fs-28">
                 {{ offerData.offer_price.price_day.toLocaleString("ru") }}
                 <span class="fs-22">сомони в день</span>
@@ -308,7 +309,7 @@
             </div>
           </div>
           <div class="card-wrap">
-            <div class="p-10">
+            <div class="px-14">
               <div class="row d-flex">
                 <div>
                   <div class="my-5 ">{{ offerData.userInfo }}</div>
