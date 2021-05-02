@@ -78,6 +78,7 @@
                 class="carousel-slider"
               >
                 <el-image
+                  class="border-rad-20"
                   draggable="false"
                   :src="img.imgName"
                   fit="cover"
