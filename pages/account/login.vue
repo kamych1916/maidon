@@ -75,7 +75,7 @@ export default {
       Api.getInstance()
         .auth.signin(this.userData)
         .then(response => {
-          this.setCookie("ui", JSON.stringify(response.data), 1);
+          localStorage.setItem("ui", JSON.stringify(response.data));
           this.setCookie(
             "session_token",
             JSON.stringify(response.data.session_token),

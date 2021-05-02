@@ -4,9 +4,12 @@
     <div class="row mt-50 mb-100 d-flex justify-content-center">
       <Offers />
     </div>
+    <!-- kek
+
+    <textarea @keypress.exact.enter="kek()" maxlength="200">kek</textarea>
     <button @click="connect">OPEN CONNECTION</button>
     <button @click="send">SEND NEW MESSAGE</button>
-    <button @click="close">CLOSE CONNECTION</button>
+    <button @click="close">CLOSE CONNECTION</button> -->
   </div>
 </template>
 
@@ -37,10 +40,16 @@ export default {
   //     console.log("Сообщение " + this.msg);
   //   };
   // },
+  // beforeDestroy() {
+  //   this.close();
+  // },
 
   methods: {
+    kek() {
+      console.log("kek");
+    },
     connect() {
-      this.socket = new WebSocket(`ws://mirllex.site/ws/`);
+      this.socket = new WebSocket(`ws://mirllex.site:8002/`);
 
       let vm = this;
 
@@ -65,6 +74,7 @@ export default {
       this.socket.send("Hello From Client2!");
     },
     close() {
+      this.socket.send("CLOSE CONNECTION FROM CLIENT KAMOL");
       this.socket.onclose = function(event) {
         console.log("The connection has been closed successfully.");
       };

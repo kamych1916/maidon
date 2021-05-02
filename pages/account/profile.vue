@@ -138,6 +138,7 @@ export default {
   },
   data() {
     return {
+      localStore: "",
       checkAccess: false,
       userData: {
         name: null,
@@ -152,14 +153,17 @@ export default {
     };
   },
   mounted() {
-    if (this.getCookie("session_token") && this.getCookie("ui")) {
-      if (this.readCookie("ui").is_moder) {
+    if (localStorage.getItem("ui")) {
+      this.localStore = JSON.parse(localStorage.getItem("ui"));
+    }
+    if (this.getCookie("session_token") && localStorage.getItem("ui")) {
+      if (this.localStore.is_moder) {
         this.$router.push("moderation");
       } else {
-        this.userData.name = this.readCookie("ui").name;
-        this.userData.surname = this.readCookie("ui").surname;
-        this.userData.tel = this.readCookie("ui").tel;
-        this.userData.avatar = this.readCookie("ui").avatar;
+        this.userData.name = this.localStore.name;
+        this.userData.surname = this.localStore.surname;
+        this.userData.tel = this.localStore.tel;
+        this.userData.avatar = this.localStore.avatar;
         this.checkAccess = true;
       }
     } else {

@@ -99,15 +99,19 @@ export default {
     $route(to, from) {
       if (to !== from) {
         this.changeBtnLogin();
-        this.name = this.readCookie("ui").name;
-        this.surname = this.readCookie("ui").surname;
+        if (localStorage.getItem("ui")) {
+          this.name = JSON.parse(localStorage.getItem("ui")).name;
+          this.surname = JSON.parse(localStorage.getItem("ui")).surname;
+        }
       }
     }
   },
   mounted() {
-    this.name = this.readCookie("ui").name || "";
-    this.surname = this.readCookie("ui").surname || "";
-    this.changeBtnLogin();
+    if (localStorage.getItem("ui")) {
+      this.name = JSON.parse(localStorage.getItem("ui")).name || "";
+      this.surname = JSON.parse(localStorage.getItem("ui")).surname || "";
+      this.changeBtnLogin();
+    }
   },
   methods: {
     check_access(data) {
@@ -146,7 +150,7 @@ export default {
     },
     logOut() {
       this.delCookie("session_token");
-      this.delCookie("ui");
+      localStorage.removeItem("ui");
       this.isLogin = false;
       this.$router.push("/");
     }

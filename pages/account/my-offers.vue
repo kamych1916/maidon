@@ -237,7 +237,7 @@ export default {
     };
   },
   mounted() {
-    if (this.getCookie("session_token") && this.getCookie("ui")) {
+    if (this.getCookie("session_token") && localStorage.getItem("ui")) {
       this.checkAccess = true;
       this.get_user_offers();
     } else {
