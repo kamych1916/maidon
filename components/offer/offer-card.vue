@@ -5,12 +5,15 @@
       <div class="row">
         <div class="col-lg-8">
           <Breadcrumbs :offerTitle="offerData.title" />
-          <h1 class="fs-28 mt-10" style="line-height: 1.2 !important;">
+          <h1
+            class="d-none d-sm-block fs-28 mt-10"
+            style="line-height: 1.2 !important;"
+          >
             {{ typeDeal }} {{ offerData.title }}
           </h1>
         </div>
         <div class="col-lg d-lg-flex justify-content-end">
-          <div class="mt-10 fs-14 text-grey">
+          <div class="fs-14 mt-4 text-grey">
             {{ offerData.date }} &nbsp;/&nbsp;
             <span><i class="bi bi-eye"></i> {{ offerData.view }}</span>
           </div>
@@ -100,6 +103,9 @@
         </div>
         <!-- КРАТКАЯ ИНФОРМАЦИЯ -->
         <div class="card-wrap" v-if="!offerData.offer_object.office_type">
+          <div class="pl-10">
+            <h2>Краткое описание</h2>
+          </div>
           <div class="row text-line-height">
             <div
               class="col-6 col-md-3 my-10 text-center"
@@ -319,6 +325,12 @@
                   <div class="fs-14 text-grey my-5" v-else>Собственник</div>
                   <button
                     class="el-button el-button--primary fs-14 py-5 px-5 my-5"
+                    @click="openChat(offerData._id)"
+                  >
+                    написать сообщение</button
+                  ><br />
+                  <button
+                    class="el-button el-button--primary fs-14 py-5 px-5 my-5"
                     @click="view_tel(offerData._id)"
                     v-if="!showTel"
                   >
@@ -399,10 +411,22 @@ export default {
     }
   },
   methods: {
+    openChat(id) {
+      console.log(id);
+      Api.getInstance()
+        .offer.open_chat({ id_offer: id })
+        .then(response => {
+          this.$router.push("/account/chat/" + response.data.id_chat);
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
     openSlider() {
       this.dialogSlider = true;
       document.body.style.overflow = "hidden";
     },
+
     closeSlider() {
       this.dialogSlider = false;
       document.body.style.overflow = "auto";

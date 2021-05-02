@@ -7,7 +7,7 @@
           v-for="(item, index) in offerData.list_offers"
           :key="index"
         >
-          <OfferListCard :offerData="item" />
+          <LazyOfferListCard :offerData="item" />
         </div>
         <div class="mb-50 d-flex justify-content-center" v-if="offerData.pages">
           <el-pagination
@@ -32,9 +32,9 @@
         </div>
         <div ref="offerCard" class="mb-100">
           <div class="card-wrap" v-if="offerMapData">
-            <OfferListCard :offerData="offerMapData" />
+            <LazyOfferListCard :offerData="offerMapData" />
           </div>
-          <EmptyCat
+          <LazyEmptyCat
             v-else
             title="Кликните на метку на карте выше, чтобы отобразилось объявление"
           />

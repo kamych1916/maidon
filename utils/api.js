@@ -45,11 +45,30 @@ export default class Api {
         Api.sendNTFS("Ошибка", "Сервер не доступен :(", "error");
       } else if (status == 422) {
         Api.sendNTFS("Ошибка", "Сервер отправил неверные данные :(", "error");
+      } else if (status == 481) {
+        Api.sendNTFS(
+          "Ошибка",
+          "Вы не можете отправить самому себе сообщение :(",
+          "error"
+        );
       } else if (status == 401) {
         Api.sendNTFS("Ошибка", "Вы не авторизованы", "warning");
-        Api.setCookie("ui", "", null);
+        localStorage.removeItem("ui");
         Api.setCookie("session_token", "", null);
-        window.location.href = "/account/login";
+        setTimeout(() => {
+          window.location.href = "/account/login";
+        }, 1000);
+      } else if (status == 482) {
+        Api.sendNTFS(
+          "Ошибка",
+          "Срок действия вашей сессии истёк, авторизуйтесь заново",
+          "warning"
+        );
+        localStorage.removeItem("ui");
+        Api.setCookie("session_token", "", null);
+        setTimeout(() => {
+          window.location.href = "/account/login";
+        }, 1000);
       } else if (status == 409) {
         Api.sendNTFS("Ошибка", "Данные получены неверно", "warning");
         // setTimeout(() => {
@@ -82,6 +101,14 @@ export default class Api {
   }
 
   offer = {
+    async open_chat(data) {
+      return axios.post(`${API_BASE_URL}/open_chat`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+
     async get_filter_offers(data) {
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
@@ -115,6 +142,27 @@ export default class Api {
   };
 
   account = {
+    async delete_chat(data) {
+      return axios.post(`${API_BASE_URL}/delete_chat`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async get_user_chats() {
+      return axios.get(`${API_BASE_URL}/get_user_chats`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async get_messages(data) {
+      return axios.post(`${API_BASE_URL}/get_messages`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
     async get_user_offers() {
       return axios.get(`${API_BASE_URL}/get_user_offers`, {
         headers: {
