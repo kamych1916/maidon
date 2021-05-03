@@ -4,16 +4,19 @@
     <slide-y-down-transition :duration="700">
       <Nuxt />
     </slide-y-down-transition>
+    <Footer />
   </div>
 </template>
 
 <script>
 import Header from "@/layouts/default-components/header.vue";
+import Footer from "@/layouts/default-components/footer.vue";
 import { SlideYDownTransition } from "vue2-transitions";
 export default {
   components: {
     SlideYDownTransition,
-    Header
+    Header,
+    Footer
   }
 };
 </script>

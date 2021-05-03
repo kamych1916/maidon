@@ -1,8 +1,31 @@
 <template>
-  <div class="main-block" style="postion:relative">
+  <div class="main-block">
     <Title />
     <div class="row mt-50 mb-100 d-flex justify-content-center">
       <Offers />
+    </div>
+    <div class="row my-100 align-items-center">
+      <div class=" col-lg-6 d-flex justify-content-center">
+        <el-image src="/images/offers.png"> </el-image>
+      </div>
+      <div class=" col-lg-6 ">
+        <div>
+          <h1>Чем мы занимаемся?</h1>
+          Сайт <span class="text-blue"> Maidon.tj </span> предназначен для
+          размещения объявлений об аренде и продаже недвижимости в Таджикистане.
+          <br />
+          Все представленные на сайте объекты проверены профессиональными
+          модераторами.
+        </div>
+      </div>
+    </div>
+
+    <div class="row my-100">
+      <div class="col">
+        <div class="card-wrap w-100">
+          <OfferMap :mapCoords="[38.58088224121, 68.78626802802049]"></OfferMap>
+        </div>
+      </div>
     </div>
     <!-- kek
 
@@ -14,12 +37,14 @@
 </template>
 
 <script>
+import OfferMap from "@/pages/account/add_offer/components/offer_map.vue";
 import Title from "~/pages/index-components/Title";
 import Offers from "~/pages/index-components/Offers";
 export default {
   components: {
     Title,
-    Offers
+    Offers,
+    OfferMap
   },
   data: function() {
     return {

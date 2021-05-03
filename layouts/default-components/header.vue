@@ -119,6 +119,7 @@ export default {
         if (data == "account") {
           this.$router.push("/account/profile");
         } else {
+          console.log(data);
           this.$router.push("/account/add_offer");
         }
       } else {

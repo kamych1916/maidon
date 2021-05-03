@@ -151,7 +151,7 @@ export default {
     };
   },
   mounted() {
-    if (this.getCookie("session_token") && this.getCookie("ui")) {
+    if (this.getCookie("session_token") && localStorage.getItem("ui")) {
       this.checkAccess = true;
     } else {
       this.$router.push("login");
