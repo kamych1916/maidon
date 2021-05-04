@@ -16,11 +16,7 @@
         label="Профиль"
         name="profile"
       ></el-tab-pane>
-      <el-tab-pane
-        v-if="!storeData.is_moder"
-        label="Сообщения"
-        name="chat"
-      ></el-tab-pane>
+      <el-tab-pane label="Сообщения" name="chat"></el-tab-pane>
       <el-tab-pane
         v-if="!storeData.is_moder"
         label="Жалобы"
