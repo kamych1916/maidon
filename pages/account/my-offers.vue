@@ -12,16 +12,34 @@
           <div class="row">
             <div class="col-lg">
               <el-image
+                @click="
+                  el.state == '1'
+                    ? $router.push(
+                        '/' + el.deal + '/' + el.object + '/' + el.id
+                      )
+                    : ''
+                "
                 draggable="false"
-                style="height: 200px"
-                class="w-100 border-rad-10 "
+                style="height: 200px;"
+                class="w-100 border-rad-10 cursor"
                 :src="el.photos[0].imgSrc"
                 fit="cover"
               ></el-image>
             </div>
             <div class="col-lg d-flex flex-column justify-content-between">
               <!-- <nuxt-link :to="'/offer/' + el.id" class="text-blue"> -->
-              <h3>{{ el.title }}</h3>
+              <h3
+                class="text-blue cursor"
+                @click="
+                  el.state == '1'
+                    ? $router.push(
+                        '/' + el.deal + '/' + el.object + '/' + el.id
+                      )
+                    : ''
+                "
+              >
+                {{ el.title }}
+              </h3>
               <!-- </nuxt-link> -->
               <div class="fs-14">
                 Просмотрели объявление -
@@ -31,10 +49,19 @@
                 Просмотрели телефон -
                 <span class="text-blue">{{ el.view_tel }}</span>
               </div>
-              <div class="fs-14 mt-20" v-if="el.cancel_info">
-                Информация от модератора -
-                <span class="text-red">{{ el.cancel_info }}</span>
+              <div class="fs-14">
+                Статус -
+                <span style="color: green" v-if="el.state == 1">
+                  подтверждён
+                </span>
+                <span style="color: orange" v-if="el.state == 0">
+                  в ожидании
+                </span>
+                <span style="color: red" v-if="el.state == -1">
+                  отмена, проверьте сообщение от администрации
+                </span>
               </div>
+
               <div class="row mt-12">
                 <button
                   @click="openOffer(el)"
@@ -159,30 +186,6 @@
                     </el-input>
                   </div>
                 </div>
-                <!-- <div class="col-lg">
-                  <div class="card-wrap">
-                    <div class="row mx-0 w-100 align-items-center">
-                      <div class="col-xl-3 my-10">Цена</div>
-                      <div class="col-xl my-10">
-                        <div class="el-input el-input--suffix w-100">
-                          <currency-input
-                            :max="100"
-                            class="el-input__inner"
-                            locale="ru"
-                            :currency="null"
-                            :precision="0"
-                            v-model="offerData.price"
-                          />
-                          <span class="el-input__suffix">
-                            <span class="el-input__suffix-inner">
-                              <i>сомони</i>
-                            </span>
-                          </span>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div> -->
               </div>
             </form>
           </div>
