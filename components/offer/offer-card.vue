@@ -323,19 +323,20 @@
                     агентство недвижимости
                   </div>
                   <div class="fs-14 text-grey my-5" v-else>Собственник</div>
-                  <button
-                    class="el-button el-button--primary fs-14 py-5 px-5 my-5"
+                  <a
+                    class="fs-14 py-5 cursor my-5"
                     @click="openChat(offerData._id)"
                   >
-                    написать сообщение</button
-                  ><br />
-                  <button
-                    class="el-button el-button--primary fs-14 py-5 px-5 my-5"
+                    написать сообщение
+                  </a>
+                  <br />
+                  <a
+                    class=" fs-14 py-5 cursor my-5"
                     @click="view_tel(offerData._id)"
                     v-if="!showTel"
                   >
                     показать телефон
-                  </button>
+                  </a>
                   <a
                     class="my-10 fs-14"
                     :href="'tel:' + offerData.tel"
@@ -412,7 +413,6 @@ export default {
   },
   methods: {
     openChat(id) {
-      console.log(id);
       Api.getInstance()
         .offer.open_chat({ id_offer: id })
         .then(response => {
