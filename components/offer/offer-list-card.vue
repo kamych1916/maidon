@@ -44,7 +44,17 @@
         <div class="h-100 d-flex flex-column justify-content-between">
           <div>
             <h1
-              @click="$router.push(currentPath + '/' + offerData.id)"
+              @click="
+                offerData.deal
+                  ? $router.push(
+                      offerData.deal +
+                        '/' +
+                        offerData.object +
+                        '/' +
+                        offerData.id
+                    )
+                  : $router.push(currentPath + '/' + offerData.id)
+              "
               class="fs-28 mt-0 mb-20 text-blue"
               style="cursor: pointer "
             >
@@ -60,7 +70,17 @@
               {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
             </h4>
             <button
-              @click="$router.push(currentPath + '/' + offerData.id)"
+              @click="
+                offerData.deal
+                  ? $router.push(
+                      offerData.deal +
+                        '/' +
+                        offerData.object +
+                        '/' +
+                        offerData.id
+                    )
+                  : $router.push(currentPath + '/' + offerData.id)
+              "
               class="el-button el-button--primary is-round py-10 px-50 fs-12 d-none d-lg-block"
             >
               Подробнее

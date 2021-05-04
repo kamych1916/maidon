@@ -11,9 +11,14 @@
       </div>
       <div class="col-lg-4 p-20 ">
         <div>
-          <h4>Поддержка</h4>
-          <h5><nuxt-link to="/">Связаться с нами</nuxt-link></h5>
-          <h5><nuxt-link to="/">Стать партнёром</nuxt-link></h5>
+          <h4>Карта сайта</h4>
+          <h5 @click="goToTop()"><nuxt-link to="/buy">Купить</nuxt-link></h5>
+          <h5 @click="goToTop()">
+            <nuxt-link to="/rent">Арендовать длительно</nuxt-link>
+          </h5>
+          <h5 @click="goToTop()">
+            <nuxt-link to="/daily">Снять посуточно</nuxt-link>
+          </h5>
         </div>
       </div>
       <div class="col-lg-4 p-20 ">
@@ -42,7 +47,14 @@
 </template>
 
 <script>
-export default {};
+export default {
+  methods: {
+    goToTop() {
+      document.body.scrollTop = 0;
+      document.documentElement.scrollTop = 0;
+    }
+  }
+};
 </script>
 
 <style></style>

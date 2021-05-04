@@ -115,11 +115,18 @@ export default class Api {
     async get_offer(data) {
       return axios.get(`${API_BASE_URL}/get_offer/${data}`);
     },
+    async get_map_offer(data) {
+      return axios.get(`${API_BASE_URL}/get_map_offer/${data}`);
+    },
+
     async get_address(userData) {
-      return axios.post(`${API_SERVICES_URL}/get_address`, userData);
+      return axios.post(`${API_BASE_URL}/get_address`, userData);
     },
     async get_marker(userData) {
-      return axios.post(`${API_SERVICES_URL}/get_marker`, userData);
+      return axios.post(`${API_BASE_URL}/get_marker`, userData);
+    },
+    async get_markers() {
+      return axios.get(`${API_BASE_URL}/get_markers`);
     },
     async view_tel(id) {
       return axios.post(`${API_BASE_URL}/view_tel`, id);
