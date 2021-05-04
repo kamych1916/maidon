@@ -33,7 +33,7 @@
             {{ name }} {{ surname }}
           </div>
           <nuxt-link
-            v-if="readCookie('ui').is_moder"
+            v-if="userData.is_moder"
             to="/account/moderation"
             class="w-100"
           >
@@ -41,13 +41,13 @@
               Модерация
             </div>
           </nuxt-link>
-          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/my-offers">
+          <nuxt-link v-if="!userData.is_moder" to="/account/my-offers">
             <div class="w-100 my-10">
               Мои объвления
             </div>
           </nuxt-link>
           <nuxt-link
-            v-if="!readCookie('ui').is_moder"
+            v-if="!userData.is_moder"
             to="/account/profile"
             class="w-100"
           >
@@ -55,15 +55,15 @@
               Профиль
             </div>
           </nuxt-link>
-          <nuxt-link v-if="!readCookie('ui').is_moder" to="/account/chat">
+          <nuxt-link to="/account/chat">
             <div class="w-100 my-10">
               Сообщения
             </div>
           </nuxt-link>
 
           <div
-            class="pt-10 w-100"
-            style="border-top: 1px solid #ccc; cursor: pointer"
+            class="pt-10 w-100 cursor"
+            style="border-top: 1px solid #ccc;"
             @click="logOut()"
           >
             Выйти
@@ -91,8 +91,8 @@ export default {
     return {
       name: "",
       surname: "",
-      isLogin: false
-      // userData: this.getCookie("session_token")
+      isLogin: false,
+      userData: null
     };
   },
   watch: {
@@ -108,6 +108,7 @@ export default {
   },
   mounted() {
     if (localStorage.getItem("ui")) {
+      this.userData = JSON.parse(localStorage.getItem("ui"));
       this.name = JSON.parse(localStorage.getItem("ui")).name || "";
       this.surname = JSON.parse(localStorage.getItem("ui")).surname || "";
       this.changeBtnLogin();
