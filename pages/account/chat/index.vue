@@ -26,10 +26,10 @@
                   <div>
                     <span style="word-break: break-all;">
                       <!-- {{ item.user_name }} -->
-                      {{ item.user_name.split(" ")[1] }}<br />
-                      {{ item.user_name.split(" ")[0] }}
+                      {{ item.user_name.split(" ")[0] }}<br />
+                      {{ item.user_name.split(" ")[1] }}
                       <el-tooltip
-                        v-if="!item.unread"
+                        v-if="item.unread"
                         class="item"
                         effect="dark"
                         placement="top-start"

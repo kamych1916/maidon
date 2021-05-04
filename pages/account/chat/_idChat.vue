@@ -1,30 +1,43 @@
 <template>
   <div class="main-wrap" v-if="checkAccess">
     <!-- <Tabs /> -->
-    <div class="d-flex flex-column h-100">
-      <div class="card-wrap px-20 py-16 d-flex justify-content-between">
-        <div class="d-flex ml-10" v-if="offerData">
-          <div class="avatar">
-            <el-image
-              draggable="false"
-              class="w-100 h-100 border-rad-5"
-              :src="offerData.image"
-              fit="cover"
-            ></el-image>
-          </div>
-          <div class="ml-10 d-flex align-items-center">
+    <div class="d-flex flex-column h-100" v-if="offerData">
+      <div
+        class="card-wrap px-20 py-16 d-flex justify-content-between"
+        style="position: relative"
+      >
+        <div class="row d-flex">
+          <div class="col d-flex" style="display: -webkit-inline-box">
             <div>
-              {{ offerData.user_name }}<br />
-              <span class="text-grey fs-12">{{ offerData.title }}</span>
+              <div class="avatar">
+                <el-image
+                  draggable="false"
+                  class="w-100 h-100 border-rad-5"
+                  :src="offerData.image"
+                  fit="cover"
+                ></el-image>
+              </div>
+            </div>
+
+            <div class="ml-10 ">
+              <div>
+                <span style="word-break: break-all;">
+                  {{ offerData.user_name.split(" ")[0] }}<br />
+                  {{ offerData.user_name.split(" ")[1] }}
+                </span>
+                <br />
+                <span class="text-grey fs-12">{{ offerData.title }}</span
+                ><br />
+              </div>
             </div>
           </div>
-        </div>
-        <div class="d-flex align-items-center">
-          <div
-            @click="closeChat(), $router.back()"
-            class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-          >
-            выйти
+          <div style="position: absolute; top: 28px;right: 20px">
+            <div
+              @click="closeChat(), $router.back()"
+              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+            >
+              выйти
+            </div>
           </div>
         </div>
       </div>
@@ -150,7 +163,6 @@ export default {
       Api.getInstance()
         .account.get_messages({ id_chat: this.$route.params.idChat })
         .then(response => {
-          console.log(response.data);
           this.offerData = {
             title: response.data.title,
             image: response.data.image,
@@ -158,16 +170,12 @@ export default {
           };
           this.messages = response.data.messages;
           this.connect();
-          console.log(this.messages);
         })
         .catch(error => {
-          // console.log(error);
           Api.typicalNTFS(error.response.status);
         });
     },
     connect() {
-      // this.socket = new WebSocket("ws://mirllex.site:8002/send_message");
-      // ("ws://mirllex.site:8002/")
       let self = this;
 
       this.socket = new WebSocket(
