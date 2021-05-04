@@ -4,7 +4,7 @@
     <slide-y-down-transition :duration="700">
       <Nuxt />
     </slide-y-down-transition>
-    <Footer />
+    <Footer v-if="$route.path.split('/')[1] !== 'account'" />
   </div>
 </template>
 
