@@ -129,7 +129,7 @@
               </div>
             </div>
           </div>
-          <div class="mt-10 row d-block d-sm-none">
+          <div class="mt-10 row d-block d-md-none">
             <div class="col mt-5 d-flex justify-content-center">
               <button
                 @click="$router.push(currentPath + '/' + offerData.id)"
