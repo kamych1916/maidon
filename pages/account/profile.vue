@@ -34,8 +34,8 @@
                   style="opacity: 0; position: absolute; z-index: -1; "
                 />
                 <label
-                  for="upload-photo"
-                  style="margin-bottom: 0px !important; cursor: pointer"
+                  for="upload-photo cursor"
+                  style="margin-bottom: 0px !important;"
                   >Изменить</label
                 >
               </div>

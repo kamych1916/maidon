@@ -55,8 +55,7 @@
                     )
                   : $router.push(currentPath + '/' + offerData.id)
               "
-              class="fs-28 mt-0 mb-20 text-blue"
-              style="cursor: pointer "
+              class="fs-28 mt-0 mb-20 text-blue cursor"
             >
               {{ offerData.title }}
             </h1>
