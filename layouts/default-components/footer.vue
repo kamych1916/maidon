@@ -12,11 +12,11 @@
       <div class="col-lg-4 p-20 ">
         <div>
           <h4>Карта сайта</h4>
-          <h5 @click="goToTop()"><nuxt-link to="/buy">Купить</nuxt-link></h5>
-          <h5 @click="goToTop()">
+          <h5><nuxt-link to="/buy">Купить</nuxt-link></h5>
+          <h5>
             <nuxt-link to="/rent">Арендовать длительно</nuxt-link>
           </h5>
-          <h5 @click="goToTop()">
+          <h5>
             <nuxt-link to="/daily">Снять посуточно</nuxt-link>
           </h5>
         </div>
@@ -47,14 +47,7 @@
 </template>
 
 <script>
-export default {
-  methods: {
-    goToTop() {
-      document.body.scrollTop = 0;
-      document.documentElement.scrollTop = 0;
-    }
-  }
-};
+export default {};
 </script>
 
 <style></style>

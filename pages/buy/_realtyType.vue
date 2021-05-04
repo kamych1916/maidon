@@ -19,8 +19,10 @@
 </template>
 
 <script>
+// import { goToTop } from "~/utils/goToTop";
 import { search } from "~/utils/search";
 export default {
+  // scrollToTop: true,
   head() {
     return {
       title: this.title
@@ -34,6 +36,9 @@ export default {
       title: null,
       offerData: null
     };
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   },
   methods: {
     openMap(item) {

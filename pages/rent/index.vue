@@ -15,6 +15,9 @@ export default {
     return {
       title: "Снять недвижимость в Таджикистане"
     };
+  },
+  mounted() {
+    window.scrollTo(0, 0);
   }
 };
 </script>

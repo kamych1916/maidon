@@ -151,6 +151,7 @@ export default {
     };
   },
   mounted() {
+    window.scrollTo(0, 0);
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
       this.checkAccess = true;
     } else {
