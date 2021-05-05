@@ -1,11 +1,11 @@
 <template>
   <div class="auth-template mt-50">
-    <form>
+    <form @submit.prevent="reset_pass()">
       <h3>Восстановление пароля</h3>
 
       <div class="form-group mb-18">
         <el-input
-          v-model="userData.email"
+          v-model="email"
           name="email"
           placeholder="E-mail адрес"
           clearable
@@ -34,13 +34,28 @@
 </template>
 
 <script>
+import Api from "~/utils/api";
+import NTFS from "~/utils/notifications";
 export default {
   data() {
     return {
-      userData: {
-        email: null
-      }
+      email: null
     };
+  },
+  methods: {
+    reset_pass() {
+      Api.getInstance()
+        .account.reset_pass({ email: this.email })
+        .then(response => {
+          Api.typicalNTFS(
+            false,
+            "мы отправили письмо на указанную вами почту."
+          );
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    }
   }
 };
 </script>

@@ -223,7 +223,7 @@ export default {
   data() {
     return {
       checkAccess: false,
-      offersList: null,
+      offersList: [],
 
       dialogChange: false,
       popoverDel: false,

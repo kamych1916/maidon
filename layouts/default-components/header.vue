@@ -25,7 +25,7 @@
         <span class="events-text ml-10">Войти</span>
       </a>
       <el-popover v-else width="160" class="mt-12" placement="top">
-        <div>
+        <div v-if="userData">
           <div
             class="pb-10 w-100"
             style="border-bottom: 1px solid #ccc; word-break: break-word;"

@@ -73,9 +73,9 @@
             </div>
           </div>
         </div>
-        <!-- <div class="dialog" :class="[dialogMessages ? 'dialog-active' : '']">
-
-      </div> -->
+      </div>
+      <div v-else>
+        <EmptyCat title="У вас пока еще нет сообщений" />
       </div>
     </div>
   </div>

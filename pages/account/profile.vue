@@ -34,7 +34,8 @@
                   style="opacity: 0; position: absolute; z-index: -1; "
                 />
                 <label
-                  for="upload-photo cursor"
+                  for="upload-photo"
+                  class="cursor"
                   style="margin-bottom: 0px !important;"
                   >Изменить</label
                 >
@@ -175,7 +176,7 @@ export default {
       Api.getInstance()
         .account.patch_info(this.userData)
         .then(response => {
-          this.setCookie("ui", JSON.stringify(this.userData));
+          localStorage.setItem("ui", JSON.stringify(this.userData));
           Api.typicalNTFS(false, "данные успешно изменены");
         })
         .catch(error => {
@@ -199,7 +200,7 @@ export default {
         .account.delete_avatar()
         .then(response => {
           this.userData.avatar = "";
-          this.setCookie("ui", JSON.stringify(this.userData));
+          localStorage.setItem("ui", JSON.stringify(this.userData));
           Api.typicalNTFS(false, "аватарка была удалена");
         })
         .catch(error => {
@@ -222,7 +223,7 @@ export default {
             .account.upload_avatar(formData)
             .then(response => {
               this.userData.avatar = response.data.avatar;
-              this.setCookie("ui", JSON.stringify(this.userData));
+              localStorage.setItem("ui", JSON.stringify(this.userData));
               Api.typicalNTFS(false, "аватарка была загружена");
             })
             .catch(error => {

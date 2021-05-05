@@ -222,6 +222,12 @@ export default class Api {
     async delete_offer(data) {
       return axios.post(`${API_BASE_URL}/delete_offer`, data);
     },
+    async reset_pass(data) {
+      return axios.post(`${API_BASE_URL}/reset_pass`, data);
+    },
+    async restore_pass(data) {
+      return axios.post(`${API_BASE_URL}/restore_pass`, data);
+    },
     async upload_avatar(formData) {
       return axios.post(`${API_BASE_URL}/upload_avatar`, formData, {
         headers: {

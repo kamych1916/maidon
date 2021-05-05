@@ -37,6 +37,7 @@ export default {
   },
   methods: {
     send_activate_code() {
+      console.log(this.$router.currentRoute.query["access"]);
       Api.getInstance()
         .auth.send_activate_code(this.$router.currentRoute.query["access"])
         .then(response => {
