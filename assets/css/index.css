@@ -20,6 +20,7 @@
 @import "element-ui/lib/theme-chalk/pagination.css";
 @import "element-ui/lib/theme-chalk/tabs.css";
 @import "element-ui/lib/theme-chalk/popover.css";
+@import "element-ui/lib/theme-chalk/date-picker.css";
 
 .card-wrap {
   padding: 30px;
