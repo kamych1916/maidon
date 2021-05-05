@@ -12,22 +12,31 @@
             <div class="row d-flex">
               <div class="col d-flex" style="display: -webkit-inline-box">
                 <div>
-                  <div class="avatar">
+                  <div class="avatar" v-if="!isModer">
                     <el-image
+                      v-if="item.user_name != 'Модератор'"
                       draggable="false"
                       class="w-100 h-100 border-rad-5"
                       :src="item.image"
                       fit="cover"
                     ></el-image>
+                    <div v-else>
+                      <i class="bi bi-gear fs-22"></i>
+                    </div>
                   </div>
                 </div>
 
                 <div class="ml-10 ">
                   <div>
                     <span style="word-break: break-all;">
-                      <!-- {{ item.user_name }} -->
-                      {{ item.user_name.split(" ")[0] }}<br />
-                      {{ item.user_name.split(" ")[1] }}
+                      <span v-if="item.user_name === 'Модератор'">{{
+                        item.user_name
+                      }}</span>
+                      <span v-else>
+                        {{ item.user_name.split(" ")[0] }}<br />
+                        {{ item.user_name.split(" ")[1] }}
+                      </span>
+
                       <el-tooltip
                         v-if="item.unread"
                         class="item"
@@ -48,7 +57,10 @@
                   </div>
                 </div>
               </div>
-              <div style="position: absolute; top: 40px;right: 20px">
+              <div
+                v-if="item.user_name != 'Модератор'"
+                style="position: absolute; top: 40px;right: 20px"
+              >
                 <el-popover trigger="hover" width="183" placement="top">
                   <div>
                     <p>Удалить данный чат?</p>
@@ -95,12 +107,14 @@ export default {
     return {
       checkAccess: false,
       currentPath: this.$nuxt.$route.path,
-      listChats: []
+      listChats: [],
+      isModer: null
     };
   },
 
   mounted() {
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
+      this.isModer = JSON.parse(localStorage.getItem("ui")).is_moder;
       this.checkAccess = true;
       this.get_user_chats();
     } else {

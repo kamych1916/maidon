@@ -100,6 +100,7 @@ export default {
       if (to !== from) {
         this.changeBtnLogin();
         if (localStorage.getItem("ui")) {
+          this.userData = JSON.parse(localStorage.getItem("ui"));
           this.name = JSON.parse(localStorage.getItem("ui")).name;
           this.surname = JSON.parse(localStorage.getItem("ui")).surname;
         }
@@ -120,8 +121,7 @@ export default {
         if (data == "account") {
           this.$router.push("/account/profile");
         } else {
-          console.log(data);
-          this.$router.push("/account/add_offer");
+          if (!this.userData.is_moder) this.$router.push("/account/add_offer");
         }
       } else {
         this.$router.push("/account/login");

@@ -153,7 +153,8 @@ export default {
   mounted() {
     window.scrollTo(0, 0);
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
-      this.checkAccess = true;
+      if (!JSON.parse(localStorage.getItem("ui")).is_moder)
+        this.checkAccess = true;
     } else {
       this.$router.push("login");
     }
