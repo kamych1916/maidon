@@ -109,6 +109,9 @@ export default class Api {
       });
     },
 
+    async add_complaint(data) {
+      return axios.post(`${API_BASE_URL}/add_complaint`, data);
+    },
     async get_filter_offers(data) {
       return axios.post(`${API_BASE_URL}/get_filter_offers`, data);
     },
