@@ -10,7 +10,7 @@ import Vue from "vue";
 // } from 'element-ui';
 
 import ElementUi from "element-ui";
-import locale from "element-ui/lib/locale/lang/ru-Ru";
+import * as locale from "element-ui/lib/locale/lang/en";
 Vue.use(ElementUi, { locale });
 
 // Vue.component(RadioButton.name, RadioButton)
