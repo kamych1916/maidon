@@ -181,8 +181,7 @@
         <div class="card-wrap">
           <div class="p-10">
             <h2>Описание</h2>
-            <span style="white-space: pre-line;">
-              {{ offerData.offerDescription }}
+            <span v-html="offerData.offerDescription.replace(/\n/g, '<br />')">
             </span>
           </div>
         </div>
@@ -346,9 +345,48 @@
                     >{{ offerData.tel }}</a
                   ><br />
                   <i class="bi bi-exclamation-diamond fs-12 text-blue"></i>
-                  <a class="fs-14 py-5 cursor my-5">
-                    пожаловаться
-                  </a>
+                  <el-popover width="320" placement="top" ref="complaint">
+                    <div>
+                      <!-- <p>
+                        Пожалуйста аргументированно распишите причину жалобы:
+                      </p> -->
+                      <form
+                        @submit.prevent="
+                          add_complaint(offerData.id_user, offerData.title)
+                        "
+                      >
+                        <el-input
+                          required
+                          type="textarea"
+                          class="my-20"
+                          style="border-radius: 100px"
+                          :autosize="{ minRows: 10, maxRows: 20 }"
+                          v-model="complaint"
+                          maxlength="3000"
+                          placeholder="Пожалуйста, распишите причину жалобы аргументировано:"
+                        >
+                        </el-input>
+                        <div style="text-align: right; margin: 0">
+                          <el-button
+                            size="mini"
+                            type="text"
+                            @click="closePopover()"
+                            >отмена</el-button
+                          >
+                          <button
+                            class="el-button el-button--danger el-button--mini"
+                            type="submit"
+                          >
+                            Отправить
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <a slot="reference" class="fs-14 py-5 cursor my-5">
+                      пожаловаться
+                    </a>
+                  </el-popover>
+
                   <br />
                 </div>
 
@@ -403,7 +441,8 @@ export default {
       showTel: false,
       offerId: this.$route.params.id,
       offerData: "",
-      dialogSlider: false
+      dialogSlider: false,
+      complaint: ""
     };
   },
   mounted() {
@@ -420,6 +459,24 @@ export default {
     }
   },
   methods: {
+    add_complaint(id, title) {
+      Api.getInstance()
+        .offer.add_complaint({
+          id_user: id,
+          text: this.complaint,
+          title: title
+        })
+        .then(response => {
+          this.closePopover();
+          Api.typicalNTFS(
+            false,
+            "жалоба была оптравлена, спасибо за обратную связь!"
+          );
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
     openChat(id) {
       Api.getInstance()
         .offer.open_chat({ id_offer: id })
@@ -459,6 +516,9 @@ export default {
         .catch(error => {
           Api.typicalNTFS(error.response.status);
         });
+    },
+    closePopover() {
+      this.$refs.complaint.doClose();
     }
   }
 };

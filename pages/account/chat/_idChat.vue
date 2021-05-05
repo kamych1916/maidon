@@ -7,21 +7,28 @@
         style="position: relative"
       >
         <div class="row d-flex">
-          <div class="col d-flex" style="display: -webkit-inline-box">
+          <div class="col ml-16 d-flex" style="display: -webkit-inline-box">
             <div>
-              <div class="avatar">
+              <div class="avatar" v-if="!isModer">
                 <el-image
+                  v-if="offerData.user_name != 'Модератор'"
                   draggable="false"
                   class="w-100 h-100 border-rad-5"
                   :src="offerData.image"
                   fit="cover"
                 ></el-image>
+                <div v-else>
+                  <i class="bi bi-gear fs-22"></i>
+                </div>
               </div>
             </div>
 
             <div class="ml-10 ">
               <div>
-                <span style="word-break: break-all;">
+                <span v-if="offerData.user_name === 'Модератор'">{{
+                  offerData.user_name
+                }}</span>
+                <span v-else>
                   {{ offerData.user_name.split(" ")[0] }}<br />
                   {{ offerData.user_name.split(" ")[1] }}
                 </span>
@@ -43,16 +50,14 @@
       </div>
       <div class="card-wrap mb-0 h-100">
         <div class="d-flex flex-column h-100">
-          <div ref="messageWrap" class="h-100 messages-wrap px-10 py-20">
+          <div ref="messageWrap" class="h-100 messages-wrap px-5 py-20">
             <div v-for="(el, idx) in messages" :key="idx">
               <div
                 v-if="el.user == 'remote'"
                 class="message-container msg-remote py-10"
               >
                 <div class="msg-box d-flex flex-column">
-                  <div>
-                    {{ el.text }}
-                  </div>
+                  <div v-html="el.text.replace(/\n/g, '<br />')"></div>
                   <div class="fs-12 mt-5">
                     {{ el.date }}
                   </div>
@@ -63,9 +68,7 @@
                 class="message-container msg-self py-10"
               >
                 <div class="msg-box d-flex flex-column">
-                  <div>
-                    {{ el.text }}
-                  </div>
+                  <div v-html="el.text.replace(/\n/g, '<br />')"></div>
                   <div class="fs-12 mt-5">
                     {{ el.date }}
                   </div>
@@ -121,7 +124,8 @@ export default {
       checkAccess: false,
       message: null,
       offerData: null,
-      messages: []
+      messages: [],
+      isModer: null
     };
   },
   watch: {
@@ -137,6 +141,7 @@ export default {
       this.checkAccess = true;
       this.messages.push(10);
       this.messages.splice(-1, 1);
+      this.isModer = JSON.parse(localStorage.getItem("ui")).is_moder;
       this.get_messages();
     } else {
       this.$router.push("login");
