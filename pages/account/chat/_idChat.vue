@@ -190,11 +190,11 @@ export default {
       );
 
       this.socket.onopen = function(openEvent) {
-        console.log("ws::open : connection established " + openEvent);
+        // console.log("ws::open : connection established " + openEvent);
       };
 
       this.socket.onerror = function(errorEvent) {
-        console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
+        // console.log("WebSocket ERROR: " + JSON.stringify(errorEvent, null, 4));
       };
 
       this.socket.onmessage = function(messageEvent) {
@@ -203,7 +203,6 @@ export default {
           console.error("ws::msg_in:error: " + wsMsg.error);
         } else {
           self.messages.push(JSON.parse(wsMsg));
-          console.info("ws::msg_in: " + JSON.parse(wsMsg));
         }
       };
     }
