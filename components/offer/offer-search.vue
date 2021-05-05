@@ -175,6 +175,7 @@
         </div>
         <div class="col-lg-2 my-10">
           <button
+            style="border-radius: 25px"
             @click="changePath()"
             class="el-button el-button--primary is-round py-16 w-100 "
           >
@@ -890,6 +891,11 @@ export default {
         });
     },
     openMap(data) {
+      window.screen.width < 992
+        ? this.isAccorActive
+          ? (this.isAccorActive = false)
+          : null
+        : null;
       this.$emit("openMap", {
         data: data
       });
