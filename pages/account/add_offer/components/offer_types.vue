@@ -1,5 +1,5 @@
 <template>
-  <div class="offer-types">
+  <div class="radio-types">
     <h4>Выберите тип аккаунта:</h4>
     <div class="row mt-30">
       <div class="col-md-4 col-6 my-10">
@@ -245,69 +245,3 @@ export default {
   }
 };
 </script>
-
-<style lang="scss" scoped>
-.offer-types {
-  .custom-radio input {
-    display: none;
-  }
-  .radio-btn {
-    background: #fff;
-    border: 3px solid transparent;
-    display: inline-block;
-    border-radius: 1rem;
-    text-align: center;
-    box-shadow: 0 0 20px #c3c3c367;
-    cursor: pointer;
-    transition: 0.2s;
-  }
-  .radio-btn i {
-    color: #212529;
-    font-size: 50px;
-    transition: 0.2s;
-  }
-  .radio-btn h3 {
-    color: #212529;
-    font-size: 16px;
-    text-transform: uppercase;
-    transition: 0.2s;
-  }
-  .radio-btn:hover {
-    background: #3a8ee6;
-  }
-  .radio-btn:active {
-    transform: scale(0.95);
-  }
-  .radio-btn:hover i {
-    color: #fff;
-  }
-  .radio-btn:hover h3 {
-    color: #fff;
-  }
-
-  input:checked + .radio-btn {
-    background: #3a8ee6;
-    i,
-    h3 {
-      color: #fff;
-    }
-  }
-  @media screen and (max-width: 1024px) {
-    .custom-radio .pb-20 {
-      padding-bottom: 10px !important;
-    }
-    .radio-btn h3 {
-      font-size: 13px !important;
-    }
-    .radio-btn:hover {
-      background: #fff;
-    }
-    .radio-btn:hover i {
-      color: black;
-    }
-    .radio-btn:hover h3 {
-      color: black;
-    }
-  }
-}
-</style>
