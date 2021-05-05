@@ -17,11 +17,6 @@
         name="profile"
       ></el-tab-pane>
       <el-tab-pane label="Сообщения" name="chat"></el-tab-pane>
-      <el-tab-pane
-        v-if="!storeData.is_moder"
-        label="Жалобы"
-        name="complaints"
-      ></el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -46,8 +41,8 @@ export default {
   },
   methods: {
     handleClick() {
-      if (this.activeName != "messages" && this.activeName != "complaints")
-        this.$router.push("/account/" + this.activeName);
+      // if (this.activeName != "messages" && this.activeName != "complaints")
+      this.$router.push("/account/" + this.activeName);
     }
   }
 };
