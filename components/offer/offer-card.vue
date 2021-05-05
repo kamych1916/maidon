@@ -323,6 +323,7 @@
                     агентство недвижимости
                   </div>
                   <div class="fs-14 text-grey my-5" v-else>Собственник</div>
+                  <i class="bi bi-chat-dots fs-12 text-blue"></i>
                   <a
                     class="fs-14 py-5 cursor my-5"
                     @click="openChat(offerData._id)"
@@ -330,6 +331,7 @@
                     написать сообщение
                   </a>
                   <br />
+                  <i class="bi bi-telephone fs-12 text-blue"></i>
                   <a
                     class=" fs-14 py-5 cursor my-5"
                     @click="view_tel(offerData._id)"
@@ -342,7 +344,12 @@
                     :href="'tel:' + offerData.tel"
                     v-if="showTel"
                     >{{ offerData.tel }}</a
-                  >
+                  ><br />
+                  <i class="bi bi-exclamation-diamond fs-12 text-blue"></i>
+                  <a class="fs-14 py-5 cursor my-5">
+                    пожаловаться
+                  </a>
+                  <br />
                 </div>
 
                 <div class="col px-0 d-flex justify-content-end">
