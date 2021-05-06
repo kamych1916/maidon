@@ -20,7 +20,197 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row ">
+      <!-- СТОИМОСТЬ И АККАУНТ -->
+      <div class="col-lg-4 mb-20" sticky-container>
+        <div v-sticky>
+          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ НА ПРОДАЖУ -->
+          <div class="card-wrap" v-if="offerData.offer_price.deal == 'sell'">
+            <div class="">
+              <div class="text-blue fs-28">
+                {{ offerData.offer_price.price.toLocaleString("ru") }}
+                <span class="fs-22">сомони</span>
+              </div>
+              <div class="text-grey fs-14">
+                {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
+              </div>
+              <div class="mt-10">
+                Тип продажи -
+                <span style="text-transform:lowercase" class="text-blue">
+                  {{ offerData.offer_price.type_sell }}
+                </span>
+              </div>
+              <div
+                class="mt-10"
+                v-if="offerData.offer_price.percentageTransaction"
+              >
+                Процент от сделки агенту -
+                <span style="text-transform:lowercase" class="text-blue">
+                  {{ offerData.offer_price.percentageTransaction }}%
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ НА ДЛИТЕЛЬНУЮ АРЕНДУ -->
+          <div
+            class="card-wrap"
+            v-else-if="offerData.offer_price.deal == 'rent_long'"
+          >
+            <div class="">
+              <div class="text-blue fs-28">
+                {{ offerData.offer_price.price_mounth.toLocaleString("ru") }}
+                <span class="fs-22">сомони в месяц</span>
+              </div>
+              <div class="mt-10" v-if="offerData.offer_price.deposit">
+                Залог -
+                <span class="text-blue">
+                  {{ offerData.offer_price.deposit.toLocaleString("ru") }}
+                  сомони
+                </span>
+              </div>
+              <div class="mt-10" v-else>
+                Без залога
+              </div>
+              <div class="mt-10">
+                Предоплата -
+                <span class="text-blue">
+                  {{ offerData.offer_price.prepayment }}
+                </span>
+              </div>
+              <div class="mt-10">
+                Состав съемщиков -
+                <span style="text-transform:lowercase" class="text-blue">
+                  {{ offerData.offer_price.for_who }}
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ ПОСУТОЧНО -->
+          <div class="card-wrap" v-else>
+            <div class="">
+              <div class="text-blue fs-28">
+                {{ offerData.offer_price.price_day.toLocaleString("ru") }}
+                <span class="fs-22">сомони в день</span>
+              </div>
+              <div class="mt-10">
+                Состав съемщиков -
+                <span style="text-transform:lowercase" class="text-blue">
+                  {{ offerData.offer_price.for_who }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="card-wrap">
+            <div class="px-14">
+              <div class="row d-flex">
+                <div>
+                  <div class="my-5 ">{{ offerData.userInfo }}</div>
+                  <div class="fs-14 text-grey my-5">
+                    <span v-if="offerData.account_type == 'owner'"
+                      >собственник</span
+                    >
+                    <span v-else-if="offerData.account_type == 'realtor'"
+                      >риелтор</span
+                    >
+                    <span v-else>агентство </span>
+                  </div>
+                  <i class="bi bi-chat-dots fs-12 text-blue"></i>
+                  <a
+                    class="fs-14 py-5 cursor my-5"
+                    @click="openChat(offerData._id)"
+                  >
+                    написать сообщение
+                  </a>
+                  <br />
+                  <i class="bi bi-telephone fs-12 text-blue"></i>
+                  <a
+                    class=" fs-14 py-5 cursor my-5"
+                    @click="view_tel(offerData._id)"
+                    v-if="!showTel"
+                  >
+                    показать телефон
+                  </a>
+                  <a
+                    class="my-10 fs-14"
+                    :href="'tel:' + offerData.tel"
+                    v-if="showTel"
+                    >{{ offerData.tel }}</a
+                  ><br />
+                  <i class="bi bi-exclamation-diamond fs-12 text-blue"></i>
+                  <el-popover width="320" placement="top" ref="complaint">
+                    <div>
+                      <!-- <p>
+                        Пожалуйста аргументированно распишите причину жалобы:
+                      </p> -->
+                      <form
+                        @submit.prevent="
+                          add_complaint(offerData.id_user, offerData.title)
+                        "
+                      >
+                        <el-input
+                          required
+                          type="textarea"
+                          class="my-20"
+                          style="border-radius: 100px"
+                          :autosize="{ minRows: 10, maxRows: 20 }"
+                          v-model="complaint"
+                          maxlength="3000"
+                          placeholder="Пожалуйста, распишите причину жалобы аргументировано:"
+                        >
+                        </el-input>
+                        <div style="text-align: right; margin: 0">
+                          <el-button
+                            size="mini"
+                            type="text"
+                            @click="closePopover()"
+                            >отмена</el-button
+                          >
+                          <button
+                            class="el-button el-button--danger el-button--mini"
+                            type="submit"
+                          >
+                            Отправить
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                    <a slot="reference" class="fs-14 py-5 cursor my-5">
+                      пожаловаться
+                    </a>
+                  </el-popover>
+
+                  <br />
+                </div>
+
+                <div class="col px-0 d-flex justify-content-end">
+                  <div class="avatar">
+                    <el-image
+                      draggable="false"
+                      class="w-100 h-100 border-rad-5"
+                      :src="offerData.user_avatar"
+                      fit="cover"
+                      v-if="offerData.user_avatar"
+                    ></el-image>
+                    <div v-else>
+                      <i
+                        class="bi bi-person-check fs-22"
+                        v-if="offerData.account_type == 'owner'"
+                      ></i>
+                      <i
+                        class="bi bi-briefcase fs-22"
+                        v-else-if="offerData.account_type == 'realtor'"
+                      ></i>
+                      <i class="bi bi-journal-medical fs-22" v-else></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="col-lg-8">
         <!-- СЛАЙДЕР -->
         <div class="card-wrap">
@@ -231,197 +421,6 @@
           </div>
         </div>
       </div>
-
-      <!-- СТОИМОСТЬ И АККАУНТ -->
-      <div class="col-lg-4" sticky-container>
-        <div v-sticky>
-          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ НА ПРОДАЖУ -->
-          <div class="card-wrap" v-if="offerData.offer_price.deal == 'sell'">
-            <div class="">
-              <div class="text-blue fs-28">
-                {{ offerData.offer_price.price.toLocaleString("ru") }}
-                <span class="fs-22">сомони</span>
-              </div>
-              <div class="text-grey fs-14">
-                {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
-              </div>
-              <div class="mt-10">
-                Тип продажи -
-                <span style="text-transform:lowercase" class="text-blue">
-                  {{ offerData.offer_price.type_sell }}
-                </span>
-              </div>
-              <div
-                class="mt-10"
-                v-if="offerData.offer_price.percentageTransaction"
-              >
-                Процент от сделки агенту -
-                <span style="text-transform:lowercase" class="text-blue">
-                  {{ offerData.offer_price.percentageTransaction }}%
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ НА ДЛИТЕЛЬНУЮ АРЕНДУ -->
-          <div
-            class="card-wrap"
-            v-else-if="offerData.offer_price.deal == 'rent_long'"
-          >
-            <div class="">
-              <div class="text-blue fs-28">
-                {{ offerData.offer_price.price_mounth.toLocaleString("ru") }}
-                <span class="fs-22">сомони в месяц</span>
-              </div>
-              <div class="mt-10" v-if="offerData.offer_price.deposit">
-                Залог -
-                <span class="text-blue">
-                  {{ offerData.offer_price.deposit.toLocaleString("ru") }}
-                  сомони
-                </span>
-              </div>
-              <div class="mt-10" v-else>
-                Без залога
-              </div>
-              <div class="mt-10">
-                Предоплата -
-                <span class="text-blue">
-                  {{ offerData.offer_price.prepayment }}
-                </span>
-              </div>
-              <div class="mt-10">
-                Состав съемщиков -
-                <span style="text-transform:lowercase" class="text-blue">
-                  {{ offerData.offer_price.for_who }}
-                </span>
-              </div>
-            </div>
-          </div>
-
-          <!-- ЕСЛИ ОБЬЯВЛЕНИЕ ПОСУТОЧНО -->
-          <div class="card-wrap" v-else>
-            <div class="">
-              <div class="text-blue fs-28">
-                {{ offerData.offer_price.price_day.toLocaleString("ru") }}
-                <span class="fs-22">сомони в день</span>
-              </div>
-              <div class="mt-10">
-                Состав съемщиков -
-                <span style="text-transform:lowercase" class="text-blue">
-                  {{ offerData.offer_price.for_who }}
-                </span>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrap">
-            <div class="px-14">
-              <div class="row d-flex">
-                <div>
-                  <div class="my-5 ">{{ offerData.userInfo }}</div>
-                  <div class="fs-14 text-grey my-5">
-                    <span v-if="offerData.account_type == 'owner'"
-                      >собственник</span
-                    >
-                    <span v-else-if="offerData.account_type == 'realtor'"
-                      >риелтор</span
-                    >
-                    <span v-else>агентство </span>
-                  </div>
-                  <i class="bi bi-chat-dots fs-12 text-blue"></i>
-                  <a
-                    class="fs-14 py-5 cursor my-5"
-                    @click="openChat(offerData._id)"
-                  >
-                    написать сообщение
-                  </a>
-                  <br />
-                  <i class="bi bi-telephone fs-12 text-blue"></i>
-                  <a
-                    class=" fs-14 py-5 cursor my-5"
-                    @click="view_tel(offerData._id)"
-                    v-if="!showTel"
-                  >
-                    показать телефон
-                  </a>
-                  <a
-                    class="my-10 fs-14"
-                    :href="'tel:' + offerData.tel"
-                    v-if="showTel"
-                    >{{ offerData.tel }}</a
-                  ><br />
-                  <i class="bi bi-exclamation-diamond fs-12 text-blue"></i>
-                  <el-popover width="320" placement="top" ref="complaint">
-                    <div>
-                      <!-- <p>
-                        Пожалуйста аргументированно распишите причину жалобы:
-                      </p> -->
-                      <form
-                        @submit.prevent="
-                          add_complaint(offerData.id_user, offerData.title)
-                        "
-                      >
-                        <el-input
-                          required
-                          type="textarea"
-                          class="my-20"
-                          style="border-radius: 100px"
-                          :autosize="{ minRows: 10, maxRows: 20 }"
-                          v-model="complaint"
-                          maxlength="3000"
-                          placeholder="Пожалуйста, распишите причину жалобы аргументировано:"
-                        >
-                        </el-input>
-                        <div style="text-align: right; margin: 0">
-                          <el-button
-                            size="mini"
-                            type="text"
-                            @click="closePopover()"
-                            >отмена</el-button
-                          >
-                          <button
-                            class="el-button el-button--danger el-button--mini"
-                            type="submit"
-                          >
-                            Отправить
-                          </button>
-                        </div>
-                      </form>
-                    </div>
-                    <a slot="reference" class="fs-14 py-5 cursor my-5">
-                      пожаловаться
-                    </a>
-                  </el-popover>
-
-                  <br />
-                </div>
-
-                <div class="col px-0 d-flex justify-content-end">
-                  <div class="avatar">
-                    <el-image
-                      draggable="false"
-                      class="w-100 h-100 border-rad-5"
-                      :src="offerData.user_avatar"
-                      fit="cover"
-                      v-if="offerData.user_avatar"
-                    ></el-image>
-                    <div v-else>
-                      <i
-                        class="bi bi-person-check fs-22"
-                        v-if="offerData.account_type == 'owner'"
-                      ></i>
-                      <i
-                        class="bi bi-briefcase fs-22"
-                        v-else-if="offerData.account_type == 'realtor'"
-                      ></i>
-                      <i class="bi bi-journal-medical fs-22" v-else></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
@@ -550,9 +549,7 @@ export default {
       fill: white;
     }
   }
-  .top-sticky {
-    margin-top: 20px;
-  }
+
   .gallery-slide {
     height: 400px !important;
     .hooper-slide {

@@ -10,7 +10,7 @@
       </div>
       <div class=" col-lg-6 ">
         <div>
-          <h1>Чем мы занимаемся?</h1>
+          <div class="fs-28 mb-10">Чем мы занимаемся?</div>
           Сайт <span class="text-blue"> Maidon.tj </span> предназначен для
           размещения объявлений об аренде и продаже недвижимости в Таджикистане.
           <br />
@@ -28,6 +28,16 @@
           <button class="el-button el-button--primary">
             Все объявления на карте
           </button>
+        </div>
+      </div>
+    </div>
+    <div class=" my-100 ">
+      <div class="fs-22 mb-10 text-center">
+        Много времени занимает поиск недвижимости?
+        <div class="mt-10">
+          Обратитетесь к
+          <nuxt-link to="/realtors"> риелторам</nuxt-link> либо
+          <nuxt-link to="/agents"> агентствам</nuxt-link>!
         </div>
       </div>
     </div>

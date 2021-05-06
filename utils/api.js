@@ -100,6 +100,23 @@ export default class Api {
     }
   }
 
+  clients = {
+    //Получение списка всех аккаунтов - риелторов и агентств
+    async get_accounts(data) {
+      return axios.post(`${API_BASE_URL}/get_accounts`, data);
+    },
+    async get_info_account(data) {
+      return axios.get(`${API_BASE_URL}/get_info_account/${data}`);
+    },
+    async add_review(data) {
+      return axios.post(`${API_BASE_URL}/add_review`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    }
+  };
+
   offer = {
     async open_chat(data) {
       return axios.post(`${API_BASE_URL}/open_chat`, data, {
@@ -108,7 +125,6 @@ export default class Api {
         }
       });
     },
-
     async add_complaint(data) {
       return axios.post(`${API_BASE_URL}/add_complaint`, data);
     },

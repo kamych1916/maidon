@@ -4,7 +4,7 @@
       <el-breadcrumb-item :to="{ path: '/' }" class="my-5"
         >Главная</el-breadcrumb-item
       >
-      <div v-if="!offerTitle">
+      <div v-if="!offerTitle && !accountTitle">
         <el-breadcrumb-item
           :to="item.path"
           v-for="(item, i) in crumbs"
@@ -19,12 +19,15 @@
           {{ params.deal }}
         </el-breadcrumb-item>
         <el-breadcrumb-item
+          v-if="offerTitle"
           :to="{ path: '/' + params.dealPath + '/' + params.typePath }"
           class="my-5"
         >
           {{ params.type }}
         </el-breadcrumb-item>
-        <el-breadcrumb-item class="my-5">{{ offerTitle }}</el-breadcrumb-item>
+        <el-breadcrumb-item class="my-5"
+          >{{ offerTitle || accountTitle }}
+        </el-breadcrumb-item>
       </div>
     </el-breadcrumb>
   </div>
@@ -33,6 +36,11 @@
 <script>
 export default {
   props: {
+    accountTitle: {
+      type: String,
+      required: false,
+      default: null
+    },
     offerTitle: {
       type: String,
       required: false,

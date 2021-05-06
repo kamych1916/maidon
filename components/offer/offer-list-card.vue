@@ -13,7 +13,7 @@
           </slide>
           <hooper-navigation slot="hooper-addons"></hooper-navigation>
         </hooper>
-        <div class="row mt-20 px-2">
+        <div class="row mt-20 px-2 bottom-images">
           <div class="col ">
             <el-image
               class="border-rad-5 w-100"
@@ -43,22 +43,21 @@
       <div class="col-lg-6 w-100 mt-10">
         <div class="h-100 d-flex flex-column justify-content-between">
           <div>
-            <h1
-              @click="
+            <nuxt-link
+              :to="
                 offerData.deal
-                  ? $router.push(
-                      offerData.deal +
-                        '/' +
-                        offerData.object +
-                        '/' +
-                        offerData.id
-                    )
-                  : $router.push(currentPath + '/' + offerData.id)
+                  ? '/' +
+                    offerData.deal +
+                    '/' +
+                    offerData.object +
+                    '/' +
+                    offerData.id
+                  : currentPath + '/' + offerData.id
               "
               class="fs-28 mt-0 mb-20 text-blue cursor"
             >
               {{ offerData.title }}
-            </h1>
+            </nuxt-link>
             <h3 class="fs-14 my-20" style="color: #c0c4cc">
               {{ offerData.address }}
             </h3>
@@ -72,7 +71,8 @@
               @click="
                 offerData.deal
                   ? $router.push(
-                      offerData.deal +
+                      '/' +
+                        offerData.deal +
                         '/' +
                         offerData.object +
                         '/' +
@@ -86,7 +86,7 @@
             </button>
           </div>
           <div>
-            <p class="fs-14 mb-0 text-grey">
+            <p class="fs-14 mb-0 text-grey" style="word-break: break-all">
               {{ offerData.description }}
             </p>
           </div>
@@ -141,7 +141,18 @@
           <div class="mt-10 row d-block d-md-none">
             <div class="col mt-5 d-flex justify-content-center">
               <button
-                @click="$router.push(currentPath + '/' + offerData.id)"
+                @click="
+                  offerData.deal
+                    ? $router.push(
+                        '/' +
+                          offerData.deal +
+                          '/' +
+                          offerData.object +
+                          '/' +
+                          offerData.id
+                      )
+                    : $router.push(currentPath + '/' + offerData.id)
+                "
                 class="el-button el-button--primary is-round py-10 w-100 fs-12"
               >
                 Подробнее

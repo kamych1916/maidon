@@ -8,6 +8,7 @@ module.exports = {
     house: "Дом",
     ground: "Участок",
     commercy: "Коммерческая",
-    building: "Здание"
+    building: "Здание",
+    realtors: "Риелторы"
   }
 };
