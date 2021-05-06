@@ -74,7 +74,9 @@ export default class Helper {
             price_mounth: deal == "rent_long" ? price_mounth_data : null,
             price_day: deal == "rent_day" ? price_day_data : null,
             percentageTransaction:
-              account == "agent" ? percentageTransaction_data : null,
+              account == "agency" || account == "realtor"
+                ? percentageTransaction_data
+                : null,
             deposit: deal == "rent_long" ? deposit_data : null
           },
           selects: {

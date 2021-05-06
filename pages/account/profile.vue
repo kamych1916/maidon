@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess">
+  <div v-if="checkAccess" class="profile">
     <Tabs />
     <div class="row">
       <div class="col-lg-3">
@@ -58,6 +58,10 @@
               placeholder="Имя"
               clearable
               type="text"
+              v-if="
+                localStore.account_type == 'owner' ||
+                  localStore.account_type == 'realtor'
+              "
             ></el-input>
             <el-input
               class="mb-18"
@@ -67,7 +71,145 @@
               placeholder="Фамилия"
               clearable
               type="text"
+              v-if="
+                localStore.account_type == 'owner' ||
+                  localStore.account_type == 'realtor'
+              "
             ></el-input>
+            <el-input
+              class="mb-18"
+              required
+              v-model="userData.companyName"
+              name="companyName"
+              placeholder="Наименование компании"
+              clearable
+              type="text"
+              v-if="localStore.account_type == 'agency'"
+            ></el-input>
+            <el-date-picker
+              prefix-icon="none"
+              :placeholder="
+                localStore.account_type == 'agency'
+                  ? 'Дата образования'
+                  : 'Начало вашей карьеры'
+              "
+              class="w-100 mb-18"
+              v-model="userData.workDate"
+              type="year"
+              format="yyyy"
+              value-format="yyyy"
+              v-if="
+                localStore.account_type == 'agency' ||
+                  localStore.account_type == 'realtor'
+              "
+            >
+            </el-date-picker>
+
+            <div
+              class="form-group d-flex mb-18"
+              v-if="
+                localStore.account_type == 'agency' ||
+                  localStore.account_type == 'realtor'
+              "
+            >
+              <el-input
+                type="textarea"
+                placeholder="Специализация"
+                :autosize="{ minRows: 1, maxRows: 20 }"
+                v-model="userData.specialization"
+              >
+              </el-input>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content=""
+                placement="top-start"
+              >
+                <div slot="content">
+                  Например: <br /><br />Аренда недвижимости: жилая, загородная,
+                  зарубежная, коммерческая, <br />
+                  <br />Другие услуги: дизайн интерьера, консультации,<br />
+                  ремонт, страхование, управление объектами,
+                  <br /><br />Ипотечное кредитование: ипотека, рефинансирование,
+                  <br /><br />
+                  Продажа недвижимости: жилая, загородная, зарубежная,
+                </div>
+                <el-button
+                  class="px-10"
+                  type="text"
+                  icon="bi bi-question-circle"
+                  size="mini"
+                ></el-button>
+              </el-tooltip>
+            </div>
+
+            <div
+              class="form-group d-flex mb-18"
+              v-if="
+                localStore.account_type == 'agency' ||
+                  localStore.account_type == 'realtor'
+              "
+            >
+              <el-input
+                type="textarea"
+                :placeholder="
+                  localStore.account_type == 'agency'
+                    ? 'О вашей компании'
+                    : 'О себе'
+                "
+                :autosize="{ minRows: 1, maxRows: 20 }"
+                v-model="userData.about"
+              >
+              </el-input>
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content=""
+                placement="top-start"
+              >
+                <div slot="content" v-if="localStore.account_type == 'realtor'">
+                  Например: <br /><br />Доброго времени суток! Осуществляю<br />
+                  деятельность в сфере недвижимости более 11 лет. Имеется
+                  огромный<br />
+                  багаж знаний и колоссальный опыт работы какв Жилых так<br />
+                  и в Коммерческих сегментах.<br />
+                  Всегда готов выслушать и помочь в решении Вашего вопроса.
+                  <br />
+                  Моя страница в Instagram: @ivanov.ivanov <br />
+                  С уважением, Иванов Иван
+                </div>
+                <div slot="content" v-else>
+                  Например: <br /><br />Коллектив Maidon Realty Company - это
+                  профессионалы рынка<br />
+                  недвижимости, с многолетним стажем работы в передовых
+                  <br />агентствах недвижимости, умеющих работать в <br />любой
+                  сфере недвижимости: аренда, продажа, покупка жилой,<br />
+                  коммерческой, загородной и зарубежной недвижимости
+                </div>
+                <el-button
+                  class="px-10"
+                  type="text"
+                  icon="bi bi-question-circle"
+                  size="mini"
+                ></el-button>
+              </el-tooltip>
+            </div>
+
+            <el-input
+              v-if="
+                localStore.account_type == 'agency' ||
+                  localStore.account_type == 'realtor'
+              "
+              required
+              v-model="userData.website"
+              placeholder="Сайт компании"
+              clearable
+              type="text"
+              minlength="5"
+              maxlength="25"
+              class="mb-18"
+            ></el-input>
+
             <el-input
               class="mb-18"
               required
@@ -144,7 +286,12 @@ export default {
       userData: {
         name: null,
         surname: null,
+        companyName: null,
         tel: null,
+        workDate: null,
+        specialization: null,
+        about: null,
+        website: null,
         avatar: null
       },
       userPass: {
@@ -165,6 +312,12 @@ export default {
         this.userData.surname = this.localStore.surname;
         this.userData.tel = this.localStore.tel;
         this.userData.avatar = this.localStore.avatar;
+        this.userData.companyName = this.localStore.companyName;
+        this.userData.workDate = String(this.localStore.workDate);
+        this.userData.specialization = this.localStore.specialization;
+        this.userData.about = this.localStore.about;
+        this.userData.website = this.localStore.website;
+
         this.checkAccess = true;
       }
     } else {
@@ -173,10 +326,11 @@ export default {
   },
   methods: {
     patch_info() {
+      console.log(this.userData);
       Api.getInstance()
         .account.patch_info(this.userData)
         .then(response => {
-          localStorage.setItem("ui", JSON.stringify(this.userData));
+          localStorage.setItem("ui", JSON.stringify(response.data));
           Api.typicalNTFS(false, "данные успешно изменены");
         })
         .catch(error => {
@@ -239,4 +393,14 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.profile {
+  .el-textarea__inner {
+    border: none;
+    background-color: #f2f3f7;
+    padding: 15px 30px !important;
+    border-radius: 30px !important;
+    color: #409eff;
+  }
+}
+</style>

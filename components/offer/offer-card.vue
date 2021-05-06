@@ -318,10 +318,15 @@
               <div class="row d-flex">
                 <div>
                   <div class="my-5 ">{{ offerData.userInfo }}</div>
-                  <div class="fs-14 text-grey my-5" v-if="offerData.is_agent">
-                    агентство недвижимости
+                  <div class="fs-14 text-grey my-5">
+                    <span v-if="offerData.account_type == 'owner'"
+                      >собственник</span
+                    >
+                    <span v-else-if="offerData.account_type == 'realtor'"
+                      >риелтор</span
+                    >
+                    <span v-else>агентство </span>
                   </div>
-                  <div class="fs-14 text-grey my-5" v-else>Собственник</div>
                   <i class="bi bi-chat-dots fs-12 text-blue"></i>
                   <a
                     class="fs-14 py-5 cursor my-5"
@@ -401,10 +406,14 @@
                     ></el-image>
                     <div v-else>
                       <i
-                        class="bi bi-briefcase fs-22"
-                        v-if="offerData.is_agent"
+                        class="bi bi-person-check fs-22"
+                        v-if="offerData.account_type == 'owner'"
                       ></i>
-                      <i class="bi bi-person-check fs-22" v-else></i>
+                      <i
+                        class="bi bi-briefcase fs-22"
+                        v-else-if="offerData.account_type == 'realtor'"
+                      ></i>
+                      <i class="bi bi-journal-medical fs-22" v-else></i>
                     </div>
                   </div>
                 </div>
@@ -452,6 +461,7 @@ export default {
         .offer.get_offer(this.offerId)
         .then(response => {
           this.offerData = response.data;
+          console.log(this.offerData);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

@@ -314,22 +314,23 @@ export default {
         }
       }
       console.log(this.userData);
-      // if (this.userData.password != this.passwordСonfirm) {
-      //   this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
-      // } else {
-      //   Api.getInstance()
-      //     .auth.signup(this.userData)
-      //     .then(response => {
-      //       Api.typicalNTFS(
-      //         false,
-      //         "Регистрация прошла успешно, подвердите свой аккаунт, проверьте почту свою почту!"
-      //       );
-      //       this.$router.push("/account/login");
-      //     })
-      //     .catch(error => {
-      //       Api.typicalNTFS(error.response.status);
-      //     });
-      // }
+      if (this.userData.password != this.passwordСonfirm) {
+        this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
+      } else {
+        this.userData.account_type = this.picked_account;
+        Api.getInstance()
+          .auth.signup(this.userData)
+          .then(response => {
+            Api.typicalNTFS(
+              false,
+              "Регистрация прошла успешно, подвердите свой аккаунт, проверьте свою почту!"
+            );
+            this.$router.push("/account/login");
+          })
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
+          });
+      }
     },
     onClick() {
       this.userData = {
@@ -365,6 +366,7 @@ export default {
     background-color: #f2f3f7;
     padding: 15px 30px !important;
     border-radius: 30px !important;
+    color: #409eff;
   }
 }
 </style>

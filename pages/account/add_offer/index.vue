@@ -265,7 +265,7 @@ export default {
     },
     checkOfferTypes(data) {
       this.offerData.offerType = {
-        account: data.picked_account,
+        account: JSON.parse(localStorage.getItem("ui")).account_type,
         deal: data.picked_deal,
         estate: data.picked_estate,
         object_living: data.picked_object_living,
@@ -276,7 +276,7 @@ export default {
       let picked_object =
         data.picked_object_commercy || data.picked_object_living;
       if (
-        data.picked_account !== null &&
+        JSON.parse(localStorage.getItem("ui")).account_type !== null &&
         data.picked_deal !== null &&
         data.picked_estate !== null &&
         picked_object
@@ -285,7 +285,7 @@ export default {
         // this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
       }
       let helperData = Helper.getInstance().offer.checkOfferTypes(
-        data.picked_account,
+        JSON.parse(localStorage.getItem("ui")).account_type,
         data.picked_deal,
         data.picked_estate,
         data.picked_object_living,

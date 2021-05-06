@@ -30,7 +30,8 @@
             class="pb-10 w-100"
             style="border-bottom: 1px solid #ccc; word-break: break-word;"
           >
-            {{ name }} {{ surname }}
+            <span v-if="name"> {{ name }} {{ surname }} </span>
+            <span else> {{ companyName }} </span>
           </div>
           <nuxt-link
             v-if="userData.is_moder"
@@ -91,6 +92,7 @@ export default {
     return {
       name: "",
       surname: "",
+      companyName: "",
       isLogin: false,
       userData: null
     };
@@ -103,6 +105,7 @@ export default {
           this.userData = JSON.parse(localStorage.getItem("ui"));
           this.name = JSON.parse(localStorage.getItem("ui")).name;
           this.surname = JSON.parse(localStorage.getItem("ui")).surname;
+          this.companyName = JSON.parse(localStorage.getItem("ui")).companyName;
         }
       }
     }
@@ -110,7 +113,8 @@ export default {
   mounted() {
     if (localStorage.getItem("ui")) {
       this.userData = JSON.parse(localStorage.getItem("ui"));
-      this.name = JSON.parse(localStorage.getItem("ui")).name || "";
+      this.name = JSON.parse(localStorage.getItem("ui")).name;
+      this.companyName = JSON.parse(localStorage.getItem("ui")).companyName;
       this.surname = JSON.parse(localStorage.getItem("ui")).surname || "";
       this.changeBtnLogin();
     }

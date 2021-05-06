@@ -106,10 +106,14 @@
                 ></el-image>
                 <div v-else>
                   <i
-                    class="bi bi-briefcase fs-22"
-                    v-if="offerData.is_agent"
+                    class="bi bi-person-check fs-22"
+                    v-if="offerData.account_type == 'owner'"
                   ></i>
-                  <i class="bi bi-person-check fs-22" v-else></i>
+                  <i
+                    class="bi bi-briefcase fs-22"
+                    v-else-if="offerData.account_type == 'realtor'"
+                  ></i>
+                  <i class="bi bi-journal-medical fs-22" v-else></i>
                 </div>
               </div>
             </div>
@@ -118,8 +122,13 @@
                 <span>{{ offerData.userInfo }}</span>
               </div>
               <div class="mt-5 text-grey">
-                <span v-if="!offerData.is_agent">собственник</span>
-                <span v-else>агент </span>
+                <span v-if="offerData.account_type == 'owner'"
+                  >собственник</span
+                >
+                <span v-else-if="offerData.account_type == 'realtor'"
+                  >риелтор</span
+                >
+                <span v-else>агентство </span>
               </div>
 
               <div class="mt-5 text-grey">

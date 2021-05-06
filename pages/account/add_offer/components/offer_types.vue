@@ -1,6 +1,6 @@
 <template>
   <div class="radio-types">
-    <h4>Выберите тип аккаунта:</h4>
+    <!-- <h4>Выберите тип аккаунта:</h4>
     <div class="row mt-30">
       <div class="col-md-4 col-6 my-10">
         <label class="custom-radio w-100 ">
@@ -30,9 +30,9 @@
           </span>
         </label>
       </div>
-    </div>
+    </div> -->
 
-    <h4 class="mt-30">Выберите тип сделки:</h4>
+    <h4>Выберите тип сделки:</h4>
     <div class="row mt-30">
       <div class="col-md-4 col-6 my-10">
         <label class="custom-radio w-100 ">
@@ -215,7 +215,7 @@ export default {
     return {
       isLiving: false,
       isCommercy: false,
-      picked_account: null,
+      // picked_account: null,
       picked_deal: null,
       picked_estate: null,
       picked_object_commercy: null,
@@ -237,7 +237,7 @@ export default {
       this.$emit("checkOfferTypes", {
         picked_deal: this.picked_deal,
         picked_estate: this.picked_estate,
-        picked_account: this.picked_account,
+        // picked_account: this.picked_account,
         picked_object_commercy: this.picked_object_commercy,
         picked_object_living: this.picked_object_living
       });
