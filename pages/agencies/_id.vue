@@ -52,17 +52,23 @@
         </div>
         <div class="mt-20">
           <button
-            class="el-button el-button--primary is-round"
+            class="mt-20 mx-0 el-button el-button--primary is-round"
             @click="scrollTo('reviews')"
           >
             отзывы: {{ accountData.list_reviews.length }}
           </button>
           <button
-            class="el-button el-button--primary is-round"
+            class=" mt-20 mx-0 el-button el-button--primary is-round"
             @click="scrollTo('offers')"
           >
             объявления: {{ accountData.list_offers.length }}
           </button>
+          <a
+            :href="'tel:' + accountData.tel"
+            class="mt-20 mx-0 el-button el-button--primary is-round d-md-none d-block"
+          >
+            {{ accountData.tel }}
+          </a>
         </div>
       </div>
       <div class="card-wrap" ref="reviews">
