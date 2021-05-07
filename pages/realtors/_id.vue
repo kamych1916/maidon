@@ -4,20 +4,22 @@
     <div class="col-lg-8 ">
       <div class="card-wrap">
         <div class="d-flex">
-          <div
-            class="avatar"
-            :style="{
-              background: accountData.avatar ? 'none' : '#b9d7f7'
-            }"
-          >
-            <el-image
-              draggable="false"
-              class="w-100 h-100"
-              :src="accountData.avatar"
-              fit="cover"
-              v-if="accountData.avatar"
-            ></el-image>
-            <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
+          <div>
+            <div
+              class="avatar"
+              :style="{
+                background: accountData.avatar ? 'none' : '#b9d7f7'
+              }"
+            >
+              <el-image
+                draggable="false"
+                class="w-100 h-100"
+                :src="accountData.avatar"
+                fit="cover"
+                v-if="accountData.avatar"
+              ></el-image>
+              <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
+            </div>
           </div>
           <div class="ml-20">
             <div class="text-blue">
@@ -34,7 +36,7 @@
             </el-rate>
           </div>
         </div>
-        <div class="my-10">
+        <div class="mt-30 mb-10">
           Опыт работы:
           <span class="text-blue"> c {{ accountData.workDate }} года</span>
         </div>
