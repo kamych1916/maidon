@@ -12,7 +12,13 @@
             <div class="row d-flex">
               <div class="col d-flex" style="display: -webkit-inline-box">
                 <div>
-                  <div class="avatar" v-if="!isModer">
+                  <div
+                    class="avatar"
+                    :style="{
+                      background: item.image ? 'none' : '#b9d7f7'
+                    }"
+                    v-if="!isModer"
+                  >
                     <el-image
                       v-if="item.user_name != 'Модератор'"
                       draggable="false"
@@ -85,9 +91,6 @@
             </div>
           </div>
         </div>
-      </div>
-      <div v-else>
-        <EmptyCat title="У вас пока еще нет сообщений" />
       </div>
     </div>
   </div>

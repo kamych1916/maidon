@@ -9,6 +9,7 @@ module.exports = {
     ground: "Участок",
     commercy: "Коммерческая",
     building: "Здание",
-    realtors: "Риелторы"
+    realtors: "Риелторы",
+    agencies: "Агентства"
   }
 };

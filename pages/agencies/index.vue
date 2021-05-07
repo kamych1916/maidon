@@ -1,23 +1,23 @@
 <template>
   <!-- отличий кода в REALTORS и AGENTS  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
   <div v-if="list">
-    <div class="row">
+    <div class="row" style="position-relative">
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs />
           <span class="fs-24 ">
-            Найдено риелторов:
+            Найдено агентств:
             <span class="text-blue">
               {{ list.count }}
             </span>
           </span>
         </div>
       </div>
-      <div class="col-lg-8" style="position-relative">
+      <div class="col-lg-8">
         <div v-for="(item, idx) in list.accounts" :key="idx">
           <div
             class="card-wrap cursor"
-            @click="$router.push('/realtors/' + item.id)"
+            @click="$router.push('/agencies/' + item.id)"
           >
             <div class="row d-flex">
               <div
@@ -38,7 +38,10 @@
                       fit="cover"
                       v-if="item.avatar"
                     ></el-image>
-                    <i class="bi bi-briefcase fs-22" v-if="!item.avatar"></i>
+                    <i
+                      class="bi bi-journal-medical fs-22"
+                      v-if="!item.avatar"
+                    ></i>
                   </div>
                 </div>
                 <div class="ml-10 ">
@@ -88,7 +91,6 @@ import Api from "~/utils/api";
 export default {
   data() {
     return {
-      rate: 3.5,
       list: null
     };
   },
@@ -108,10 +110,12 @@ export default {
         Object.keys(this.$route.query).length > 0 ? this.$route.query.page : 1;
       Api.getInstance()
         .clients.get_accounts({
-          type: "realtor",
+          type: "agency",
           page: page
         })
         .then(response => {
+          // this.offerData = response.data;
+          console.log(response.data);
           this.list = response.data;
         })
         .catch(error => {

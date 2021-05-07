@@ -9,7 +9,13 @@
         <div class="row d-flex">
           <div class="col ml-16 d-flex" style="display: -webkit-inline-box">
             <div>
-              <div class="avatar" v-if="!isModer">
+              <div
+                class="avatar"
+                v-if="!isModer"
+                :style="{
+                  background: offerData.image ? 'none' : '#b9d7f7'
+                }"
+              >
                 <el-image
                   v-if="offerData.user_name != 'Модератор'"
                   draggable="false"

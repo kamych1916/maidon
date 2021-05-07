@@ -94,12 +94,28 @@
       </div>
       <div class="col-lg-2 w-100 mt-10 ">
         <div class="w-100 h-100 d-flex flex-column justify-content-between">
-          <div>
-            <div class="col mt-10 d-flex justify-content-center">
-              <div class="avatar row">
+          <div
+            class="cursor"
+            @click="
+              $router.push(
+                offerData.account_type === 'realtor'
+                  ? '/realtors/' + offerData.id_user
+                  : offerData.account_type === 'agency'
+                  ? '/agencies/' + offerData.id_user
+                  : ''
+              )
+            "
+          >
+            <div class="col mt-10 d-flex justify-content-center ">
+              <div
+                class="avatar row"
+                :style="{
+                  background: offerData.user_avatar ? 'none' : '#b9d7f7'
+                }"
+              >
                 <el-image
                   draggable="false"
-                  class="w-100 h-100 border-rad-5"
+                  class="w-100 h-100"
                   :src="offerData.user_avatar"
                   fit="cover"
                   v-if="offerData.user_avatar"

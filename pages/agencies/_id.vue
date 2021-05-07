@@ -1,7 +1,7 @@
 <template>
   <!-- отличий кода в REALTORS/_ID и AGENTS/_ID  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
   <div class="row accountRealtor" v-if="accountData">
-    <div class="col-lg-8 ">
+    <div class="col-lg-8">
       <div class="card-wrap">
         <div class="d-flex">
           <div
@@ -17,11 +17,15 @@
               fit="cover"
               v-if="accountData.avatar"
             ></el-image>
-            <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
+            <i
+              class="bi bi-journal-medical fs-22"
+              v-if="!accountData.avatar"
+            ></i>
           </div>
           <div class="ml-20">
             <div class="text-blue">
               {{ accountData.name }} {{ accountData.surname }}
+              {{ accountData.companyName }}
             </div>
             <div class="text-grey">риелтор</div>
             <el-rate
@@ -48,23 +52,17 @@
         </div>
         <div class="mt-20">
           <button
-            class="mt-20 mx-0 el-button el-button--primary is-round"
+            class="el-button el-button--primary is-round"
             @click="scrollTo('reviews')"
           >
             отзывы: {{ accountData.list_reviews.length }}
           </button>
           <button
-            class=" mt-20 mx-0 el-button el-button--primary is-round"
+            class="el-button el-button--primary is-round"
             @click="scrollTo('offers')"
           >
             объявления: {{ accountData.list_offers.length }}
           </button>
-          <a
-            :href="'tel:' + accountData.tel"
-            class="mt-20 mx-0 el-button el-button--primary is-round d-md-none d-block"
-          >
-            {{ accountData.tel }}
-          </a>
         </div>
       </div>
       <div class="card-wrap" ref="reviews">
@@ -116,7 +114,7 @@
                 {{ localStore.surname }} {{ localStore.name }}
                 {{ localStore.companyName }}
               </div>
-              <div class="fs-12 text-grey ">Оцените специалиста</div>
+              <div class="fs-12 text-grey ">Оцените агентство</div>
               <el-rate
                 class=" mt-5"
                 show-score
@@ -168,7 +166,9 @@
     </div>
     <div class="col-lg-4 d-none d-sm-block mb-30">
       <div class="card-wrap sticky">
-        <Breadcrumbs :accountTitle="accountData.name" />
+        <Breadcrumbs
+          :accountTitle="accountData.name || accountData.companyName"
+        />
         <div class="d-flex mt-20">
           <div
             class="avatar"
@@ -183,10 +183,15 @@
               fit="cover"
               v-if="accountData.avatar"
             ></el-image>
-            <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
+            <i
+              class="bi bi-journal-medical fs-22"
+              v-if="!accountData.avatar"
+            ></i>
           </div>
           <div class="ml-20">
-            <span>{{ accountData.name }} {{ accountData.surname }}</span
+            <span
+              >{{ localStore.name }} {{ localStore.surname }}
+              {{ accountData.companyName }}</span
             ><br />
             <el-rate
               class="mt-5"
@@ -201,9 +206,8 @@
         <a
           :href="'tel:' + accountData.tel"
           class="mt-20 el-button el-button--primary is-round"
+          >{{ accountData.tel }}</a
         >
-          {{ accountData.tel }}
-        </a>
       </div>
     </div>
   </div>

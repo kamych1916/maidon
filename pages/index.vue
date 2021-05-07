@@ -37,7 +37,7 @@
         <div class="mt-10">
           Обратитетесь к
           <nuxt-link to="/realtors"> риелторам</nuxt-link> либо
-          <nuxt-link to="/agents"> агентствам</nuxt-link>!
+          <nuxt-link to="/agencies"> агентствам</nuxt-link>!
         </div>
       </div>
     </div>

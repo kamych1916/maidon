@@ -1,7 +1,45 @@
 <template>
-  <!-- отличий кода в REALTORS/_ID и AGENTS/_ID  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
   <div class="row accountRealtor" v-if="accountData">
-    <div class="col-lg-8 ">
+    <div class="col-lg-4 d-none d-sm-block mb-30">
+      <div class="card-wrap sticky">
+        <Breadcrumbs :accountTitle="accountData.name" />
+        <div class="d-flex mt-20">
+          <div
+            class="avatar"
+            :style="{
+              background: accountData.avatar ? 'none' : '#b9d7f7'
+            }"
+          >
+            <el-image
+              draggable="false"
+              class="w-100 h-100"
+              :src="accountData.avatar"
+              fit="cover"
+              v-if="accountData.avatar"
+            ></el-image>
+            <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
+          </div>
+          <div class="ml-20">
+            <span>{{ accountData.name }} {{ accountData.surname }}</span
+            ><br />
+            <el-rate
+              class="mt-5"
+              v-model="accountData.review"
+              disabled
+              show-score
+              text-color="#ff9900"
+            >
+            </el-rate>
+          </div>
+        </div>
+        <a
+          :href="'tel:' + accountData.tel"
+          class="mt-20 el-button el-button--primary is-round"
+          >{{ accountData.tel }}</a
+        >
+      </div>
+    </div>
+    <div class="col-lg-8">
       <div class="card-wrap">
         <div class="d-flex">
           <div
@@ -48,23 +86,17 @@
         </div>
         <div class="mt-20">
           <button
-            class="mt-20 mx-0 el-button el-button--primary is-round"
+            class="el-button el-button--primary is-round"
             @click="scrollTo('reviews')"
           >
             отзывы: {{ accountData.list_reviews.length }}
           </button>
           <button
-            class=" mt-20 mx-0 el-button el-button--primary is-round"
+            class="el-button el-button--primary is-round"
             @click="scrollTo('offers')"
           >
             объявления: {{ accountData.list_offers.length }}
           </button>
-          <a
-            :href="'tel:' + accountData.tel"
-            class="mt-20 mx-0 el-button el-button--primary is-round d-md-none d-block"
-          >
-            {{ accountData.tel }}
-          </a>
         </div>
       </div>
       <div class="card-wrap" ref="reviews">
@@ -112,10 +144,7 @@
         <div class="mt-20" v-if="localStore">
           <div class="d-flex ">
             <div class=" w-100">
-              <div>
-                {{ localStore.surname }} {{ localStore.name }}
-                {{ localStore.companyName }}
-              </div>
+              <div>{{ localStore.surname }} {{ localStore.name }}</div>
               <div class="fs-12 text-grey ">Оцените специалиста</div>
               <el-rate
                 class=" mt-5"
@@ -164,46 +193,6 @@
         >
           <LazyOfferListCard :offerData="item" />
         </div>
-      </div>
-    </div>
-    <div class="col-lg-4 d-none d-sm-block mb-30">
-      <div class="card-wrap sticky">
-        <Breadcrumbs :accountTitle="accountData.name" />
-        <div class="d-flex mt-20">
-          <div
-            class="avatar"
-            :style="{
-              background: accountData.avatar ? 'none' : '#b9d7f7'
-            }"
-          >
-            <el-image
-              draggable="false"
-              class="w-100 h-100"
-              :src="accountData.avatar"
-              fit="cover"
-              v-if="accountData.avatar"
-            ></el-image>
-            <i class="bi bi-briefcase fs-22" v-if="!accountData.avatar"></i>
-          </div>
-          <div class="ml-20">
-            <span>{{ accountData.name }} {{ accountData.surname }}</span
-            ><br />
-            <el-rate
-              class="mt-5"
-              v-model="accountData.review"
-              disabled
-              show-score
-              text-color="#ff9900"
-            >
-            </el-rate>
-          </div>
-        </div>
-        <a
-          :href="'tel:' + accountData.tel"
-          class="mt-20 el-button el-button--primary is-round"
-        >
-          {{ accountData.tel }}
-        </a>
       </div>
     </div>
   </div>

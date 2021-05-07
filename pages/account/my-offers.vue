@@ -192,11 +192,6 @@
         </div>
       </div>
     </div>
-    <div class="row" v-else>
-      <div class="col">
-        <EmptyCat />
-      </div>
-    </div>
   </div>
 </template>
 

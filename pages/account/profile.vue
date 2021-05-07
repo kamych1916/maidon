@@ -6,7 +6,12 @@
         <div class="card-wrap">
           <div class="row d-flex">
             <div class="col-3">
-              <div class="avatar">
+              <div
+                class="avatar"
+                :style="{
+                  background: userData.avatar ? 'none' : '#b9d7f7'
+                }"
+              >
                 <el-image
                   draggable="false"
                   class="w-100 h-100 border-rad-5"

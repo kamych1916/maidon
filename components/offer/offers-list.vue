@@ -10,13 +10,14 @@
           <LazyOfferListCard :offerData="item" />
         </div>
         <div class="mb-50 d-flex justify-content-center" v-if="offerData.pages">
-          <el-pagination
+          <Pagination :listPages="offerData.pages" />
+          <!-- <el-pagination
             @current-change="handleCurrentChange"
             background
             layout="prev, pager, next"
             :total="offerData.pages"
             :page-size="1"
-          ></el-pagination>
+          ></el-pagination> -->
         </div>
       </div>
       <div v-else>
