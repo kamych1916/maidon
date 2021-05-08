@@ -53,7 +53,11 @@ export default {
   },
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
-  buildModules: ["@nuxtjs/style-resources"],
+  buildModules: ["@nuxtjs/style-resources", "@nuxtjs/google-analytics"],
+
+  googleAnalytics: {
+    id: "UA-196575354-1"
+  },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [

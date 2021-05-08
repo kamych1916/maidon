@@ -18,6 +18,7 @@
     "nuxt": "^2.14.6",
     "nuxt-i18n": "^6.24.0",
     "v-mask": "^2.2.4",
+    "vue-backtotop": "^1.6.1",
     "vue-browser-geolocation": "^1.8.0",
     "vue-currency-input": "^1.22.6",
     "vue-yandex-maps": "^0.10.10",
@@ -25,6 +26,7 @@
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
+    "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/style-resources": "^1.0.0",
     "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1"
