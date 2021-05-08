@@ -59,7 +59,7 @@ export default {
 <style lang="scss">
 .map-image {
   cursor: pointer;
-  border-radius: 20px;
+  border-radius: 10px;
   height: 300px;
   background-image: url("/images/map.jpg");
 }

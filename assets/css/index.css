@@ -24,9 +24,9 @@
 @import "element-ui/lib/theme-chalk/rate.css";
 
 .card-wrap {
-  padding: 30px;
+  padding: 25px;
   margin-bottom: 30px;
-  border-radius: 2rem;
+  border-radius: 1rem;
   box-shadow: 0 1px 15px 0 hsl(0deg 0% 48% / 5%);
   background: #fff;
 }

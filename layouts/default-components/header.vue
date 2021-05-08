@@ -2,29 +2,25 @@
   <header
     class="header d-flex justify-content-between align-items-center container py-20 px-0"
   >
-    <nuxt-link to="/" class="header-btn">
+    <el-button @click="$router.push('/')" type="primary" round>
       <i class="bi bi-building mr-8"></i>
       <span>Maidon</span>
-    </nuxt-link>
-    <div class="events d-flex">
-      <a
-        href="javascript:void(0);"
-        @click="check_access('offer')"
-        class="header-btn mx-10 py-12"
-      >
+    </el-button>
+    <div class=" d-flex">
+      <el-button @click="check_access('offer')" type="primary" round>
         <i class="bi bi-plus-circle"></i>
         <span class="events-text ml-10">Добавить объявление</span>
-      </a>
-      <a
+      </el-button>
+      <el-button
         v-if="!isLogin"
-        href="javascript:void(0);"
         @click="check_access('account')"
-        class="header-btn mx-10 py-12"
+        type="primary"
+        round
       >
         <i class="bi bi-person-circle"></i>
         <span class="events-text ml-10">Войти</span>
-      </a>
-      <el-popover v-else width="160" class="mt-12" placement="top">
+      </el-button>
+      <el-popover v-else width="160" placement="top" class="ml-10">
         <div v-if="userData">
           <div
             class="pb-10 w-100"
@@ -70,14 +66,10 @@
             Выйти
           </div>
         </div>
-        <a
-          href="javascript:void(0);"
-          slot="reference"
-          class="header-btn mx-10 py-14"
-        >
+        <el-button slot="reference" type="primary" round>
           <i class="bi bi-person-circle"></i>
           <span class="events-text ml-10">Аккаунт</span>
-        </a>
+        </el-button>
       </el-popover>
     </div>
   </header>
@@ -172,10 +164,10 @@ export default {
     text-decoration: none;
     border-radius: 35px;
     transition: 0.2s;
-    background-color: #3a8ee6;
-    &:hover {
-      background-color: #66b1ff;
-    }
+    // background-color: #3a8ee6;
+    // &:hover {
+    // background-color: #66b1ff;
+    // }
   }
   .events-text {
     display: inline;
