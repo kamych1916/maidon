@@ -38,15 +38,19 @@
         </div>
         <div class="mt-30 mb-10">
           Опыт работы:
-          <span class="text-blue"> c {{ accountData.workDate }} года</span>
+          <span style="font-family: Tahoma">
+            c {{ accountData.workDate }} года</span
+          >
         </div>
         <div class="my-10">
           Специализация:
-          <span class="text-blue">{{ accountData.specialization }}</span>
+          <span style="font-family: Tahoma">{{
+            accountData.specialization
+          }}</span>
         </div>
         <div class="my-10">
           О себе:
-          <span class="text-blue">{{ accountData.about }}</span>
+          <span style="font-family: Tahoma">{{ accountData.about }}</span>
         </div>
         <div class="mt-20">
           <button

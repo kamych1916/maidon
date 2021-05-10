@@ -15,63 +15,70 @@
       </div>
       <div class="col-lg-8" style="position-relative">
         <div v-for="(item, idx) in list.accounts" :key="idx">
-          <div
-            class="card-wrap cursor"
-            @click="$router.push('/realtors/' + item.id)"
+          <nuxt-link
+            class="cursor"
+            :to="'/realtors/' + item.id"
+            target="_blank"
           >
-            <div class="row d-flex">
-              <div
-                class="col-lg my-10 d-flex"
-                style="display: -webkit-inline-box"
-              >
-                <div>
-                  <div
-                    class="avatar"
-                    :style="{
-                      background: item.avatar ? 'none' : '#b9d7f7'
-                    }"
-                  >
-                    <el-image
-                      draggable="false"
-                      class="w-100 h-100"
-                      :src="item.avatar"
-                      fit="cover"
-                      v-if="item.avatar"
-                    ></el-image>
-                    <i class="bi bi-briefcase fs-22" v-if="!item.avatar"></i>
-                  </div>
-                </div>
-                <div class="ml-10 ">
+            <div class="card-wrap w-100">
+              <div class="row d-flex">
+                <div
+                  class="col-lg my-10 d-flex"
+                  style="display: -webkit-inline-box"
+                >
                   <div>
-                    <span class="fs-18">
-                      {{ item.name }}
-                    </span>
-                    <div class="fs-14 mt-5">
-                      Объектов:
-                      <span class="text-blue"> {{ item.offer_count }}</span>
+                    <div
+                      class="avatar"
+                      :style="{
+                        background: item.avatar ? 'none' : '#b9d7f7'
+                      }"
+                    >
+                      <el-image
+                        draggable="false"
+                        class="w-100 h-100"
+                        :src="item.avatar"
+                        fit="cover"
+                        v-if="item.avatar"
+                      ></el-image>
+                      <i class="bi bi-briefcase fs-22" v-if="!item.avatar"></i>
+                    </div>
+                  </div>
+                  <div class="ml-10 ">
+                    <div>
+                      <span class="fs-18" style="color: black">
+                        {{ item.name }}
+                      </span>
+                      <div class="fs-14 mt-5" style="color: black">
+                        Объектов:
+                        <span class="text-blue"> {{ item.offer_count }}</span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="col-lg my-10">
-                <el-rate
-                  v-model="item.review"
-                  disabled
-                  show-score
-                  text-color="#ff9900"
-                >
-                </el-rate>
-                <div class="fs-12 mt-5">
-                  Отзывов:
-                  <span class="text-blue"> {{ item.count_reviews }}</span>
+                <div class="col-lg my-10">
+                  <el-rate
+                    v-model="item.review"
+                    disabled
+                    show-score
+                    text-color="#ff9900"
+                  >
+                  </el-rate>
+                  <div class="fs-12 mt-5" style="color: black">
+                    Отзывов:
+                    <span class="text-blue"> {{ item.count_reviews }}</span>
+                  </div>
+                  <span
+                    class="fs-12"
+                    v-if="item.count_reviews"
+                    style="color: black"
+                  >
+                    {{ item.review_lastuser }}:
+                    <span class="text-blue">{{ item.review_text }}</span>
+                  </span>
                 </div>
-                <span class="fs-12" v-if="item.count_reviews">
-                  {{ item.review_lastuser }}:
-                  <span class="text-blue">{{ item.review_text }}</span>
-                </span>
               </div>
             </div>
-          </div>
+          </nuxt-link>
         </div>
         <div class="row justify-content-center">
           <div class="my-50 d-flex justify-content-center" v-if="list.pages">
