@@ -13,6 +13,7 @@ export default {
   props: ["listPages"],
   methods: {
     handleCurrentChange(val) {
+      window.scrollTo(0, 0);
       let queryData = {};
       queryData.page = val;
       this.$router.push({ query: queryData });
