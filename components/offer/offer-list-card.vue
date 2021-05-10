@@ -55,10 +55,11 @@
                   : currentPath + '/' + offerData.id
               "
               class="fs-28 mt-0 mb-20 text-blue cursor"
+              target="_blank"
             >
               {{ offerData.title }}
             </nuxt-link>
-            <h3 class="fs-14 my-20" style="color: #c0c4cc">
+            <h3 class="fs-14 mb-20 " style="color: #c0c4cc">
               {{ offerData.address }}
             </h3>
             <h2 class="fs-28 mt-20 mb-0">
@@ -67,23 +68,23 @@
             <h4 class="fs-14 mt-0 mb-20">
               {{ offerData.price_m2.toLocaleString("ru") }} сомони/м²
             </h4>
-            <button
-              @click="
+            <nuxt-link
+              :to="
                 offerData.deal
-                  ? $router.push(
-                      '/' +
-                        offerData.deal +
-                        '/' +
-                        offerData.object +
-                        '/' +
-                        offerData.id
-                    )
-                  : $router.push(currentPath + '/' + offerData.id)
+                  ? '/' +
+                    offerData.deal +
+                    '/' +
+                    offerData.object +
+                    '/' +
+                    offerData.id
+                  : currentPath + '/' + offerData.id
               "
-              class="el-button el-button--primary is-round py-10 px-50 fs-12 d-none d-lg-block"
+              class="el-button el-button--primary is-round py-10 px-50 fs-12 d-none d-lg-block cursor"
+              target="_blank"
+              style="width: fit-content;"
             >
               Подробнее
-            </button>
+            </nuxt-link>
           </div>
           <div>
             <p class="fs-14 mb-0 text-grey" style="word-break: break-all">
@@ -94,17 +95,16 @@
       </div>
       <div class="col-lg-2 w-100 mt-10 ">
         <div class="w-100 h-100 d-flex flex-column justify-content-between">
-          <div
+          <nuxt-link
             class="cursor"
-            @click="
-              $router.push(
-                offerData.account_type === 'realtor'
-                  ? '/realtors/' + offerData.id_user
-                  : offerData.account_type === 'agency'
-                  ? '/agencies/' + offerData.id_user
-                  : ''
-              )
+            :to="
+              offerData.account_type === 'realtor'
+                ? '/realtors/' + offerData.id_user
+                : offerData.account_type === 'agency'
+                ? '/agencies/' + offerData.id_user
+                : ''
             "
+            target="_blank"
           >
             <div class="col mt-10 d-flex justify-content-center ">
               <div
@@ -153,26 +153,27 @@
                 <span><i class="bi bi-eye"></i> {{ offerData.view }}</span>
               </div>
             </div>
-          </div>
+          </nuxt-link>
+
           <div class="mt-10 row d-block d-md-none">
             <div class="col mt-5 d-flex justify-content-center">
-              <button
-                @click="
+              <nuxt-link
+                :to="
                   offerData.deal
-                    ? $router.push(
-                        '/' +
-                          offerData.deal +
-                          '/' +
-                          offerData.object +
-                          '/' +
-                          offerData.id
-                      )
-                    : $router.push(currentPath + '/' + offerData.id)
+                    ? '/' +
+                      offerData.deal +
+                      '/' +
+                      offerData.object +
+                      '/' +
+                      offerData.id
+                    : currentPath + '/' + offerData.id
                 "
-                class="el-button el-button--primary is-round py-10 w-100 fs-12"
+                class="el-button el-button--primary is-round py-10 w-100 fs-12 cursor"
+                target="_blank"
+                style="width: fit-content;"
               >
                 Подробнее
-              </button>
+              </nuxt-link>
             </div>
           </div>
         </div>

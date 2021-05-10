@@ -192,6 +192,7 @@
               <h2>Описание</h2>
               <span
                 itemprop="description"
+                style="font-family: Tahoma"
                 v-html="offerData.offerDescription.replace(/\n/g, '<br />')"
               >
               </span>
@@ -343,21 +344,21 @@
               <div class="px-14">
                 <div class="row d-flex">
                   <div>
-                    <div
+                    <nuxt-link
                       itemprop="name"
                       class="my-5 cursor"
-                      @click="
-                        $router.push(
-                          offerData.account_type === 'realtor'
-                            ? '/realtors/' + offerData.id_user
-                            : offerData.account_type === 'agency'
-                            ? '/agencies/' + offerData.id_user
-                            : ''
-                        )
+                      style="color: black"
+                      :to="
+                        offerData.account_type === 'realtor'
+                          ? '/realtors/' + offerData.id_user
+                          : offerData.account_type === 'agency'
+                          ? '/agencies/' + offerData.id_user
+                          : ''
                       "
+                      target="_blank"
                     >
                       {{ offerData.userInfo }}
-                    </div>
+                    </nuxt-link>
                     <div class="fs-14 text-grey my-5">
                       <span v-if="offerData.account_type == 'owner'"
                         >собственник</span
@@ -435,17 +436,16 @@
                     <br />
                   </div>
 
-                  <div
+                  <nuxt-link
                     class="col px-0 d-flex justify-content-end cursor"
-                    @click="
-                      $router.push(
-                        offerData.account_type === 'realtor'
-                          ? '/realtors/' + offerData.id_user
-                          : offerData.account_type === 'agency'
-                          ? '/agencies/' + offerData.id_user
-                          : ''
-                      )
+                    :to="
+                      offerData.account_type === 'realtor'
+                        ? '/realtors/' + offerData.id_user
+                        : offerData.account_type === 'agency'
+                        ? '/agencies/' + offerData.id_user
+                        : ''
                     "
+                    target="_blank"
                   >
                     <div
                       class="avatar"
@@ -472,7 +472,7 @@
                         <i class="bi bi-journal-medical fs-22" v-else></i>
                       </div>
                     </div>
-                  </div>
+                  </nuxt-link>
                 </div>
               </div>
             </div>
@@ -548,7 +548,11 @@ export default {
       Api.getInstance()
         .offer.open_chat({ id_offer: id })
         .then(response => {
-          this.$router.push("/account/chat/" + response.data.id_chat);
+          // this.$router.push("/account/chat/" + response.data.id_chat);
+          let routeData = this.$router.resolve(
+            "/account/chat/" + response.data.id_chat
+          );
+          window.open(routeData.href, "_blank");
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);
