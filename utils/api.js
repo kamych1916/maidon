@@ -91,9 +91,6 @@ export default class Api {
           "Ваш аккаунт не активирован! Проверьте почту",
           "warning"
         );
-        setTimeout(() => {
-          window.location.href = "/account/activate";
-        }, 1000);
       }
     } else {
       this.sendNTFS("Отлично!", successData, "success");
