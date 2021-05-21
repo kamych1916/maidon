@@ -30,6 +30,7 @@
       <div class="row gx-100">
         <div class="col-lg-4 d-flex my-10 w-100 search-two-selects">
           <el-select
+            clearable
             class="deal w-100"
             v-model="searchData.deals.value"
             @change="clearSearchData()"
@@ -43,6 +44,7 @@
             </el-option>
           </el-select>
           <el-select
+            clearable
             class="object w-100"
             v-model="searchData.objects.value"
             @change="
@@ -63,6 +65,7 @@
             class="w-100"
             v-model="searchData.rooms.value"
             placeholder="Количество комнат"
+            clearable
           >
             <el-option
               v-for="item in searchData.rooms.options"
@@ -78,6 +81,7 @@
             class="w-100"
             v-model="searchData.repair.value"
             placeholder="Ремонт"
+            clearable
           >
             <el-option
               v-for="item in searchData.repair.options"
@@ -93,6 +97,7 @@
             class="w-100"
             v-model="searchData.typeBuilding.value"
             placeholder="Тип застройки"
+            clearable
           >
             <el-option
               v-for="item in searchData.typeBuilding.options"
@@ -108,6 +113,7 @@
             class="w-100"
             v-model="searchData.typeGround.value"
             placeholder="Статус участка"
+            clearable
           >
             <el-option
               v-for="item in searchData.typeGround.options"
@@ -123,6 +129,7 @@
             class="w-100"
             v-model="searchData.typeCommercy.value"
             placeholder="Тип помещения"
+            clearable
           >
             <el-option
               v-for="item in searchData.typeCommercy.options"
@@ -138,6 +145,7 @@
             class="w-100"
             v-model="searchData.cities.value"
             placeholder="Выберите город"
+            clearable
           >
             <el-option
               v-for="item in searchData.cities.options"
@@ -234,10 +242,6 @@ const cleanSearchData = {
       {
         value: "commercy",
         label: "Коммерческую"
-      },
-      {
-        value: "building",
-        label: "Здание"
       }
     ]
   },
@@ -705,8 +709,6 @@ export default {
         url = url + "ground";
       } else if (data.objects.value == "commercy") {
         url = url + "commercy";
-      } else if (data.objects.value == "building") {
-        url = url + "building";
       }
       data.rooms.value ? (queryData.rooms = data.rooms.value) : null;
 
@@ -773,12 +775,6 @@ export default {
         this.rooms = false;
         this.typeBuilding = false;
         this.typeCommercy = true;
-        this.typeGround = false;
-      } else if (data == "building") {
-        this.repair = false;
-        this.rooms = false;
-        this.typeBuilding = false;
-        this.typeCommercy = false;
         this.typeGround = false;
       }
     },

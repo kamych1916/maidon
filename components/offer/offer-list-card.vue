@@ -13,32 +13,47 @@
           </slide>
           <hooper-navigation slot="hooper-addons"></hooper-navigation>
         </hooper>
-        <div class="row mt-20 px-2 bottom-images">
-          <div class="col ">
-            <el-image
-              class="border-rad-5 w-100"
-              style="height: 80px"
-              :src="offerData.images[1].imgName"
-              fit="cover"
-            ></el-image>
+        <nuxt-link
+          class="cursor"
+          :to="
+            offerData.deal
+              ? '/' +
+                offerData.deal +
+                '/' +
+                offerData.object +
+                '/' +
+                offerData.id
+              : currentPath + '/' + offerData.id
+          "
+          target="_blank"
+        >
+          <div class="row mt-20 px-2 bottom-images">
+            <div class="col ">
+              <el-image
+                class="border-rad-5 w-100"
+                style="height: 80px"
+                :src="offerData.images[1].imgName"
+                fit="cover"
+              ></el-image>
+            </div>
+            <div class="col">
+              <el-image
+                class="border-rad-5 w-100"
+                style="height: 80px"
+                :src="offerData.images[2].imgName"
+                fit="cover"
+              ></el-image>
+            </div>
+            <div class="col">
+              <el-image
+                class="border-rad-5 w-100"
+                style="height: 80px"
+                :src="offerData.images[3].imgName"
+                fit="cover"
+              ></el-image>
+            </div>
           </div>
-          <div class="col">
-            <el-image
-              class="border-rad-5 w-100"
-              style="height: 80px"
-              :src="offerData.images[2].imgName"
-              fit="cover"
-            ></el-image>
-          </div>
-          <div class="col">
-            <el-image
-              class="border-rad-5 w-100"
-              style="height: 80px"
-              :src="offerData.images[3].imgName"
-              fit="cover"
-            ></el-image>
-          </div>
-        </div>
+        </nuxt-link>
       </div>
       <div class="col-lg-6 w-100 mt-10">
         <div class="h-100 d-flex flex-column justify-content-between">
