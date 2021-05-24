@@ -496,34 +496,18 @@ export default {
     HooperNavigation,
     OfferMap
   },
-  head() {
-    return {
-      title: this.whatTitle()
-    };
-  },
-  props: ["typeDeal"],
+
+  props: ["typeDeal", "offerData"],
   data() {
     return {
       showTel: false,
       offerId: this.$route.params.id,
-      offerData: "",
       dialogSlider: false,
       complaint: ""
     };
   },
   mounted() {
     window.scrollTo(0, 0);
-    if (this.offerId) {
-      Api.getInstance()
-        .offer.get_offer(this.offerId)
-        .then(response => {
-          this.offerData = response.data;
-          console.log(this.offerData);
-        })
-        .catch(error => {
-          Api.typicalNTFS(error.response.status);
-        });
-    }
   },
   methods: {
     add_complaint(id, title) {
@@ -567,17 +551,7 @@ export default {
       this.dialogSlider = false;
       document.body.style.overflow = "auto";
     },
-    whatTitle() {
-      if (this.offerData) {
-        if (this.offerData.offer_price.deal == "rent_long") {
-          return "Снять " + this.offerData.title;
-        } else if (this.offerData.offer_price.deal == "sell") {
-          return "Купить " + this.offerData.title;
-        } else {
-          return "Посуточно " + this.offerData.title;
-        }
-      }
-    },
+
     view_tel(id) {
       Api.getInstance()
         .offer.view_tel({ id: id })
