@@ -61,7 +61,7 @@ export default {
           label: "квартира"
         },
         {
-          value: "home",
+          value: "house",
           label: "дом"
         },
         {
