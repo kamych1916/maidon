@@ -138,12 +138,12 @@
                 Дома
               </nuxt-link>
               <div class="mt-20">
-                <nuxt-link to="/buy/ground" class="text-black fs-14">
+                <nuxt-link to="/buy/ground" class="fs-18">
                   Участки
                 </nuxt-link>
               </div>
               <div class="mt-20">
-                <nuxt-link to="/buy/room" class="  fs-18">
+                <nuxt-link to="/buy/room" class="fs-18">
                   Комнаты
                 </nuxt-link>
               </div>
