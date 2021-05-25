@@ -2,48 +2,12 @@
   <header
     class="header d-flex justify-content-between align-items-center container py-20 px-0"
   >
-    <div>
+    <div class="d-flex">
       <el-button @click="$router.push('/')" type="primary" round>
         <i class="bi bi-building mr-8"></i>
         <span>Maidon</span>
       </el-button>
-      <el-button
-        type="text"
-        class="text-black ml-10 fs-14"
-        @click="dialogVisible = true"
-        >Аренда
-      </el-button>
-      <el-button
-        type="text"
-        class="text-black ml-10 fs-14"
-        @click="dialogVisible = true"
-        >Продажа
-      </el-button>
-      <el-button
-        type="text"
-        class="text-black ml-10 fs-14"
-        @click="dialogVisible = true"
-      >
-        Коммерческая
-      </el-button>
-      <div
-        v-if="dialogVisible"
-        class="dialog d-flex justify-content-center align-items-center cursor"
-        :class="[openDialog ? 'dialog-active' : '']"
-        @click="dialogVisible = false"
-      >
-        <div class="bg-white border-rad-10 p-30">
-          <div class="row">
-            <div class="col d-flex justify-content-between">
-              <div>Аренда недвижимости в Таджикистане</div>
-              <div><i class="bi bi-x fs-18"></i></div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col"></div>
-          </div>
-        </div>
-      </div>
+      <HedaerItems />
     </div>
     <div class=" d-flex">
       <el-button @click="check_access('offer')" type="primary" round>
@@ -115,9 +79,14 @@
 </template>
 
 <script>
-import Api from "~/utils/api";
+// import Api from "~/utils/api";
 import { cookiesEvents } from "~/utils/cookies";
+import HedaerItems from "@/layouts/default-components/header-items.vue";
+
 export default {
+  components: {
+    HedaerItems
+  },
   mixins: [cookiesEvents],
   data() {
     return {
@@ -125,8 +94,7 @@ export default {
       surname: "",
       companyName: "",
       isLogin: false,
-      userData: null,
-      dialogVisible: false
+      userData: null
     };
   },
   watch: {
@@ -191,10 +159,6 @@ export default {
       localStorage.removeItem("ui");
       this.isLogin = false;
       this.$router.push("/");
-    },
-    openDialog() {
-      this.dialogVisible = true;
-      document.body.style.overflow = "hidden !important";
     }
   }
 };
@@ -203,6 +167,15 @@ export default {
 <style lang="scss">
 .header {
   .dialog {
+    background-color: transparent;
+  }
+  .backdrop {
+    z-index: -1;
+    left: 0;
+    top: 0;
+    position: absolute;
+    width: 100%;
+    min-height: 100vh;
     background-color: rgba(000, 000, 000, 0.5);
   }
   .header-btn {
