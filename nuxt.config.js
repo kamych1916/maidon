@@ -23,6 +23,16 @@ export default {
         name: "keywords",
         content:
           "майдон, maidon, недвижимость, аренда, продажа, купить, снять, квартиры, дома, новостройки в Таджикистане, купить недвижимость в Таджикистане"
+      },
+
+      { property: "og:image:type", content: "image/png" },
+      {
+        property: "og:image",
+        content: "https://mirllex.site/maidon-promo.png"
+      },
+      {
+        property: "twitter:image",
+        content: "https://mirllex.site/maidon-promo.png"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
