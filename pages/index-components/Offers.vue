@@ -4,9 +4,9 @@
       <div class="col-lg-4 mt-30">
         <nuxt-link to="/">
           <div class="wrap-img h-100">
-            <span class="title-img">Жилые комплексы</span>
+            <span class="title-img">Дизайнеры / Риелторы</span>
             <img
-              src="/images/flatmy-newBuildings.jpg"
+              src="/images/maidon-newBuildings.jpg"
               style="object-fit: cover; "
               width="100%"
               height="100%"
@@ -21,7 +21,7 @@
               <div class="wrap-img h-100">
                 <span class="title-img ">Продажа квартир</span>
                 <img
-                  src="/images/flatmy-buy.jpg"
+                  src="/images/maidon-buy.jpg"
                   style="object-fit: cover; "
                   width="100%"
                 />
@@ -33,7 +33,7 @@
               <div class="wrap-img h-100">
                 <span class="title-img ">Аренда квартир</span>
                 <img
-                  src="/images/flatmy-rent.jpg"
+                  src="/images/maidon-rent.jpg"
                   style="object-fit: cover; "
                   width="100%"
                 />
@@ -47,7 +47,7 @@
               <div class="wrap-img h-100">
                 <span class="title-img ">Коммерческая</span>
                 <img
-                  src="/images/flatmy-office.jpg"
+                  src="/images/maidon-office.jpg"
                   style="object-fit: cover; "
                   width="100%"
                 />
@@ -59,7 +59,7 @@
               <div class="wrap-img h-100">
                 <span class="title-img ">Аренда домов</span>
                 <img
-                  src="/images/flatmy-home.jpg"
+                  src="/images/maidon-home.jpg"
                   style="object-fit: cover; "
                   width="100%"
                 />

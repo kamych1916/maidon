@@ -1,7 +1,23 @@
 <template>
   <div class="title-block">
     <div class="row d-flex justify-content-center">
-      <div class="col-lg-5 title my-30">Ищи <br />на майдон</div>
+      <div class="col-lg-6 title d-flex align-items-center my-30">
+        <div class="w-100">
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content=""
+            placement="top-start"
+          >
+            <div slot="content">
+              Майдон - переводится с таджикского языка как - площадь.
+            </div>
+
+            <span class="text-blue"> Maidon </span>
+          </el-tooltip>
+          - недвижимость в Таджикистане
+        </div>
+      </div>
       <div class="col-lg-4 my-30">
         <div class="wrap-search">
           <el-select
