@@ -184,10 +184,6 @@ export default {
     text-decoration: none;
     border-radius: 35px;
     transition: 0.2s;
-    // background-color: #3a8ee6;
-    // &:hover {
-    // background-color: #66b1ff;
-    // }
   }
   .events-text {
     display: inline;

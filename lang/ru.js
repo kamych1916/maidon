@@ -10,6 +10,7 @@ module.exports = {
     commercy: "Коммерческая",
     building: "Здание",
     realtors: "Риелторы",
-    agencies: "Агентства"
+    agencies: "Агентства",
+    services: "Услуги"
   }
 };

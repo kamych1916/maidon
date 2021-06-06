@@ -9,9 +9,9 @@
             content=""
             placement="top-start"
           >
-            <div slot="content">
+            <h1 slot="content">
               Майдон - переводится с таджикского языка как - площадь.
-            </div>
+            </h1>
 
             <span class="text-blue"> Maidon </span>
           </el-tooltip>
