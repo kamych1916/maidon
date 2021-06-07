@@ -1,6 +1,6 @@
 <template>
   <!-- отличий кода в REALTORS и AGENTS  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
-  <div v-if="list">
+  <div v-if="list" class="realtors">
     <div class="row">
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
@@ -21,7 +21,7 @@
             target="_blank"
           >
             <div class="card-wrap w-100">
-              <div class="row d-flex">
+              <div class="row">
                 <div
                   class="col-lg my-10 d-flex"
                   style="display: -webkit-inline-box"
@@ -48,7 +48,7 @@
                       <span class="fs-18" style="color: black">
                         {{ item.name }}
                       </span>
-                      <div class="fs-14 mt-5" style="color: black">
+                      <div class="fs-12 mt-5" style="color: black">
                         Объектов:
                         <span class="text-blue"> {{ item.offer_count }}</span>
                       </div>
@@ -129,4 +129,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.realtors {
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+</style>

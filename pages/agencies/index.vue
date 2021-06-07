@@ -1,6 +1,6 @@
 <template>
   <!-- отличий кода в REALTORS и AGENTS  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
-  <div v-if="list">
+  <div v-if="list" class="agencies">
     <div class="row" style="position-relative">
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
@@ -133,4 +133,11 @@ export default {
 };
 </script>
 
-<style></style>
+<style lang="scss">
+.agencies {
+  .avatar {
+    width: 100px;
+    height: 100px;
+  }
+}
+</style>

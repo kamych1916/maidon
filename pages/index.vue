@@ -65,7 +65,7 @@
               Необходима помощь по услугам?
               <div class="mt-10">
                 Обратитетесь к
-                <nuxt-link to="/services"> специалистам</nuxt-link>
+                <nuxt-link to="/services"> специалистам</nuxt-link>!
               </div>
             </div>
           </div>

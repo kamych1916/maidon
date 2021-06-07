@@ -88,7 +88,7 @@ export default class Api {
       } else if (status == 426) {
         Api.sendNTFS(
           "Ошибка",
-          "Ваш аккаунт не активирован! Проверьте почту",
+          "Ваш аккаунт не активирован! Введите код из СМС ",
           "warning"
         );
       }
@@ -269,10 +269,8 @@ export default class Api {
         `${API_BASE_URL}/change_password?code=${code}&new_password=${password}&email=${email}`
       );
     },
-    async send_activate_code(token) {
-      return axios.post(`${API_BASE_URL}/send_activate_code`, {
-        token: token
-      });
+    async send_activate_code(data) {
+      return axios.post(`${API_BASE_URL}/send_activate_code`, data);
     },
     async check_access() {
       return axios.get(`${API_BASE_URL}/check_access`);

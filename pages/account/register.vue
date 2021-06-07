@@ -1,7 +1,10 @@
 <template>
-  <div>
+  <div class="auth-dialog-wrap register">
     <div class="radio-types ">
-      <h4 class="mt-30">Выберите тип аккаунта:</h4>
+      <h4 class="mt-30">
+        Выберите тип аккаунта для размещения объявлений по
+        <span class="text-blue">недвижимости</span>:
+      </h4>
       <div class="row mt-30">
         <div class="col-md-4 col-6 my-10">
           <label class="custom-radio w-100 ">
@@ -46,9 +49,44 @@
           </label>
         </div>
       </div>
+      <h4 class="mt-30">
+        Выберите тип аккаунта для размещения объявлений по
+        <span class="text-blue"> услугам</span>:
+      </h4>
+      <div class="row mt-30">
+        <div class="col-md-4 col-6 my-10">
+          <label class="custom-radio w-100 ">
+            <input
+              type="radio"
+              value="owner"
+              @change="onClick()"
+              v-model="picked_account"
+            />
+            <span class="radio-btn w-100 pb-20">
+              <i class="bi bi-person"></i>
+              <h3>Физ. лицо</h3>
+            </span>
+          </label>
+        </div>
+        <div class="col-md-4 col-6 my-10">
+          <label class="custom-radio w-100 ">
+            <input
+              type="radio"
+              value="owner"
+              @change="onClick()"
+              v-model="picked_account"
+            />
+            <span class="radio-btn w-100 pb-20">
+              <i class="bi bi-person"></i>
+              <h3>Юр. лицо</h3>
+            </span>
+          </label>
+        </div>
+      </div>
     </div>
+
     <slide-y-down-transition :duration="700">
-      <div v-if="picked_account" class="auth-template register mb-100 mt-50">
+      <div v-if="picked_account" class="auth-template mb-100 mt-50">
         <form @submit.prevent="signup()" autocomplete="off">
           <h3>Регистрация</h3>
 
@@ -108,18 +146,6 @@
               placeholder="+992 (000) 00-00-00"
               title="+992 (000)-00-00-00"
               type="text"
-            ></el-input>
-          </div>
-
-          <div class="form-group mb-18">
-            <el-input
-              required
-              v-model="userData.email"
-              name="email"
-              placeholder="E-mail адрес"
-              clearable
-              pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-              type="email"
             ></el-input>
           </div>
 
@@ -263,9 +289,21 @@
             ></el-input>
           </div>
 
+          <div class="w-100 d-flex justify-content-center">
+            <client-only>
+              <vue-recaptcha
+                ref="invisibleRecaptcha"
+                @verify="onVerify"
+                @expired="onExpired"
+                :sitekey="sitekey"
+              >
+              </vue-recaptcha>
+            </client-only>
+          </div>
           <button
-            class="el-button el-button--primary is-round py-14 w-100"
+            class="el-button el-button--primary is-round mt-14 py-14 w-100"
             type="submit"
+            :disabled="isVerify"
           >
             Регистрация
           </button>
@@ -277,6 +315,34 @@
         </form>
       </div>
     </slide-y-down-transition>
+    <div
+      v-if="dialogVisible"
+      class="dialog w-100 d-flex justify-content-center align-items-center"
+      :class="[openDialog ? 'dialog-active' : '']"
+    >
+      <div class="card-wrap activate-wrap text-center p-40">
+        Активация
+        <div class="form-group mt-20 mb-18">
+          <el-input
+            required
+            v-model="SMScode"
+            placeholder="Введите код из SMS"
+            clearable
+            type="number"
+            minlength="6"
+            maxlength="6"
+          ></el-input>
+        </div>
+        <button
+          class="el-button el-button--primary is-round mt-14 py-14 w-100"
+          @click="send_activate_code()"
+          :disabled="isVerify"
+        >
+          Отправить
+        </button>
+      </div>
+      <div class="backdrop w-100 cursor" @click="dialogVisible = false"></div>
+    </div>
   </div>
 </template>
 
@@ -284,12 +350,29 @@
 import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
 import { SlideYDownTransition } from "vue2-transitions";
+import VueRecaptcha from "vue-recaptcha";
+
 export default {
+  head: {
+    script: [
+      {
+        async: true,
+        src:
+          "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"
+      }
+    ]
+  },
   components: {
+    "vue-recaptcha": VueRecaptcha,
     SlideYDownTransition
   },
   data() {
     return {
+      dialogVisible: false,
+
+      sitekey: "6LdiThobAAAAAItMcl2pIIj9JZFb8EVH1Vrzyurd",
+      isVerify: true,
+
       userData: {
         name: null,
         surname: null,
@@ -303,34 +386,64 @@ export default {
         website: null
       },
       picked_account: null,
-      passwordСonfirm: null
+      passwordСonfirm: null,
+
+      SMScode: null
     };
   },
   methods: {
+    send_activate_code() {
+      let data = {
+        tel: this.userData.tel,
+        code: this.SMScode
+      };
+      Api.getInstance()
+        .auth.send_activate_code(data)
+        .then(response => {
+          if (response.data) {
+            this.$router.push("/account/login");
+          } else {
+            this.sendNTFS("Ошибка", "Код введён неверно :(", "warning");
+          }
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
+    openDialog() {
+      this.dialogVisible = true;
+    },
     signup() {
-      for (let prop in this.userData) {
-        if (this.userData[prop] == null) {
-          delete this.userData[prop];
+      if (!this.isVerify) {
+        for (let prop in this.userData) {
+          if (this.userData[prop] == null) {
+            delete this.userData[prop];
+          }
+        }
+        if (this.userData.password != this.passwordСonfirm) {
+          this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
+        } else {
+          this.userData.account_type = this.picked_account;
+          Api.getInstance()
+            .auth.signup(this.userData)
+            .then(response => {
+              Api.typicalNTFS(
+                false,
+                "Подтвердите свой аккаунт SMS кодом, проверьте свой телефон!"
+              );
+              this.openDialog();
+            })
+            .catch(error => {
+              Api.typicalNTFS(error.response.status);
+            });
         }
       }
-      console.log(this.userData);
-      if (this.userData.password != this.passwordСonfirm) {
-        this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
-      } else {
-        this.userData.account_type = this.picked_account;
-        Api.getInstance()
-          .auth.signup(this.userData)
-          .then(response => {
-            Api.typicalNTFS(
-              false,
-              "Регистрация прошла успешно, подвердите свой аккаунт, проверьте свою почту!"
-            );
-            this.$router.push("/account/login");
-          })
-          .catch(error => {
-            Api.typicalNTFS(error.response.status);
-          });
-      }
+    },
+    onVerify(response) {
+      this.isVerify = false;
+    },
+    onExpired() {
+      this.isVerify = true;
     },
     onClick() {
       this.userData = {
@@ -361,6 +474,7 @@ export default {
 
 <style lang="scss">
 .register {
+  position: relative;
   .el-textarea__inner {
     border: none;
     background-color: #f2f3f7;
