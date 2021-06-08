@@ -65,7 +65,8 @@
               type="text"
               v-if="
                 localStore.account_type == 'owner' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'individual'
               "
             ></el-input>
             <el-input
@@ -78,9 +79,11 @@
               type="text"
               v-if="
                 localStore.account_type == 'owner' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'individual'
               "
             ></el-input>
+
             <el-input
               class="mb-18"
               required
@@ -89,12 +92,17 @@
               placeholder="Наименование компании"
               clearable
               type="text"
-              v-if="localStore.account_type == 'agency'"
+              v-if="
+                localStore.account_type == 'agency' ||
+                  localStore.account_type == 'entity'
+              "
             ></el-input>
+
             <el-date-picker
               prefix-icon="none"
               :placeholder="
-                localStore.account_type == 'agency'
+                localStore.account_type == 'agency' ||
+                localStore.account_type == 'entity'
                   ? 'Дата образования'
                   : 'Начало вашей карьеры'
               "
@@ -105,7 +113,9 @@
               value-format="yyyy"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'entity' ||
+                  localStore.account_type == 'individual'
               "
             >
             </el-date-picker>
@@ -114,7 +124,9 @@
               class="form-group d-flex mb-18"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'entity' ||
+                  localStore.account_type == 'individual'
               "
             >
               <el-input
@@ -129,6 +141,10 @@
                 effect="dark"
                 content=""
                 placement="top-start"
+                v-if="
+                  localStore.account_type != 'entity' &&
+                    localStore.account_type != 'individual'
+                "
               >
                 <div slot="content">
                   Например: <br /><br />Аренда недвижимости: жилая, загородная,
@@ -152,13 +168,16 @@
               class="form-group d-flex mb-18"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'entity' ||
+                  localStore.account_type == 'individual'
               "
             >
               <el-input
                 type="textarea"
                 :placeholder="
-                  localStore.account_type == 'agency'
+                  localStore.account_type == 'agency' ||
+                  localStore.account_type == 'entity'
                     ? 'О вашей компании'
                     : 'О себе'
                 "
@@ -171,6 +190,10 @@
                 effect="dark"
                 content=""
                 placement="top-start"
+                v-if="
+                  localStore.account_type != 'entity' &&
+                    localStore.account_type != 'individual'
+                "
               >
                 <div slot="content" v-if="localStore.account_type == 'realtor'">
                   Например: <br /><br />Доброго времени суток! Осуществляю<br />
@@ -203,7 +226,8 @@
             <el-input
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor'
+                  localStore.account_type == 'realtor' ||
+                  localStore.account_type == 'entity'
               "
               required
               v-model="userData.website"

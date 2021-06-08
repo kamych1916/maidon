@@ -2,8 +2,7 @@
   <div class="auth-dialog-wrap register">
     <div class="radio-types ">
       <h4 class="mt-30">
-        Выберите тип аккаунта для размещения объявлений по
-        <span class="text-blue">недвижимости</span>:
+        Выберите тип аккаунта:
       </h4>
       <div class="row mt-30">
         <div class="col-md-4 col-6 my-10">
@@ -48,37 +47,17 @@
             </span>
           </label>
         </div>
-      </div>
-      <h4 class="mt-30">
-        Выберите тип аккаунта для размещения объявлений по
-        <span class="text-blue"> услугам</span>:
-      </h4>
-      <div class="row mt-30">
         <div class="col-md-4 col-6 my-10">
           <label class="custom-radio w-100 ">
             <input
               type="radio"
-              value="owner"
+              value="services"
               @change="onClick()"
               v-model="picked_account"
             />
             <span class="radio-btn w-100 pb-20">
-              <i class="bi bi-person"></i>
-              <h3>Физ. лицо</h3>
-            </span>
-          </label>
-        </div>
-        <div class="col-md-4 col-6 my-10">
-          <label class="custom-radio w-100 ">
-            <input
-              type="radio"
-              value="owner"
-              @change="onClick()"
-              v-model="picked_account"
-            />
-            <span class="radio-btn w-100 pb-20">
-              <i class="bi bi-person"></i>
-              <h3>Юр. лицо</h3>
+              <i class="bi bi-arrow-repeat"></i>
+              <h3>Услуги</h3>
             </span>
           </label>
         </div>
@@ -92,7 +71,11 @@
 
           <div
             class="form-group mb-18"
-            v-if="picked_account == 'owner' || picked_account == 'realtor'"
+            v-if="
+              picked_account == 'owner' ||
+                picked_account == 'realtor' ||
+                picked_account == 'services'
+            "
           >
             <el-input
               required
@@ -108,7 +91,11 @@
 
           <div
             class="form-group mb-18"
-            v-if="picked_account == 'owner' || picked_account == 'realtor'"
+            v-if="
+              picked_account == 'owner' ||
+                picked_account == 'realtor' ||
+                picked_account == 'services'
+            "
           >
             <el-input
               required
@@ -148,10 +135,29 @@
               type="text"
             ></el-input>
           </div>
-
+          <div class="form-group mb-18 w-100">
+            <el-select
+              v-model="service_type"
+              placeholder="Выберите вид аккаунта"
+              class="w-100"
+              v-if="picked_account == 'services'"
+            >
+              <el-option
+                v-for="item in services_options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </div>
           <div
             class="form-group mb-18"
-            v-if="picked_account == 'agency' || picked_account == 'realtor'"
+            v-if="
+              picked_account == 'agency' ||
+                picked_account == 'realtor' ||
+                picked_account == 'services'
+            "
           >
             <el-date-picker
               prefix-icon="none"
@@ -163,6 +169,7 @@
               class="w-100"
               v-model="userData.workDate"
               type="year"
+              name="workdate"
               format="yyyy"
               value-format="yyyy"
             >
@@ -388,6 +395,18 @@ export default {
       picked_account: null,
       passwordСonfirm: null,
 
+      service_type: null,
+      services_options: [
+        {
+          value: "entity",
+          label: "юридическое лицо"
+        },
+        {
+          value: "individual",
+          label: "физическое лицо"
+        }
+      ],
+
       SMScode: null
     };
   },
@@ -423,9 +442,19 @@ export default {
         if (this.userData.password != this.passwordСonfirm) {
           this.sendNTFS("Ошибка", "Пароли не совпадают :(", "warning");
         } else {
+          // service_type ?
+          let serviceData = {
+            account_type: this.service_type,
+            name: this.userData.name,
+            surname: this.userData.surname,
+            tel: this.userData.tel,
+            workDate: this.userData.workDate,
+            password: this.userData.password
+          };
           this.userData.account_type = this.picked_account;
+
           Api.getInstance()
-            .auth.signup(this.userData)
+            .auth.signup(this.service_type ? serviceData : this.userData)
             .then(response => {
               Api.typicalNTFS(
                 false,
@@ -457,13 +486,7 @@ export default {
         specialization: null,
         website: null
       };
-      this.$emit("checkOfferTypes", {
-        picked_deal: this.picked_deal,
-        picked_estate: this.picked_estate,
-        picked_account: this.picked_account,
-        picked_object_commercy: this.picked_object_commercy,
-        picked_object_living: this.picked_object_living
-      });
+      this.service_type = null;
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
