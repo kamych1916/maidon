@@ -1,5 +1,5 @@
 <template>
-  <!-- // TODO: изменить el-breacrumbs в кастомные хлемные крошки с itemprop - ListItems -->
+  <!-- // TODO: изменить el-breacrumbs в кастомные хлебные крошки с itemprop - ListItems -->
   <div>
     <el-breadcrumb separator-class="el-icon-arrow-right">
       <el-breadcrumb-item :to="{ path: '/' }" class="my-5"

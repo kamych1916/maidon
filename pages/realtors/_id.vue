@@ -236,7 +236,7 @@ export default {
   methods: {
     add_review() {
       if (this.reviewRate == 0 || !this.reviewRate || !this.reviewText) {
-        alert("пошел нахъуй");
+        // FIXME добавить всплывающее окно о том что пользователь не ввел текст, или не вы брал оценку
       } else {
         Api.getInstance()
           .clients.add_review({
