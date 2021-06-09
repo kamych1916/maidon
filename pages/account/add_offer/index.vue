@@ -1,113 +1,121 @@
 <template>
-  <div class="pb-100 pt-50" v-if="checkAccess">
-    <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
-    <form @submit.prevent="create_offer()">
-      <div ref="inputs">
-        <div class="row mx-0">
-          <div class="card-wrap w-100 mt-50">
-            <div class="form-group">
-              Адрес
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content=""
-                placement="top-start"
-              >
-                <div slot="content">
-                  Введите адрес вашего объекта в адресной строке и далее<br />
-                  отобразится метка на карте - сверьте пожалуйста правильно ли
-                  поставилась метка на карте. <br /><br />
-
-                  Так же вы можете кликнуть по карте, после чего <br />
-                  отобразится метка и предварительный адрес в адресной строке
-                </div>
-                <el-button
-                  type="text"
-                  icon="bi bi-question-circle"
-                  size="mini"
-                ></el-button>
-              </el-tooltip>
-              <el-autocomplete
-                :fetch-suggestions="get_marker"
-                v-model="offerData.offerMap.map_address"
-                class="mt-14 mb-26 w-100"
-                suffix-icon="bi bi-geo-alt-fill"
-                name="address"
-                required
-                type="text"
-                placeholder="Укажите адрес"
-              ></el-autocomplete>
-            </div>
-            <client-only>
-              <OfferMap @onClickMap="onClickMap" :mapCoords="coords"></OfferMap>
-            </client-only>
-          </div>
-        </div>
-        <div v-if="accessToForm">
-          <!-- <div> -->
-          <div class="row">
-            <div class="col-md-6 mt-30">
-              <OfferObject
-                :offerObject="offerData.offerObject"
-                @input="
-                  newData => {
-                    offerData.offerObject = newData;
-                  }
-                "
-              >
-              </OfferObject>
-            </div>
-            <div class="col-md-6 mt-30">
-              <OfferPrice
-                :offerPrice="offerData.offerPrice"
-                @input="
-                  newData => {
-                    offerData.offerPrice = newData;
-                  }
-                "
-              >
-              </OfferPrice>
-            </div>
-          </div>
-          <div class="row mt-30">
-            <div class="col">
-              <OfferPhotos
-                @uploadPhoto="uploadPhoto"
-                :putPhotos="[]"
-              ></OfferPhotos>
-            </div>
-          </div>
-          <div class="row mt-30">
-            <div class="col">
-              <div class="card-wrap">
-                <h4 draggable="true">Описание</h4>
-                <el-input
-                  required
-                  type="textarea"
-                  class="mt-20"
-                  style="border-radius: 100px"
-                  :autosize="{ minRows: 10, maxRows: 20 }"
-                  maxlength="3000"
-                  placeholder="Расскажите в каком состоянии объект, мебель, можно ли изменять интерьер; кого вы хотите видеть в жильцах, готовы ли к домашним животным; инфраструктура около дома, дополнительные платежи (счетчики и т.д.)."
-                  v-model="offerData.offerDescription"
+  <div class="pb-100" v-if="checkAccess">
+    <div v-if="!isServices" class="pt-50">
+      <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
+      <form @submit.prevent="create_offer()">
+        <div ref="inputs">
+          <div class="row mx-0">
+            <div class="card-wrap w-100 mt-50">
+              <div class="form-group">
+                Адрес
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content=""
+                  placement="top-start"
                 >
-                </el-input>
+                  <div slot="content">
+                    Введите адрес вашего объекта в адресной строке и далее<br />
+                    отобразится метка на карте - сверьте пожалуйста правильно ли
+                    поставилась метка на карте. <br /><br />
+
+                    Так же вы можете кликнуть по карте, после чего <br />
+                    отобразится метка и предварительный адрес в адресной строке
+                  </div>
+                  <el-button
+                    type="text"
+                    icon="bi bi-question-circle"
+                    size="mini"
+                  ></el-button>
+                </el-tooltip>
+                <el-autocomplete
+                  :fetch-suggestions="get_marker"
+                  v-model="offerData.offerMap.map_address"
+                  class="mt-14 mb-26 w-100"
+                  suffix-icon="bi bi-geo-alt-fill"
+                  name="address"
+                  required
+                  type="text"
+                  placeholder="Укажите адрес"
+                ></el-autocomplete>
+              </div>
+              <client-only>
+                <OfferMap
+                  @onClickMap="onClickMap"
+                  :mapCoords="coords"
+                ></OfferMap>
+              </client-only>
+            </div>
+          </div>
+          <div v-if="accessToForm">
+            <!-- <div> -->
+            <div class="row">
+              <div class="col-md-6 mt-30">
+                <OfferObject
+                  :offerObject="offerData.offerObject"
+                  @input="
+                    newData => {
+                      offerData.offerObject = newData;
+                    }
+                  "
+                >
+                </OfferObject>
+              </div>
+              <div class="col-md-6 mt-30">
+                <OfferPrice
+                  :offerPrice="offerData.offerPrice"
+                  @input="
+                    newData => {
+                      offerData.offerPrice = newData;
+                    }
+                  "
+                >
+                </OfferPrice>
+              </div>
+            </div>
+            <div class="row mt-30">
+              <div class="col">
+                <OfferPhotos
+                  @uploadPhoto="uploadPhoto"
+                  :putPhotos="[]"
+                ></OfferPhotos>
+              </div>
+            </div>
+            <div class="row mt-30">
+              <div class="col">
+                <div class="card-wrap">
+                  <h4 draggable="true">Описание</h4>
+                  <el-input
+                    required
+                    type="textarea"
+                    class="mt-20"
+                    style="border-radius: 100px"
+                    :autosize="{ minRows: 10, maxRows: 20 }"
+                    maxlength="3000"
+                    placeholder="Расскажите в каком состоянии объект, мебель, можно ли изменять интерьер; кого вы хотите видеть в жильцах, готовы ли к домашним животным; инфраструктура около дома, дополнительные платежи (счетчики и т.д.)."
+                    v-model="offerData.offerDescription"
+                  >
+                  </el-input>
+                </div>
+              </div>
+            </div>
+            <div class="row justify-content-center mt-30">
+              <div class="col-md-4">
+                <button
+                  class="el-button el-button--primary is-round py-14 w-100 "
+                  type="submit"
+                >
+                  Разместить объявление
+                </button>
               </div>
             </div>
           </div>
-          <div class="row justify-content-center mt-30">
-            <div class="col-md-4">
-              <button
-                class="el-button el-button--primary is-round py-14 w-100 "
-                type="submit"
-              >
-                Разместить объявление
-              </button>
-            </div>
-          </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </div>
+    <div v-else>
+      <Service />
+    </div>
   </div>
 </template>
 
@@ -120,6 +128,7 @@ import OfferMap from "@/pages/account/add_offer/components/offer_map.vue";
 import OfferObject from "@/pages/account/add_offer/components/offer_object.vue";
 import OfferPrice from "@/pages/account/add_offer/components/offer_price.vue";
 import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
+import Service from "@/pages/account/add_offer/components/service.vue";
 import { cookiesEvents } from "~/utils/cookies";
 
 export default {
@@ -129,12 +138,14 @@ export default {
     OfferMap,
     OfferObject,
     OfferPrice,
-    OfferPhotos
+    OfferPhotos,
+    Service
   },
 
   data() {
     return {
       checkAccess: false,
+      isServices: false,
       offerData: {
         offerType: null,
         offerMap: {
@@ -152,9 +163,15 @@ export default {
   },
   mounted() {
     window.scrollTo(0, 0);
+    let store = JSON.parse(localStorage.getItem("ui"));
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
-      if (!JSON.parse(localStorage.getItem("ui")).is_moder)
-        this.checkAccess = true;
+      if (!store.is_moder) this.checkAccess = true;
+      if (
+        store.account_type == "entity" ||
+        store.account_type == "individual"
+      ) {
+        this.isServices = true;
+      }
     } else {
       this.$router.push("login");
     }
