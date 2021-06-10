@@ -144,6 +144,10 @@ export default class Api {
     async get_markers() {
       return axios.get(`${API_BASE_URL}/get_markers`);
     },
+    async get_list_specialization() {
+      return axios.get(`${API_BASE_URL}/get_list_specialization`);
+    },
+
     async view_tel(id) {
       return axios.post(`${API_BASE_URL}/view_tel`, id);
     },
@@ -154,8 +158,24 @@ export default class Api {
         }
       });
     },
+    async create_services(offerData) {
+      return axios.post(`${API_BASE_URL}/create_services`, offerData, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+
     async offer_uplodfile(formData) {
       return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+          "Content-Type": "multipart/form-data"
+        }
+      });
+    },
+    async offer_uploadfile_services(formData) {
+      return axios.post(`${API_BASE_URL}/offer_uploadfile_services`, formData, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`,
           "Content-Type": "multipart/form-data"
@@ -193,6 +213,13 @@ export default class Api {
         }
       });
     },
+    async get_user_services() {
+      return axios.get(`${API_BASE_URL}/get_user_services`, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
     async get_moder_offer() {
       return axios.get(`${API_BASE_URL}/get_moder_offer`, {
         headers: {
@@ -200,13 +227,28 @@ export default class Api {
         }
       });
     },
-    async activ_offer(data) {
-      return axios.post(`${API_BASE_URL}/activ_offer`, data, {
+    async get_moder_services() {
+      return axios.get(`${API_BASE_URL}/get_moder_services`, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`
         }
       });
     },
+    async active_offer(data) {
+      return axios.post(`${API_BASE_URL}/active_offer`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+    async active_services(data) {
+      return axios.post(`${API_BASE_URL}/active_services`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
+    },
+
     async patch_info(data) {
       return axios.post(`${API_BASE_URL}/patch_info`, data, {
         headers: {
@@ -284,9 +326,3 @@ export default class Api {
     }
   };
 }
-
-// , {
-//         headers: {
-//           Authorization: `Bearer ${Api.getCookie("session_token")}`
-//         }
-//       }

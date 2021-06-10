@@ -9,48 +9,64 @@
         style="position: initial"
       >
         <div class="card-wrap">
-          <div class=" my-10">
-            {{ el.title }}
+          <div class="row" v-if="el.storeService">
+            <div class="col-6 my-5">Тип объявления:</div>
+            <div class="col-6 my-5">{{ el.title ? el.title : el.type }}</div>
+            <div class="col-6 my-5">Опыт работы:</div>
+            <div class="col-6 my-5">{{ el.workDate ? el.workDate : "" }}</div>
+            <div class="col-6 my-5">Время работы:</div>
+            <div class="col-6 my-5">{{ el.workTime ? el.workTime : "" }}</div>
           </div>
-          <div class="row">
-            <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-              @click="openOffer('photos', el.offerPhothos, el.title)"
-            >
-              Фотографии
-            </div>
-            <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-              @click="
-                openOffer(
-                  'infos',
-                  { object: el.offer_object, price: el.offer_price },
-                  el.title
-                )
-              "
-            >
-              Информация
-            </div>
-            <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-              @click="openOffer('description', el.offerDescription, el.title)"
-            >
-              Описание
+          <div class="row mt-10 ">
+            <div class="col px-10">
+              <div
+                class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                @click="
+                  openOffer(
+                    'photos',
+                    el.offerPhothos ? el.offerPhothos : el.listPhotos,
+                    el.title ? el.title : el.type
+                  )
+                "
+              >
+                Фотографии
+              </div>
+              <div
+                class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                @click="
+                  openOffer(
+                    'infos',
+                    { object: el.offer_object, price: el.offer_price },
+                    el.title ? el.title : el.type
+                  )
+                "
+              >
+                Информация
+              </div>
+              <div
+                v-if="!el.storeService"
+                class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                @click="openOffer('description', el.offerDescription, el.title)"
+              >
+                Описание
+              </div>
             </div>
           </div>
           <div class="row mt-12">
-            <button
-              @click="acceptOffer(el.id)"
-              class="el-button el-button--success is-round fs-14 py-10 px-20 mx-5 my-5 "
-            >
-              Разрешить
-            </button>
-            <button
-              @click="openOffer('cancel', el.id, el.title)"
-              class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5 "
-            >
-              Отменить и указать причину
-            </button>
+            <div class="col px-10">
+              <button
+                @click="acceptOffer(el.id)"
+                class="el-button el-button--success is-round fs-14 py-10 px-20 mx-5 my-5 "
+              >
+                Разрешить
+              </button>
+              <button
+                @click="openOffer('cancel', el.id, el.title)"
+                class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5 "
+              >
+                Отменить и указать причину
+              </button>
+            </div>
           </div>
         </div>
         <div class="dialog" :class="[dialogPhotos ? 'dialog-active' : '']">
@@ -80,7 +96,6 @@
                   v-for="(p, i) in offerData.offerPhothos"
                   :key="i"
                 >
-                  <!-- {{ p.imgName }} -->
                   <el-image
                     draggable="false"
                     style="width: 295px; height: 200px"
@@ -100,7 +115,9 @@
                 <div class="col-lg d-flex align-items-center">
                   <div>
                     Просмотр информации объявления -&nbsp;
-                    <span class="text-blue">{{ offerData.title }}</span>
+                    <span class="text-blue">{{
+                      offerData.title ? offerData.title : offerData.type
+                    }}</span>
                   </div>
                 </div>
                 <div class="col-lg d-flex justify-content-end">
@@ -113,13 +130,49 @@
                 </div>
               </div>
             </div>
-            <div class="card-wrap" style="white-space: pre-line">
-              <h2>Информация об объекте</h2>
-              {{ offerData.offer_object }}
+            <div v-if="!el.storeService">
+              <div class="card-wrap" style="white-space: pre-line">
+                <h2>Информация об объекте</h2>
+                {{ offerData.offer_object }}
+              </div>
+              <div class="card-wrap" style="white-space: pre-line">
+                <h2>Информация о цене</h2>
+                {{ offerData.offer_price }}
+              </div>
             </div>
-            <div class="card-wrap" style="white-space: pre-line">
-              <h2>Информация о цене</h2>
-              {{ offerData.offer_price }}
+            <div v-else class="card-wrap">
+              <div
+                style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc"
+                class="pb-20"
+              >
+                <div class="mt-20 ">
+                  <div class="d-flex row justify-content-between">
+                    <div class="col ">
+                      Прокладка канализационных труб
+                    </div>
+                    <div class="col text-blue" style="text-align: end">
+                      по договорённости
+                    </div>
+                  </div>
+                </div>
+                <div class="mt-20 text-light">
+                  Прокладка канализационных труб. Выполняем полный спектр
+                  строительно-отделочных работ от ремонта квартир, фундамента до
+                  кровли. Подключаем электричество к дому и выполняем все
+                  электромонтажные работы. Организовываем подключение, проводку
+                  водоснабжения, отопления и канализации по всему дому. Помимо
+                  основного направления по строительству жилых домов, мы
+                  оказываем услуги по ремонту квартир, реконструкции зданий или
+                  сооружений, постройке различных помещений хозяйственного
+                  назначения в черте города, постройка бань или дачных домов.
+                  Спектр наших услуг многогранен и доступен для каждого клиента.
+                  Вам остается сделать телефонный звонок для того чтобы получить
+                  грамотную консультацию! И согласовать время выезда к вам на
+                  бесплатный замер! Плюс ко всему вы получите квалифицированных
+                  специалистов со стажем работы более 10 лет. И гарантии на все
+                  наши работы!
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -163,7 +216,7 @@
                 </div>
                 <div class="col-lg d-flex justify-content-end">
                   <div
-                    @click="cancleOffer()"
+                    @click="acceptOffer()"
                     class="el-button el-button--warning is-round fs-14 py-10 px-20 mx-5 my-5"
                   >
                     подтвердить
@@ -231,62 +284,96 @@ export default {
         title: null,
         offerPhothos: [],
         offerDescription: "123"
-      }
+      },
+
+      isServices: false
     };
   },
   mounted() {
+    let store = JSON.parse(localStorage.getItem("ui"));
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
-      this.get_moder_offer();
+      if (store.type == "services") {
+        this.get_moder_services();
+        this.isServices = true;
+      } else {
+        this.get_moder_offer();
+      }
       this.checkAccess = true;
     } else {
       this.$router.push("login");
     }
   },
   methods: {
-    cancleOffer() {
-      Api.getInstance()
-        .account.activ_offer({
-          id: this.offerData.id,
-          active: -1,
-          note: this.reasonOfCancel
-        })
-        .then(response => {
-          this.moderOfferData.forEach((element, idx) => {
-            if (element.id === this.offerData.id) {
-              this.moderOfferData.splice(idx, 1);
-            }
-          });
-          this.closeDialog();
-        })
-        .catch(error => {
-          Api.typicalNTFS(error.response.status);
-        });
-    },
-
     acceptOffer(id) {
-      Api.getInstance()
-        .account.activ_offer({
-          id: id,
-          active: 1,
-          note: ""
-        })
-        .then(response => {
-          this.moderOfferData.forEach((element, idx) => {
-            if (element.id === id) {
-              this.moderOfferData.splice(idx, 1);
-            }
+      // acceptOffer - и разрешение и отмена обьявлений
+      if (this.isServices) {
+        Api.getInstance()
+          .account.active_services({
+            id: id ? id : this.offerData.id,
+            active: id ? 1 : -1,
+            note: id ? "" : this.reasonOfCancel
+          })
+          .then(response => {
+            this.moderOfferData.forEach((element, idx) => {
+              if (element.id === id ? id : this.offerData.id) {
+                this.moderOfferData.splice(idx, 1);
+                id
+                  ? Api.typicalNTFS(false, "Объявление было добавлено успешно!")
+                  : Api.typicalNTFS(
+                      false,
+                      "Объявление было успешно отмененно!"
+                    );
+              }
+              this.closeDialog();
+            });
+          })
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
           });
-        })
-        .catch(error => {
-          Api.typicalNTFS(error.response.status);
-        });
+      } else {
+        Api.getInstance()
+          .account.active_offer({
+            id: id ? id : this.offerData.id,
+            active: id ? 1 : -1,
+            note: id ? "" : this.reasonOfCancel
+          })
+          .then(response => {
+            this.moderOfferData.forEach((element, idx) => {
+              if (element.id === id) {
+                this.moderOfferData.splice(idx, 1);
+                id
+                  ? Api.typicalNTFS(false, "Объявление было добавлено успешно!")
+                  : Api.typicalNTFS(
+                      false,
+                      "Объявление было успешно отмененно!"
+                    );
+              }
+              this.closeDialog();
+            });
+          })
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
+          });
+      }
     },
-
+    //
     get_moder_offer() {
       Api.getInstance()
         .account.get_moder_offer()
         .then(response => {
           this.moderOfferData = response.data;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
+
+    get_moder_services() {
+      Api.getInstance()
+        .account.get_moder_services()
+        .then(response => {
+          this.moderOfferData = response.data;
+          console.log(this.moderOfferData);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

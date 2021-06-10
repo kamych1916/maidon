@@ -31,22 +31,10 @@
         ></el-input>
       </div>
 
-      <div class="pt-10 w-100">
-        <div class="d-flex justify-content-center">
-          <client-only>
-            <vue-recaptcha
-              ref="invisibleRecaptcha"
-              @verify="onVerify"
-              @expired="onExpired"
-              :sitekey="sitekey"
-            >
-            </vue-recaptcha>
-          </client-only>
-        </div>
+      <div class=" w-100">
         <button
           class="el-button el-button--primary is-round mt-14 py-14 w-100"
           type="submit"
-          :disabled="isVerify"
         >
           Войти
         </button>
@@ -95,27 +83,11 @@
 <script>
 import Api from "~/utils/api";
 import NTFS from "~/utils/notifications";
-import VueRecaptcha from "vue-recaptcha";
 
 export default {
-  head: {
-    script: [
-      {
-        async: true,
-        src:
-          "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"
-      }
-    ]
-  },
-  components: {
-    "vue-recaptcha": VueRecaptcha
-  },
   data() {
     return {
       dialogVisible: false,
-
-      sitekey: "6LdiThobAAAAAItMcl2pIIj9JZFb8EVH1Vrzyurd",
-      isVerify: true,
 
       userData: {
         tel: null,
@@ -153,12 +125,6 @@ export default {
       d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
       var expires = "expires=" + d.toUTCString();
       document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    },
-    onVerify(response) {
-      this.isVerify = false;
-    },
-    onExpired() {
-      this.isVerify = true;
     },
     signin() {
       if (!this.isVerify)

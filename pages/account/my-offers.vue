@@ -231,18 +231,36 @@ export default {
         description: null,
         offerObject: {},
         offerPrice: {}
-      }
+      },
+      isServices: false
     };
   },
   mounted() {
+    let store = JSON.parse(localStorage.getItem("ui"));
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
+      if (store.account_type == "entity" || store.type == "individual") {
+        this.get_user_services();
+        this.isServices = true;
+      } else {
+        this.get_user_offers();
+      }
       this.checkAccess = true;
-      this.get_user_offers();
     } else {
       this.$router.push("login");
     }
   },
   methods: {
+    get_user_services() {
+      Api.getInstance()
+        .account.get_user_services()
+        .then(response => {
+          // this.offersList = response.data;
+          console.log("kek-> ", response.data);
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
     get_user_offers() {
       Api.getInstance()
         .account.get_user_offers()
