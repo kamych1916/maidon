@@ -29,19 +29,30 @@
             class="pb-10 w-100"
             style="border-bottom: 1px solid #ccc; word-break: break-word;"
           >
-            <span v-if="name"> {{ name }} {{ surname }} </span>
-            <span else> {{ companyName }} </span>
+            <span v-if="companyName"> {{ companyName }} </span>
+            <span v-else> {{ name }} {{ surname }} </span>
           </div>
           <nuxt-link
             v-if="userData.is_moder"
-            to="/account/moderation"
+            :to="
+              isServices
+                ? '/account/moderation-service'
+                : '/account/moderation-realty'
+            "
             class="w-100"
           >
-            <div class="w-100 my-10" to="/account/profile">
+            <div class="w-100 my-10">
               Модерация
             </div>
           </nuxt-link>
-          <nuxt-link v-if="!userData.is_moder" to="/account/my-offers">
+          <nuxt-link
+            v-if="!userData.is_moder"
+            :to="
+              isServices
+                ? '/account/my-offers-service'
+                : '/account/my-offers-realty'
+            "
+          >
             <div class="w-100 my-10">
               Мои объвления
             </div>
@@ -94,7 +105,8 @@ export default {
       surname: "",
       companyName: "",
       isLogin: false,
-      userData: null
+      userData: null,
+      isServices: false
     };
   },
   watch: {
@@ -111,12 +123,20 @@ export default {
     }
   },
   mounted() {
-    if (localStorage.getItem("ui")) {
-      this.userData = JSON.parse(localStorage.getItem("ui"));
-      this.name = JSON.parse(localStorage.getItem("ui")).name;
-      this.companyName = JSON.parse(localStorage.getItem("ui")).companyName;
-      this.surname = JSON.parse(localStorage.getItem("ui")).surname || "";
+    let store = JSON.parse(localStorage.getItem("ui"));
+    if (store) {
+      this.userData = store;
+      this.name = store.name;
+      this.companyName = store.companyName;
+      this.surname = store.surname || "";
       this.changeBtnLogin();
+      if (
+        store.type == "services" ||
+        store.account_type == "entity" ||
+        store.account_type == "individual"
+      ) {
+        this.isServices = true;
+      }
     }
   },
   methods: {

@@ -4,12 +4,12 @@
       <el-tab-pane
         v-if="!storeData.is_moder"
         label="Мои объявления"
-        name="my-offers"
+        :name="isServices ? 'my-offers-service' : 'my-offers-realty'"
       ></el-tab-pane>
       <el-tab-pane
         v-if="storeData.is_moder"
         label="Модерация"
-        name="moderation"
+        :name="isServices ? 'moderation-service' : 'moderation-realty'"
       ></el-tab-pane>
       <el-tab-pane
         v-if="!storeData.is_moder"
@@ -33,11 +33,20 @@ export default {
   data() {
     return {
       storeData: "",
-      activeName: this.$route.path.split("/")[2]
+      activeName: this.$route.path.split("/")[2],
+      isServices: false
     };
   },
   mounted() {
     this.storeData = JSON.parse(localStorage.getItem("ui"));
+    // type - для проверки модерации, account-type =
+    if (
+      this.storeData.type == "services" ||
+      this.storeData.account_type == "entity" ||
+      this.storeData.account_type == "individual"
+    ) {
+      this.isServices = true;
+    }
   },
   methods: {
     handleClick() {

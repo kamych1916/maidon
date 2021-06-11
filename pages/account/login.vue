@@ -139,7 +139,11 @@ export default {
             );
             Api.typicalNTFS(false, "Авторизация прошла успешно!");
             if (response.data.is_moder) {
-              this.$router.push("/account/moderation");
+              if (JSON.parse(localStorage.getItem("ui")).type == "services") {
+                this.$router.push("/account/moderation-service");
+              } else {
+                this.$router.push("/account/moderation-realty");
+              }
             } else {
               this.$router.push("/account/profile");
             }
