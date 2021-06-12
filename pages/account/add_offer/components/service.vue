@@ -1,6 +1,6 @@
 <template>
   <div class="service">
-    <form @submit.prevent="create_services()">
+    <form @submit.prevent="patch_services()">
       <div class="row">
         <div class="col-lg-6">
           <div class="card-wrap sticky">
@@ -279,7 +279,7 @@
               class="el-button el-button--primary is-round py-14"
               type="submit"
             >
-              Разместить объявление
+              {{ serviceID ? "Изменить объявление" : "Разместить объявление" }}
             </button>
           </div>
         </div>
@@ -291,23 +291,44 @@
 <script>
 import Api from "~/utils/api";
 export default {
+  props: {
+    serviceID: {
+      type: String,
+      required: false,
+      default: () => {
+        return null;
+      }
+    },
+    offerData: {
+      type: Object,
+      required: false,
+      default: function() {
+        return {
+          type: null,
+          workDate: null,
+          workTime: null,
+          specialization: "",
+          listPhotos: []
+        };
+      }
+    },
+    storeService: {
+      type: Array,
+      required: false,
+      default: function() {
+        return [
+          {
+            kind: null,
+            cost: null,
+            description: null
+          }
+        ];
+      }
+    }
+  },
   data() {
     return {
-      options: [],
-      offerData: {
-        specialization: "",
-        type: null,
-        workDate: null,
-        workTime: null,
-        listPhotos: []
-      },
-      storeService: [
-        {
-          kind: null,
-          cost: null,
-          description: null
-        }
-      ]
+      options: []
     };
   },
   mounted() {
@@ -324,17 +345,19 @@ export default {
           Api.typicalNTFS(error.response.status);
         });
     },
-    create_services() {
-      // create_services
+    patch_services() {
       Api.getInstance()
-        .offer.create_services({
+        .offer.patch_services({
+          id: this.serviceID ? this.serviceID : null,
           offerData: this.offerData,
           storeService: this.storeService
         })
         .then(() => {
           Api.typicalNTFS(
             false,
-            "Объявление было добавлено успешно, ожидайте проверку модератором!"
+            this.serviceID
+              ? "Объявление было измененно успешно, ожидайте проверку модератором!"
+              : "Объявление было добавлено успешно, ожидайте проверку модератором!"
           );
           this.$router.push("/");
         })
@@ -400,6 +423,14 @@ export default {
       color: white;
       background-color: rgba(0, 0, 0, 0.4);
     }
+  }
+  .box-photo-input {
+    opacity: 0;
+    z-index: 10;
+    cursor: pointer;
+    height: 100% !important;
+    width: 100% !important;
+    position: absolute;
   }
 }
 </style>

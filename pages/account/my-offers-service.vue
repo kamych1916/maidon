@@ -22,7 +22,7 @@
                 draggable="false"
                 style="height: 100px; width: 100px;"
                 class="border-rad-10  cursor"
-                :src="el.listPhotos[0].imgSrc"
+                :src="el.offerData.listPhotos[0].imgSrc"
                 fit="cover"
               ></el-image>
             </div>
@@ -43,7 +43,7 @@
               </h3>
               <div class="row" v-if="el.storeService">
                 <div class="col-6 my-5">Тип объявления:</div>
-                <div class="col-6 my-5">{{ el.type }}</div>
+                <div class="col-6 my-5">{{ el.offerData.type }}</div>
 
                 <div class="col-6 my-5">Статус:</div>
                 <div class="col-6 my-5">
@@ -89,7 +89,7 @@
                       <el-button
                         type="danger"
                         size="mini"
-                        @click="delete_offer(el)"
+                        @click="delete_services(el.id)"
                       >
                         Да
                       </el-button>
@@ -108,32 +108,30 @@
         </div>
         <div class="dialog" :class="[dialogChange ? 'dialog-active' : '']">
           <div class="container">
-            <form @submit.prevent="change_offer()">
-              <div class="card-wrap mt-50">
-                <div class="row">
-                  <div class="col-lg d-flex align-items-center">
-                    Изменение объявления -&nbsp;
-                    <span class="text-blue"> {{ offerData.type }}</span>
-                  </div>
+            <div class="card-wrap mt-50">
+              <div class="row">
+                <div class="col-lg d-flex align-items-center">
+                  Изменение объявления -&nbsp;
+                  <span class="text-blue"> {{ offerData.type }}</span>
+                </div>
+                <div
+                  class="col-lg d-flex justify-content-lg-end justify-content-center"
+                >
                   <div
-                    class="col-lg d-flex justify-content-lg-end justify-content-center"
+                    @click="closeOffer()"
+                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
                   >
-                    <button
-                      type="submit"
-                      class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-                    >
-                      изменить
-                    </button>
-                    <div
-                      @click="closeOffer()"
-                      class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
-                    >
-                      отменить
-                    </div>
+                    отменить
                   </div>
                 </div>
               </div>
-            </form>
+            </div>
+            <Service
+              :offerData="offerData"
+              :storeService="storeService"
+              class="mb-50"
+              :serviceID="serviceID"
+            />
           </div>
         </div>
       </div>
@@ -143,12 +141,8 @@
 
 <script>
 import Api from "~/utils/api";
-import { CurrencyInput } from "vue-currency-input";
 import Tabs from "@/pages/account/components/tabs.vue";
-import Helper from "~/pages/account/add_offer/mixins/offer_helper.js";
-import OfferObject from "@/pages/account/add_offer/components/offer_object.vue";
-import OfferPrice from "@/pages/account/add_offer/components/offer_price.vue";
-import OfferPhotos from "@/pages/account/add_offer/components/offer_photos.vue";
+import Service from "@/pages/account/add_offer/components/service.vue";
 import NTFS from "~/utils/notifications";
 import { cookiesEvents } from "~/utils/cookies";
 
@@ -156,10 +150,7 @@ export default {
   mixins: [cookiesEvents],
   components: {
     Tabs,
-    CurrencyInput,
-    OfferPhotos,
-    OfferObject,
-    OfferPrice
+    Service
   },
   data() {
     return {
@@ -168,10 +159,10 @@ export default {
 
       dialogChange: false,
       popoverDel: false,
-      flagPhoto: false,
 
       offerData: {},
-      storeService: []
+      storeService: [],
+      serviceID: null
     };
   },
   mounted() {
@@ -188,7 +179,6 @@ export default {
         .account.get_user_services()
         .then(response => {
           this.offersList = response.data;
-          console.log("kek-> ", response.data);
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);
@@ -197,10 +187,9 @@ export default {
 
     uploadPhoto(data) {
       this.offerData.photos = data.offerPhothos;
-      this.flagPhoto = true;
     },
     openOffer(el) {
-      console.log(el);
+      this.serviceID = el.id;
       this.storeService = el.storeService;
       this.offerData = el.offerData;
       this.dialogChange = true;
@@ -214,108 +203,12 @@ export default {
       this.$refs[data][0].doClose();
     },
 
-    // Удаление обьектов, которое не содержат в себе данные
-    deleteEmptyObjects(data) {
-      for (let i in data.photos) {
-        delete data.photos[i].imgSrc;
-      }
-      for (let prop in data.offerObject) {
-        for (let i in data.offerObject[prop]) {
-          if (data.offerObject[prop][i] == null) {
-            delete data.offerObject[prop][i];
-          } else {
-            delete data.offerObject[prop][i].min;
-            delete data.offerObject[prop][i].max;
-          }
-        }
-        for (let s in data.offerObject[prop]) {
-          if (data.offerObject[prop][s] == null) {
-            delete data.offerObject[prop][s];
-          } else {
-            delete data.offerObject[prop][s].data;
-            delete data.offerObject[prop][s].title;
-          }
-        }
-      }
-      for (let prop in data.offerPrice) {
-        for (let i in data.offerPrice[prop]) {
-          if (data.offerPrice[prop][i] == null) {
-            delete data.offerPrice[prop][i];
-          } else {
-            delete data.offerPrice[prop][i].title;
-            delete data.offerPrice[prop][i].suffix;
-          }
-        }
-        for (let s in data.offerPrice[prop]) {
-          if (data.offerPrice[prop][s] == null) {
-            delete data.offerPrice[prop][s];
-          } else {
-            delete data.offerPrice[prop][s].data;
-          }
-        }
-      }
-      return data;
-    },
-
-    change_offer() {
-      if (
-        this.offerData.photos.length >= 4 &&
-        this.offerData.photos.length <= 20
-      ) {
-        // this.offersList.forEach((el, idx) => {
-        //   if (el.id == this.offerData.id) {
-        //     if (
-        //       this.checkChangesOfferData(el, this.offerData) ||
-        //       this.flagPhoto
-        //     ) {
-        let objCopy = JSON.parse(JSON.stringify(this.offerData));
-        Api.getInstance()
-          .account.change_offer(this.deleteEmptyObjects(objCopy))
-          .then(response => {
-            // this.offersList[idx].price = this.offerData.price;
-            // this.offersList[idx].description = this.offerData.description;
-            // this.offersList[idx].photos = this.offerData.photos;
-            Api.typicalNTFS(
-              false,
-              "Объявление было изменено, ожидайте проверку модератором!"
-            );
-            this.closeOffer();
-            setTimeout(() => {
-              this.$router.go(this.$router.currentRoute);
-            }, 2000);
-          })
-          .catch(error => {
-            Api.typicalNTFS(error.response.status);
-          });
-        // } else {
-        //   this.sendNTFS(
-        //     "Предупрждение!",
-        //     "Вы не изменили данные",
-        //     "warning"
-        //   );
-        // }
-        // }
-        // });
-      } else if (this.offerData.photos.length < 4) {
-        this.sendNTFS(
-          "Предупрждение!",
-          "Количество фотографий должно быть минимум 4!",
-          "warning"
-        );
-      } else if (this.offerData.photos.length > 20) {
-        this.sendNTFS(
-          "Предупрждение!",
-          "Количество фотографий должно быть максимум 20!",
-          "warning"
-        );
-      }
-    },
-    delete_offer(item) {
+    delete_services(id) {
       Api.getInstance()
-        .account.delete_offer({ id: item.id })
+        .account.delete_services({ id: id })
         .then(response => {
           this.offersList.forEach((el, idx) => {
-            if (el.id == item.id) {
+            if (el.id == id) {
               this.$refs["popover-" + el.id][0].doClose();
               this.offersList.splice(idx, 1);
             }

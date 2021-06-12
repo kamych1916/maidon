@@ -158,8 +158,8 @@ export default class Api {
         }
       });
     },
-    async create_services(offerData) {
-      return axios.post(`${API_BASE_URL}/create_services`, offerData, {
+    async patch_services(offerData) {
+      return axios.patch(`${API_BASE_URL}/patch_services`, offerData, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`
         }
@@ -279,6 +279,13 @@ export default class Api {
     },
     async delete_offer(data) {
       return axios.post(`${API_BASE_URL}/delete_offer`, data);
+    },
+    async delete_services(data) {
+      return axios.post(`${API_BASE_URL}/delete_services`, data, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`
+        }
+      });
     },
     async reset_pass(data) {
       return axios.post(`${API_BASE_URL}/reset_pass`, data);
