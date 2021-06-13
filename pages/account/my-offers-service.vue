@@ -65,11 +65,11 @@
                 >
                   изменить
                 </button>
-                <button
+                <!-- <button
                   class="el-button el-button--warning is-round fs-14 py-10 px-20 mx-5 my-5 "
                 >
                   добавить в топ
-                </button>
+                </button> -->
                 <el-popover
                   width="260"
                   placement="top"
@@ -193,6 +193,7 @@ export default {
       this.storeService = el.storeService;
       this.offerData = el.offerData;
       this.dialogChange = true;
+
       document.body.style.overflow = "hidden";
     },
     closeOffer() {

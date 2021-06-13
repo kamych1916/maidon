@@ -7,12 +7,14 @@
             Введите специализацию:
             <div class="d-flex">
               <el-select
+                required
+                clearable
                 class="w-100 my-18"
                 v-model="offerData.specialization"
                 placeholder="специализация"
               >
                 <el-option-group
-                  v-for="group in options"
+                  v-for="group in options_specialization"
                   :key="group.label"
                   :label="group.label"
                 >
@@ -70,6 +72,24 @@
         </div>
         <div class="col-lg-6">
           <div class="card-wrap">
+            Введите город где вы находитесь:
+            <div class="d-flex">
+              <el-select
+                required
+                clearable
+                class="w-100 my-18"
+                v-model="offerData.city"
+                placeholder="город"
+              >
+                <el-option
+                  v-for="item in options_city"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </div>
             Введите ваш опыт по данному объявлению:
             <div class="d-flex">
               <el-input
@@ -121,6 +141,38 @@
                 ></el-button>
               </el-tooltip>
             </div>
+            Введите описание объявления:
+            <div class="d-flex">
+              <el-input
+                class="my-18"
+                required
+                v-model="offerData.description"
+                name="companyName"
+                placeholder="описание"
+                clearable
+                type="textarea"
+                :autosize="{ minRows: 1, maxRows: 20 }"
+              ></el-input>
+              <el-tooltip class="item" effect="dark" placement="top-start">
+                <div slot="content">
+                  Например вы можете ввести: <br /><br />
+                  - Подключение водоснабжения и канализации. Все виды
+                  отделочных<br />
+                  и строительных работ. От копки котлована до монтажа крыши.
+                  <br /><br />
+                  - Изготовление проектов и смет под ваш проект.<br />
+                  Переборка существующего распределительного<br />
+                  Консультирую по выбору материалов. Всегда на связи.<br />
+                  Решаю все задачи вовремя и в срок.
+                </div>
+                <el-button
+                  class="px-10"
+                  type="text"
+                  icon="bi bi-question-circle"
+                  size="mini"
+                ></el-button>
+              </el-tooltip>
+            </div>
             Добавьте фотографии:
             <div class="mt-10 row justify-content-center">
               <div class="col-auto px-10 my-10">
@@ -142,26 +194,29 @@
                   </i>
                 </div>
               </div>
-              <div
-                class="col-auto px-10 my-10"
-                v-for="(item, id) in offerData.listPhotos"
-                :key="id"
-              >
-                <div class="avatar" style=" width: 100px; height:100px">
-                  <div
-                    class="delete"
-                    @click="offerData.listPhotos.splice(id, 1)"
-                  >
-                    <!-- <div class="delete"> -->
-                    <i class="bi bi-x-circle-fill fs-12"></i>
+
+              <div v-if="offerData.listPhotos">
+                <div
+                  class="col-auto px-10 my-10"
+                  v-for="(item, id) in offerData.listPhotos"
+                  :key="id"
+                >
+                  <div class="avatar" style=" width: 100px; height:100px">
+                    <div
+                      class="delete"
+                      @click="offerData.listPhotos.splice(id, 1)"
+                    >
+                      <!-- <div class="delete"> -->
+                      <i class="bi bi-x-circle-fill fs-12"></i>
+                    </div>
+                    <img
+                      :src="item.imgSrc"
+                      width="100"
+                      height="100"
+                      style="background-color: #ccc; object-fit: cover"
+                      class="border-rad-10 "
+                    />
                   </div>
-                  <img
-                    :src="item.imgSrc"
-                    width="100"
-                    height="100"
-                    style="background-color: #ccc; object-fit: cover"
-                    class="border-rad-10 "
-                  />
                 </div>
               </div>
             </div>
@@ -308,7 +363,9 @@ export default {
           workDate: null,
           workTime: null,
           specialization: "",
-          listPhotos: []
+          listPhotos: [],
+          city: "",
+          description: ""
         };
       }
     },
@@ -328,18 +385,30 @@ export default {
   },
   data() {
     return {
-      options: []
+      options_specialization: [],
+      options_city: []
     };
   },
   mounted() {
     this.get_list_specialization();
+    this.get_list_city();
   },
   methods: {
     get_list_specialization() {
       Api.getInstance()
         .offer.get_list_specialization()
         .then(response => {
-          this.options = response.data.options;
+          this.options_specialization = response.data.options;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
+    get_list_city() {
+      Api.getInstance()
+        .offer.get_list_city()
+        .then(response => {
+          this.options_city = response.data.options;
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);
@@ -359,7 +428,7 @@ export default {
               ? "Объявление было измененно успешно, ожидайте проверку модератором!"
               : "Объявление было добавлено успешно, ожидайте проверку модератором!"
           );
-          this.$router.push("/");
+          // this.$router.push("/");
         })
         .catch(error => {
           Api.typicalNTFS(error.response.status);

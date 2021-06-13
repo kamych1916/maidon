@@ -111,6 +111,11 @@ export default class Api {
           Authorization: `Bearer ${Api.getCookie("session_token")}`
         }
       });
+    },
+    async list_services(specialization, type) {
+      return axios.get(
+        `${API_BASE_URL}/list_services?specialization=${specialization}&type=${type}`
+      );
     }
   };
 
@@ -134,7 +139,6 @@ export default class Api {
     async get_map_offer(data) {
       return axios.get(`${API_BASE_URL}/get_map_offer/${data}`);
     },
-
     async get_address(userData) {
       return axios.post(`${API_BASE_URL}/get_address`, userData);
     },
@@ -147,7 +151,9 @@ export default class Api {
     async get_list_specialization() {
       return axios.get(`${API_BASE_URL}/get_list_specialization`);
     },
-
+    async get_list_city() {
+      return axios.get(`${API_BASE_URL}/get_list_city`);
+    },
     async view_tel(id) {
       return axios.post(`${API_BASE_URL}/view_tel`, id);
     },
