@@ -4,18 +4,34 @@
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs />
-          <el-select clearable class="deal mt-20 w-100" v-model="value1">
-            <el-option
-              v-for="item in options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+          <el-select
+            clearable
+            class="deal mt-20 w-100"
+            v-model="specialization"
+            placeholder="специализация"
+          >
+            <el-option-group
+              v-for="group in options_specialization"
+              :key="group.label"
+              :label="group.label"
             >
-            </el-option>
+              <el-option
+                v-for="item in group.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-option-group>
           </el-select>
-          <el-select clearable class="deal mt-20 w-100" v-model="value2">
+          <el-select
+            clearable
+            placeholder="вид услуг"
+            class="deal mt-20 w-100"
+            v-model="account_type"
+          >
             <el-option
-              v-for="item in options"
+              v-for="item in options_account_type"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -25,19 +41,24 @@
         </div>
       </div>
       <div class="col-lg-8" style="position-relative">
-        <div class="card-wrap w-100 cursor">
+        <div
+          v-for="(item, idx) in serviceData"
+          :key="idx"
+          class="card-wrap w-100 cursor"
+        >
           <div class="row">
             <div class="col-lg my-10">
               <div>
                 <div class="avatar" style="background:#b9d7f7">
                   <img
-                    src="https://avatars.mds.yandex.net/get-ydo/3604415/2a0000017919868fbe8558b2106d29e01f38/320x320"
+                    :src="item.avatar"
                     width="100"
                     height="100"
                     style="background-color: #ccc; object-fit: cover"
                     class="border-rad-10 "
+                    v-if="item.avatar"
                   />
-                  <!-- <i class="bi bi-briefcase fs-22"></i> -->
+                  <i v-if="!item.avatar" class="bi bi-briefcase fs-22"></i>
                 </div>
               </div>
             </div>
@@ -131,22 +152,54 @@
 </template>
 
 <script>
+import Api from "~/utils/api";
 export default {
   data() {
     return {
-      options: [
+      options_specialization: [],
+      options_account_type: [
         {
-          value: "Все услуги",
-          label: "Все услуги"
+          value: "entity",
+          label: "Юр. лица"
         },
         {
-          value: "Коммерческие",
-          label: "Коммерческие"
+          value: "individual",
+          label: "Физ. лица"
         }
       ],
-      value1: "Все услуги",
-      value2: "Коммерческие"
+      specialization: "",
+      account_type: "",
+
+      serviceData: null
     };
+  },
+  mounted() {
+    this.get_list_specialization();
+    this.list_services();
+  },
+  methods: {
+    list_services() {
+      Api.getInstance()
+        .clients.list_services(this.specialization, this.account_type)
+        .then(response => {
+          console.log(response.data);
+          this.serviceData = response.data;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
+
+    get_list_specialization() {
+      Api.getInstance()
+        .offer.get_list_specialization()
+        .then(response => {
+          this.options_specialization = response.data.options;
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    }
   }
 };
 </script>
