@@ -74,7 +74,7 @@
             v-if="
               picked_account == 'owner' ||
                 picked_account == 'realtor' ||
-                picked_account == 'services'
+                (picked_account == 'services' && service_type == 'individual')
             "
           >
             <el-input
@@ -94,7 +94,7 @@
             v-if="
               picked_account == 'owner' ||
                 picked_account == 'realtor' ||
-                picked_account == 'services'
+                (picked_account == 'services' && service_type == 'individual')
             "
           >
             <el-input
@@ -109,7 +109,13 @@
             ></el-input>
           </div>
 
-          <div class="form-group mb-18" v-if="picked_account == 'agency'">
+          <div
+            class="form-group mb-18"
+            v-if="
+              picked_account == 'agency' ||
+                (picked_account == 'services' && service_type == 'entity')
+            "
+          >
             <el-input
               required
               v-model="userData.companyName"

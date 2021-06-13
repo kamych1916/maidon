@@ -1,54 +1,57 @@
 <template>
   <div class="services-wrap">
-    <div class="row ">
+    <div class="row">
       <div class="col-lg-8">
-        <div class="card-wrap w-100 ">
+        <div class="card-wrap w-100 " v-if="userData">
           <div class="row">
             <div class="col-lg my-10">
               <div
-                class="avatar"
-                style="background:#b9d7f7; width: 100px; height:100px"
+                class="avatar border-rad-10"
+                style="background:#b9d7f7; width: 100px; height: 100px"
               >
                 <img
-                  src="https://avatars.mds.yandex.net/get-ydo/3604415/2a0000017919868fbe8558b2106d29e01f38/320x320"
+                  :src="userData.avatar"
                   width="100"
                   height="100"
                   style="background-color: #ccc; object-fit: cover"
                   class="border-rad-10 "
+                  v-if="userData.avatar"
                 />
-                <!-- <i class="bi bi-briefcase fs-22"></i> -->
+                <i
+                  class="bi bi-person-lines-fill fs-22"
+                  v-else-if="userData.account_type != 'entity'"
+                ></i>
+                <i v-else class="bi bi-briefcase fs-22"></i>
               </div>
             </div>
             <div class="col-lg-10 my-10">
               <div>
                 <div class="fs-18">
-                  Отделка Фазенды
+                  {{ userData.userInfo }}
                 </div>
-                <div class="fs-12 text-light">
+                <!-- <div class="fs-12 text-light">
                   <i class="bi bi-geo-alt"></i>
-                  Душанбе
-                </div>
+                  {{ userData.offerData.city }}
+                </div> -->
                 <div class="fs-14 text-light mt-10">
-                  Наша бригада плотников специализируется на различных вариантах
-                  отделочных работ в деревянном доме. Чистовая отделка —
-                  наиболее часто выполняемые работы нашей бригадой. Наши услуги
-                  – это внешняя и внутренняя отделка деревянного дома под ключ.
+                  {{ userData.about }}
                 </div>
                 <div class="mt-10 mb-10 fs-14">
                   Опыт работы:
-                  <span style="font-family: Tahoma"> c 2020 года</span>
+                  <span style="font-family: Tahoma">
+                    c {{ userData.user_workDate }} года</span
+                  >
                 </div>
                 <div class="my-10 fs-14">
                   Специализация:
-                  <span style="font-family: Tahoma">плотник</span>
+                  <span style="font-family: Tahoma">{{
+                    userData.specialization
+                  }}</span>
                 </div>
                 <div class="my-10 fs-14">
                   Телефон:
-                  <a
-                    :href="'tel:+992 (918) 62 - 27 - 74'"
-                    class="mx-0  is-round "
-                  >
-                    +992 (918) 62 - 27 - 74
+                  <a class="mx-0  is-round ">
+                    {{ userData.tel }}
                   </a>
                 </div>
               </div>
@@ -57,7 +60,8 @@
         </div>
 
         <el-collapse v-model="activeNames">
-          <div class="card-wrap ">
+          <!-- v-for="(item, id) in storeService." -->
+          <div class="card-wrap">
             <div class="row">
               <div class="col">
                 <el-collapse-item name="1">
@@ -308,16 +312,31 @@ export default {
         "https://avatars.mds.yandex.net/get-ydo/472106/2a0000017518d461d917ff16a304432a85cc/diploma",
         "https://avatars.mds.yandex.net/get-ydo/1540809/2a000001755b6fc7a61186f4fd3d4f67fede/diploma"
       ],
+
+      userData: null,
+      serviceData: null,
       activeNames: ["1"]
     };
   },
   mounted() {
-    // this.get_info_account();
-    // if (localStorage.getItem("ui")) {
-    //   this.localStore = JSON.parse(localStorage.getItem("ui"));
-    // }
+    this.get_services();
+    if (localStorage.getItem("ui")) {
+      this.localStore = JSON.parse(localStorage.getItem("ui"));
+    }
   },
   methods: {
+    get_services() {
+      Api.getInstance()
+        .clients.get_services(this.$route.params.id)
+        .then(response => {
+          this.userData = response.data.user;
+          this.serviceData = response.list_services;
+          console.log(response.data);
+        })
+        .catch(error => {
+          Api.typicalNTFS(error.response.status);
+        });
+    },
     openSlider() {
       this.dialogSlider = true;
       document.body.style.overflow = "hidden";

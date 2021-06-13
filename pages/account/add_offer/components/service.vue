@@ -42,14 +42,14 @@
                 ></el-button>
               </el-tooltip>
             </div>
-            Введите тип объявления:
+            Введите наименование объявления:
             <div class="d-flex">
               <el-input
                 class="mt-18"
                 required
-                v-model="offerData.type"
+                v-model="offerData.name"
                 name="companyName"
-                placeholder="тип объявления"
+                placeholder="наименование объявления"
                 clearable
                 type="text"
               ></el-input>
@@ -359,7 +359,7 @@ export default {
       required: false,
       default: function() {
         return {
-          type: null,
+          name: null,
           workDate: null,
           workTime: null,
           specialization: "",

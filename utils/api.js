@@ -112,10 +112,13 @@ export default class Api {
         }
       });
     },
-    async list_services(specialization, type) {
+    async list_services(specialization, type, page) {
       return axios.get(
-        `${API_BASE_URL}/list_services?specialization=${specialization}&type=${type}`
+        `${API_BASE_URL}/list_services?specialization=${specialization}&type=${type}&page=${page}`
       );
+    },
+    async get_services(data) {
+      return axios.get(`${API_BASE_URL}/get_services/${data}`);
     }
   };
 

@@ -43,7 +43,6 @@ export default {
   },
   mounted() {
     this.get_markers();
-    window.scrollTo(0, 0);
   },
 
   methods: {

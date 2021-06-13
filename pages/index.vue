@@ -23,7 +23,7 @@
       <div class="col">
         <div class="card-wrap  w-100">
           <div
-            @click="$router.push('all-offers')"
+            @click="$router.push('all-realty-offers-on-map')"
             class="w-100 map-image d-flex justify-content-center align-items-center"
           >
             <button class="el-button el-button--primary">

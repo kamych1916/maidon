@@ -42,8 +42,8 @@
                 Перейти к объявлению
               </h3>
               <div class="row" v-if="el.storeService">
-                <div class="col-6 my-5">Тип объявления:</div>
-                <div class="col-6 my-5">{{ el.offerData.type }}</div>
+                <div class="col-6 my-5">Наименование объявления:</div>
+                <div class="col-6 my-5">{{ el.offerData.name }}</div>
 
                 <div class="col-6 my-5">Статус:</div>
                 <div class="col-6 my-5">

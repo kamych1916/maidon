@@ -162,7 +162,6 @@ export default {
     };
   },
   mounted() {
-    window.scrollTo(0, 0);
     let store = JSON.parse(localStorage.getItem("ui"));
     if (this.getCookie("session_token") && localStorage.getItem("ui")) {
       if (!store.is_moder) this.checkAccess = true;

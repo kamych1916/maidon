@@ -506,9 +506,7 @@ export default {
       complaint: ""
     };
   },
-  mounted() {
-    window.scrollTo(0, 0);
-  },
+
   methods: {
     add_complaint(id, title) {
       Api.getInstance()

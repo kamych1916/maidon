@@ -18,9 +18,6 @@ export default {
     return {
       title: "Снять недвижимость посуточно в Таджикистане"
     };
-  },
-  mounted() {
-    window.scrollTo(0, 0);
   }
 };
 </script>

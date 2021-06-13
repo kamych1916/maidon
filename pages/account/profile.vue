@@ -360,6 +360,7 @@ export default {
         .account.patch_info(this.userData)
         .then(response => {
           localStorage.setItem("ui", JSON.stringify(response.data));
+          console.log(JSON.parse(localStorage.getItem("ui")));
           Api.typicalNTFS(false, "данные успешно изменены");
         })
         .catch(error => {

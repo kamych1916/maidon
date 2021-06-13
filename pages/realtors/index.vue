@@ -102,6 +102,7 @@ export default {
   watch: {
     $route(to, from) {
       if (to !== from) {
+        window.scrollTo(0, 0);
         this.get_accounts();
       }
     }

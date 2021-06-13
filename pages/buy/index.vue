@@ -15,9 +15,6 @@ export default {
     return {
       title: "Купить недвижимость в Таджикистане"
     };
-  },
-  mounted() {
-    window.scrollTo(0, 0);
   }
 };
 </script>
