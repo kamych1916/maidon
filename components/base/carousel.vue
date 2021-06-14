@@ -28,12 +28,15 @@ export default {
     }
   },
   mounted() {
-    this.slides = this.$children;
-    this.slides.map((slide, index) => {
-      slide.index = index;
-    });
+    this.refresh();
   },
   methods: {
+    refresh() {
+      this.slides = this.$children;
+      this.slides.map((slide, index) => {
+        slide.index = index;
+      });
+    },
     next() {
       this.index++;
       if (this.index >= this.slidesLength) {

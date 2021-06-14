@@ -156,13 +156,13 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-lg-4 flex-fill d-flex my-10">
+        <!-- <div class="col-lg-4 flex-fill d-flex my-10">
           <el-input
             v-model="searchData.address"
             placeholder="Адрес"
             suffix-icon="bi bi-geo-alt-fill"
           ></el-input>
-        </div>
+        </div> -->
         <div class="col-lg-4 my-10 d-flex search-size">
           <el-input v-model="searchData.sizeFrom" class="from">
             <span slot="prefix">Площадь от</span>
@@ -202,7 +202,7 @@ const cleanSearchData = {
   sizeTo: null,
   priceFrom: null,
   priceTo: null,
-  address: null,
+  // address: null,
   deals: {
     value: "",
     options: [
@@ -728,9 +728,7 @@ export default {
 
       data.cities.value ? (queryData.city = data.cities.value) : null;
 
-      data.address ? (queryData.address = data.address) : null;
-
-      data.address ? (queryData.address = data.address) : null;
+      // data.address ? (queryData.address = data.address) : null;
 
       data.sizeFrom ? (queryData.sizeFrom = data.sizeFrom) : null;
 
@@ -788,7 +786,7 @@ export default {
       this.searchData.typeGround.value = "";
       this.searchData.typeCommercy.value = "";
       this.searchData.cities.value = "";
-      this.searchData.address = "";
+      // this.searchData.address = "";
       this.searchData.sizeFrom = "";
       this.searchData.sizeTo = "";
       this.searchData.priceFrom = "";
@@ -819,10 +817,10 @@ export default {
         Object.keys(this.$route.query).length > 0
           ? this.$route.query.typeCommercy
           : "";
-      let address =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.address
-          : "";
+      // let address =
+      //   Object.keys(this.$route.query).length > 0
+      //     ? this.$route.query.address
+      //     : "";
       let sizeFrom =
         Object.keys(this.$route.query).length > 0
           ? this.$route.query.sizeFrom
@@ -845,7 +843,7 @@ export default {
       let page =
         Object.keys(this.$route.query).length > 0 ? this.$route.query.page : "";
 
-      this.searchData.address = address || this.searchData.address;
+      // this.searchData.address = address || this.searchData.address;
       this.searchData.sizeFrom = sizeFrom || this.searchData.sizeFrom;
       this.searchData.sizeTo = sizeTo || this.searchData.sizeTo;
       this.searchData.priceFrom = priceFrom || this.searchData.priceFrom;

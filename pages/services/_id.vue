@@ -2,7 +2,7 @@
   <div class="services-wrap">
     <div class="row">
       <div class="col-lg-8">
-        <div class="card-wrap w-100 " v-if="userData">
+        <div class="card-wrap w-100 ">
           <div class="row">
             <div class="col-lg my-10">
               <div
@@ -50,7 +50,7 @@
                 </div>
                 <div class="my-10 fs-14">
                   Телефон:
-                  <a class="mx-0  is-round ">
+                  <a :href="'tel:' + userData.tel" class="mx-0 is-round ">
                     {{ userData.tel }}
                   </a>
                 </div>
@@ -59,224 +59,110 @@
           </div>
         </div>
 
-        <el-collapse v-model="activeNames">
+        <el-collapse @change="collapseChange()" v-model="activeNames">
           <!-- v-for="(item, id) in storeService." -->
-          <div class="card-wrap">
+          <div class="card-wrap" v-for="(item, id) in serviceData" :key="id">
             <div class="row">
               <div class="col">
-                <el-collapse-item name="1">
+                <el-collapse-item :name="item.offerData.specialization">
                   <template slot="title">
                     <span class="fs-18">
-                      Отделка деревянных домов
+                      {{ item.offerData.specialization }}
                     </span>
                   </template>
                   <div class="mt-10 fs-14 ">
                     <div class="row">
                       <div class="col-6 my-5">Опыт</div>
-                      <div class="col-6 my-5">Более 10 лет</div>
-                      <div class="col-6 my-5">Дни работы</div>
-                      <div class="col-6 my-5">любой день недели</div>
+                      <div class="col-6 my-5">
+                        {{ item.offerData.workDate }}
+                      </div>
+
                       <div class="col-6 my-5">Время работы</div>
-                      <div class="col-6 my-5">с 21:00 по 21:00</div>
+                      <div class="col-6 my-5">
+                        {{ item.offerData.workTime }}
+                      </div>
                     </div>
                     <div class="mt-20  text-light">
-                      Подключение водоснабжения и канализации. Все виды
-                      отделочных и строительных работ. От копки котлована до
-                      монтажа крыши. Изготовление проектов и смет под ваш
-                      проект. Построил за время своей работы более 100 домов
-                      "под ключ" На все виды работ даю гарантию. Помогаю с
-                      покупкой материалов. Консультирую по выбору материалов.
-                      Всегда на связи. Решаю все задачи вовремя и в срок.
+                      {{ item.offerData.description }}
                     </div>
-                    <div class="w-100 pt-20 pb-30">
-                      <div style="position: relative">
-                        <hooper
-                          group="group1"
-                          class="gallery-slide "
-                          :wheelControl="false"
-                          :itemsToShow="4"
-                          :touchDrag="false"
-                          :mouseDrag="false"
-                          :shortDrag="false"
+                    <div
+                      class="pt-20 pb-30"
+                      style="border-bottom: 1px solid #ccc;"
+                    >
+                      <hooper
+                        ref="slider"
+                        class="gallery-slide"
+                        :wheelControl="false"
+                        :itemsToShow="4"
+                        :touchDrag="false"
+                        :mouseDrag="false"
+                        :shortDrag="false"
+                      >
+                        <slide
+                          v-for="(photos, idp) in item.offerData.listPhotos"
+                          :key="idp"
+                          draggable="false"
+                          class="cursor"
                         >
-                          <slide
-                            v-for="(img, index) in servicePhothos"
-                            :key="index"
+                          <el-image
+                            @click.stop="openSlider('fsSlider' + id)"
                             draggable="false"
-                            class="cursor"
+                            class="w-100 h-100 border-rad-10"
+                            :src="photos.imgSrc"
+                            fit="cover"
+                          ></el-image>
+                        </slide>
+                        <hooper-navigation
+                          slot="hooper-addons"
+                        ></hooper-navigation>
+                      </hooper>
+                      <div
+                        class="dialog"
+                        :class="[dialogSlider ? 'dialog-active' : '']"
+                      >
+                        <div
+                          style="z-index:20001; right: 2px; top:10px"
+                          @click="closeSlider()"
+                          class=" hooper-fullscreen fs-14 py-12 px-18  mx-5 my-5"
+                        >
+                          <i class="bi bi-fullscreen-exit"></i>
+                        </div>
+                        <Carousel :ref="'fsSlider' + id">
+                          <CarouselSlide
+                            v-for="(img, index) in item.offerData.listPhotos"
+                            :key="index"
+                            class="carousel-slider"
                           >
                             <el-image
-                              @click.stop="openSlider()"
+                              class="border-rad-20"
                               draggable="false"
-                              class="w-100 h-100 border-rad-10"
-                              :src="img"
+                              :src="img.imgSrc"
                               fit="cover"
                             ></el-image>
-                          </slide>
-                          <hooper-navigation
-                            slot="hooper-addons"
-                          ></hooper-navigation>
-                        </hooper>
-                        <div
-                          class="dialog"
-                          :class="[dialogSlider ? 'dialog-active' : '']"
-                        >
-                          <div
-                            style="z-index:20001; right: 2px; top:10px"
-                            @click="closeSlider()"
-                            class=" hooper-fullscreen fs-14 py-12 px-18  mx-5 my-5"
-                          >
-                            <i class="bi bi-fullscreen-exit"></i>
-                          </div>
-                          <Carousel>
-                            <CarouselSlide
-                              v-for="(img, index) in servicePhothos"
-                              :key="index"
-                              class="carousel-slider"
-                            >
-                              <el-image
-                                class="border-rad-20"
-                                draggable="false"
-                                :src="img"
-                                fit="cover"
-                              ></el-image>
-                            </CarouselSlide>
-                          </Carousel>
-                        </div>
+                          </CarouselSlide>
+                        </Carousel>
                       </div>
                     </div>
                     <div
-                      style="border-top: 1px solid #ccc; border-bottom: 1px solid #ccc"
+                      style="border-bottom: 1px solid #ccc"
                       class="pb-20"
+                      v-for="(service, id) in item.storeService"
+                      :key="id"
                     >
                       <div class="mt-20 ">
                         <div class="d-flex row justify-content-between">
                           <div class="col ">
-                            Прокладка канализационных труб
+                            {{ service.kind }}
                           </div>
                           <div class="col text-blue" style="text-align: end">
-                            по договорённости
+                            {{ service.cost }}
                           </div>
                         </div>
                       </div>
                       <div class="mt-20 text-light">
-                        Прокладка канализационных труб. Выполняем полный спектр
-                        строительно-отделочных работ от ремонта квартир,
-                        фундамента до кровли. Подключаем электричество к дому и
-                        выполняем все электромонтажные работы. Организовываем
-                        подключение, проводку водоснабжения, отопления и
-                        канализации по всему дому. Помимо основного направления
-                        по строительству жилых домов, мы оказываем услуги по
-                        ремонту квартир, реконструкции зданий или сооружений,
-                        постройке различных помещений хозяйственного назначения
-                        в черте города, постройка бань или дачных домов. Спектр
-                        наших услуг многогранен и доступен для каждого клиента.
-                        Вам остается сделать телефонный звонок для того чтобы
-                        получить грамотную консультацию! И согласовать время
-                        выезда к вам на бесплатный замер! Плюс ко всему вы
-                        получите квалифицированных специалистов со стажем работы
-                        более 10 лет. И гарантии на все наши работы!
+                        {{ service.description }}
                       </div>
                     </div>
-                    <div>
-                      <div class="mt-20">
-                        <div class="d-flex row justify-content-between">
-                          <div class="col ">
-                            Монтаж наружной канализации
-                          </div>
-                          <div class="col text-blue" style="text-align: end">
-                            от 150 сомони / метр
-                          </div>
-                        </div>
-                      </div>
-                      <div class="mt-20 text-light">
-                        Прокладка канализационных труб. Выполняем полный спектр
-                        строительно-отделочных работ от ремонта квартир,
-                        фундамента до кровли. Подключаем электричество к дому и
-                        выполняем все электромонтажные работы. Организовываем
-                        подключение, проводку водоснабжения, отопления и
-                        канализации по всему дому. Помимо основного направления
-                        по строительству жилых домов, мы оказываем услуги по
-                        ремонту квартир, реконструкции зданий или сооружений,
-                        постройке различных помещений хозяйственного назначения
-                        в черте города, постройка бань или дачных домов. Спектр
-                        наших услуг многогранен и доступен для каждого клиента.
-                        Вам остается сделать телефонный звонок для того чтобы
-                        получить грамотную консультацию! И согласовать время
-                        выезда к вам на бесплатный замер! Плюс ко всему вы
-                        получите квалифицированных специалистов со стажем работы
-                        более 10 лет. И гарантии на все наши работы!
-                      </div>
-                    </div>
-                  </div>
-                </el-collapse-item>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrap ">
-            <div class="row">
-              <div class="col">
-                <el-collapse-item name="2">
-                  <template slot="title">
-                    <span class="fs-18">
-                      Проектирование строительных объектов и составление смет
-                    </span>
-                  </template>
-                  <div>
-                    Operation feedback: enable the users to clearly perceive
-                    their operations by style updates and interactive effects;
-                  </div>
-                  <div>
-                    Visual feedback: reflect current state by updating or
-                    rearranging elements of the page.
-                  </div>
-                </el-collapse-item>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrap ">
-            <div class="row">
-              <div class="col">
-                <el-collapse-item name="3">
-                  <template slot="title">
-                    <span class="fs-18">
-                      Строительство бань, саун и бассейнов
-                    </span>
-                  </template>
-                  <div>
-                    Simplify the process: keep operating process simple and
-                    intuitive;
-                  </div>
-                  <div>
-                    Definite and clear: enunciate your intentions clearly so
-                    that the users can quickly understand and make decisions;
-                  </div>
-                  <div>
-                    Easy to identify: the interface should be straightforward,
-                    which helps the users to identify and frees them from
-                    memorizing and recalling.
-                  </div>
-                </el-collapse-item>
-              </div>
-            </div>
-          </div>
-          <div class="card-wrap ">
-            <div class="row">
-              <div class="col">
-                <el-collapse-item name="4">
-                  <template slot="title">
-                    <span class="fs-18">
-                      Ремонт квартир и домов
-                    </span>
-                  </template>
-                  <div>
-                    Decision making: giving advices about operations is
-                    acceptable, but do not make decisions for the users;
-                  </div>
-                  <div>
-                    Controlled consequences: users should be granted the freedom
-                    to operate, including canceling, aborting or terminating
-                    current operation.
                   </div>
                 </el-collapse-item>
               </div>
@@ -286,18 +172,47 @@
       </div>
       <div class="col-lg-4 d-none d-sm-block mb-30">
         <div class="card-wrap sticky">
-          <Breadcrumbs />
+          <Breadcrumbs :accountTitle="userData.userInfo" />
         </div>
       </div>
     </div>
+    <!-- <div class="curve-shape">
+      <svg
+        x="0px"
+        y="0px"
+        viewBox="0 0 3841 120"
+        xml:space="preserve"
+        style="overflow:scroll"
+      >
+        <path
+          d="M3360.5,97.739c-242,0-480-48.375-480-48.375
+                    S2647.5,0.5,2400.5,0.5s-480,48.375-480,48.375s-238,48.864-480,48.864s-480-48.375-480-48.375S727.5,0.5,480.5,0.5
+                    S0.5,48.875,0.5,48.875V108h1920h1920V48.875C3840.5,48.875,3602.5,97.739,3360.5,97.739z"
+          style="fill:#f4efff;stroke-miterlimit:10;"
+        ></path>
+      </svg>
+    </div> -->
   </div>
 </template>
 
 <script>
-import Api from "~/utils/api";
 import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
+import axios from "axios";
+
 export default {
+  async asyncData({ route }) {
+    let userData;
+    let serviceData;
+    const { id } = route.params;
+    return axios
+      .get(`https://mirllex.site/server/api/v1/get_services/${id}`)
+      .then(response => {
+        userData = response.data.user;
+        serviceData = response.data.list_services;
+        return { userData, serviceData };
+      });
+  },
   components: {
     Hooper,
     Slide,
@@ -313,36 +228,43 @@ export default {
         "https://avatars.mds.yandex.net/get-ydo/1540809/2a000001755b6fc7a61186f4fd3d4f67fede/diploma"
       ],
 
-      userData: null,
-      serviceData: null,
-      activeNames: ["1"]
+      activeNames: []
+      // indexSlide: 0
     };
   },
   mounted() {
-    this.get_services();
     if (localStorage.getItem("ui")) {
       this.localStore = JSON.parse(localStorage.getItem("ui"));
     }
   },
   methods: {
-    get_services() {
-      Api.getInstance()
-        .clients.get_services(this.$route.params.id)
-        .then(response => {
-          this.userData = response.data.user;
-          this.serviceData = response.list_services;
-          console.log(response.data);
-        })
-        .catch(error => {
-          Api.typicalNTFS(error.response.status);
-        });
+    // get_services() {
+    //   Api.getInstance()
+    //     .clients.get_services(this.$route.params.id)
+    //     .then(response => {
+    //       this.userData = response.data.user;
+    //       this.serviceData = response.data.list_services;
+    //       console.log(response.data);
+    //     })
+    //     .catch(error => {
+    //       Api.typicalNTFS(error.response.status);
+    //     });
+    // },
+    collapseChange() {
+      for (let i in this.$refs.slider) {
+        this.$refs.slider[i].restart();
+      }
     },
-    openSlider() {
+    openSlider(id) {
+      // this.indexSlide = id;
+      console.log(this.$refs[id].refresh());
+      this.$refs[id].refresh();
       this.dialogSlider = true;
       document.body.style.overflow = "hidden";
     },
     closeSlider() {
       this.dialogSlider = false;
+      // this.indexSlide = 0;
       document.body.style.overflow = "auto";
     },
     // add_review() {
@@ -380,6 +302,32 @@ export default {
 };
 </script>
 <style lang="scss">
+// .curve-shape {
+//   margin-bottom: -12px;
+//   overflow-x: hidden;
+// }
+// .curve-shape svg {
+//   width: 200%;
+//   position: relative;
+//   -webkit-animation: move-left-data-v-346eb0d3 6s linear infinite;
+//   animation: move-left-data-v-346eb0d3 6s linear infinite;
+// }
+// @-webkit-keyframes move-left-data-v-346eb0d3 {
+//   0% {
+//     left: 0;
+//   }
+//   to {
+//     left: -100%;
+//   }
+// }
+// @keyframes move-left-data-v-346eb0d3 {
+//   0% {
+//     left: 0;
+//   }
+//   to {
+//     left: -100%;
+//   }
+// }
 .services-wrap {
   .el-collapse-item__header {
     height: auto !important;
@@ -421,6 +369,7 @@ export default {
       }
     }
     .hooper-slide {
+      width: auto !important;
       opacity: 0.8;
       padding: 15px 10px !important;
     }
