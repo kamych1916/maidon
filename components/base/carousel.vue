@@ -29,6 +29,7 @@ export default {
   },
   mounted() {
     this.refresh();
+    this.closeSlider();
   },
   methods: {
     refresh() {
@@ -36,6 +37,9 @@ export default {
       this.slides.map((slide, index) => {
         slide.index = index;
       });
+    },
+    closeSlider() {
+      // this.slides = [];
     },
     next() {
       this.index++;

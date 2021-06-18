@@ -58,9 +58,19 @@
             </div>
           </div>
         </div>
-
+        <div class="card-wrap" ref="offers">
+          <div class="d-flex">
+            <div style="font-size: 56px; line-height: 0.6">
+              {{ serviceData.length }}
+            </div>
+            <div class="ml-20 d-flex align-items-center">
+              объявлен
+              <span v-if="serviceData.length == '1'">ие</span>
+              <span v-else>ий</span>
+            </div>
+          </div>
+        </div>
         <el-collapse @change="collapseChange()" v-model="activeNames">
-          <!-- v-for="(item, id) in storeService." -->
           <div class="card-wrap" v-for="(item, id) in serviceData" :key="id">
             <div class="row">
               <div class="col">
@@ -71,6 +81,7 @@
                     </span>
                   </template>
                   <div class="mt-10 fs-14 ">
+                    <!-- TODO дописать логику для вывода города -->
                     <div class="row">
                       <div class="col-6 my-5">Опыт</div>
                       <div class="col-6 my-5">
@@ -105,10 +116,12 @@
                           class="cursor"
                         >
                           <el-image
-                            @click.stop="openSlider('fsSlider' + id)"
+                            @click.stop="
+                              openSlider(idp, item.offerData.listPhotos)
+                            "
                             draggable="false"
                             class="w-100 h-100 border-rad-10"
-                            :src="photos.imgSrc"
+                            :src="photos"
                             fit="cover"
                           ></el-image>
                         </slide>
@@ -116,32 +129,14 @@
                           slot="hooper-addons"
                         ></hooper-navigation>
                       </hooper>
-                      <div
-                        class="dialog"
-                        :class="[dialogSlider ? 'dialog-active' : '']"
-                      >
-                        <div
-                          style="z-index:20001; right: 2px; top:10px"
-                          @click="closeSlider()"
-                          class=" hooper-fullscreen fs-14 py-12 px-18  mx-5 my-5"
-                        >
-                          <i class="bi bi-fullscreen-exit"></i>
-                        </div>
-                        <Carousel :ref="'fsSlider' + id">
-                          <CarouselSlide
-                            v-for="(img, index) in item.offerData.listPhotos"
-                            :key="index"
-                            class="carousel-slider"
-                          >
-                            <el-image
-                              class="border-rad-20"
-                              draggable="false"
-                              :src="img.imgSrc"
-                              fit="cover"
-                            ></el-image>
-                          </CarouselSlide>
-                        </Carousel>
-                      </div>
+
+                      <client-only placeholder="Loading...">
+                        <vue-gallery-slideshow
+                          :images="images"
+                          :index="index"
+                          @close="index = null"
+                        ></vue-gallery-slideshow>
+                      </client-only>
                     </div>
                     <div
                       style="border-bottom: 1px solid #ccc"
@@ -169,10 +164,54 @@
             </div>
           </div>
         </el-collapse>
+        <div class="card-wrap" ref="reviews">
+          <div class="d-flex">
+            <div style="font-size: 56px; line-height: 0.6">
+              <!-- {{ accountData.review }} -->
+            </div>
+            <div class="ml-20">
+              <!-- <el-rate v-model="accountData.review" disabled> </el-rate> -->
+              <div class="text-grey">
+                <!-- {{ accountData.list_reviews.length }} отзыва/ов -->
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="col-lg-4 d-none d-sm-block mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs :accountTitle="userData.userInfo" />
+          <div class="d-flex mt-20">
+            <div
+              class="avatar border-rad-10"
+              style="background:#b9d7f7; width: 100px; height: 100px"
+            >
+              <img
+                :src="userData.avatar"
+                width="100"
+                height="100"
+                style="background-color: #ccc; object-fit: cover"
+                class="border-rad-10 "
+                v-if="userData.avatar"
+              />
+              <i
+                class="bi bi-person-lines-fill fs-22"
+                v-else-if="userData.account_type != 'entity'"
+              ></i>
+              <i v-else class="bi bi-briefcase fs-22"></i>
+            </div>
+            <div class="ml-20">
+              <div class="fs-18">
+                {{ userData.userInfo }}
+              </div>
+              <div class="my-10 fs-14">
+                Телефон:
+                <a :href="'tel:' + userData.tel" class="mx-0 is-round ">
+                  {{ userData.tel }}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -199,6 +238,7 @@
 import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
 import axios from "axios";
+import VueGallerySlideshow from "vue-gallery-slideshow";
 
 export default {
   async asyncData({ route }) {
@@ -216,18 +256,14 @@ export default {
   components: {
     Hooper,
     Slide,
-    HooperNavigation
+    HooperNavigation,
+    VueGallerySlideshow
   },
   data() {
     return {
+      index: null,
       dialogSlider: false,
-      servicePhothos: [
-        "https://avatars.mds.yandex.net/get-ydo/4397410/2a000001780d0809951b20cda3a7c95fe5c2/diploma",
-        "https://avatars.mds.yandex.net/get-ydo/2428621/2a000001755b6fc71d859df8b0e15aee2e3e/diploma",
-        "https://avatars.mds.yandex.net/get-ydo/472106/2a0000017518d461d917ff16a304432a85cc/diploma",
-        "https://avatars.mds.yandex.net/get-ydo/1540809/2a000001755b6fc7a61186f4fd3d4f67fede/diploma"
-      ],
-
+      images: [],
       activeNames: []
       // indexSlide: 0
     };
@@ -238,34 +274,20 @@ export default {
     }
   },
   methods: {
-    // get_services() {
-    //   Api.getInstance()
-    //     .clients.get_services(this.$route.params.id)
-    //     .then(response => {
-    //       this.userData = response.data.user;
-    //       this.serviceData = response.data.list_services;
-    //       console.log(response.data);
-    //     })
-    //     .catch(error => {
-    //       Api.typicalNTFS(error.response.status);
-    //     });
-    // },
+    openSlider(id, images) {
+      this.index = id;
+      this.images = images;
+    },
+    closeSlider(id) {
+      this.$refs[id][0].closeSlider();
+      this.dialogSlider = false;
+      // this.indexSlide = 0;
+      document.body.style.overflow = "auto";
+    },
     collapseChange() {
       for (let i in this.$refs.slider) {
         this.$refs.slider[i].restart();
       }
-    },
-    openSlider(id) {
-      // this.indexSlide = id;
-      console.log(this.$refs[id].refresh());
-      this.$refs[id].refresh();
-      this.dialogSlider = true;
-      document.body.style.overflow = "hidden";
-    },
-    closeSlider() {
-      this.dialogSlider = false;
-      // this.indexSlide = 0;
-      document.body.style.overflow = "auto";
     },
     // add_review() {
     //   if (this.reviewRate == 0 || !this.reviewRate || !this.reviewText) {
@@ -301,6 +323,7 @@ export default {
   }
 };
 </script>
+
 <style lang="scss">
 // .curve-shape {
 //   margin-bottom: -12px;
@@ -329,6 +352,12 @@ export default {
 //   }
 // }
 .services-wrap {
+  .vgs {
+    background-color: #141414;
+    .vgs__container {
+      background-color: transparent !important;
+    }
+  }
   .el-collapse-item__header {
     height: auto !important;
     line-height: normal;
