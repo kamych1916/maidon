@@ -21,6 +21,7 @@
     "vue-backtotop": "^1.6.1",
     "vue-browser-geolocation": "^1.8.0",
     "vue-currency-input": "^1.22.6",
+    "vue-gallery-slideshow": "^1.5.2",
     "vue-recaptcha": "^1.3.0",
     "vue-recaptcha-v3": "^1.9.0",
     "vue-yandex-maps": "^0.10.10",
