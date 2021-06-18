@@ -156,7 +156,7 @@
           </div>
           <div class="ml-20 d-flex align-items-center">
             объявлен
-            <span v-if="accountData.list_offers.length == '1'">ие</span>
+            <span v-if="accountData.list_offers.length < '5'">ие</span>
             <span v-else>ий</span>
           </div>
         </div>
