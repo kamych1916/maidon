@@ -35,7 +35,10 @@ export default class Helper {
                 ? count_rooms_data
                 : null,
             count_rooms_rent:
-              object_living == "room" ? count_rooms_rent_data : null,
+              (deal == "rent_day" || deal == "rent_long") &&
+              object_living == "room"
+                ? count_rooms_rent_data
+                : null,
             floor:
               object_living == "apartment" || object_living == "room"
                 ? floor_data

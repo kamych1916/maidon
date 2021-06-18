@@ -25,8 +25,8 @@
               slot="suffix"
               v-if="input.title == 'Площадь участка'"
             >
-              соток</i
-            >
+              соток
+            </i>
             <i class="el-input__icon" slot="suffix" v-else> м <sup>2</sup></i>
           </el-input>
           <el-input-number
