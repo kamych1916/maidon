@@ -450,6 +450,7 @@ export default {
         } else {
           // service_type ?
           let serviceData = {
+            companyName: this.userData.companyName,
             account_type: this.service_type,
             name: this.userData.name,
             surname: this.userData.surname,
