@@ -201,10 +201,8 @@
             ></i>
           </div>
           <div class="ml-20">
-            <span
-              >{{ localStore.name }} {{ localStore.surname }}
-              {{ accountData.companyName }}</span
-            ><br />
+            {{ accountData.name }} {{ accountData.surname }}
+            {{ accountData.companyName }}<br />
             <el-rate
               class="mt-5"
               v-model="accountData.review"
