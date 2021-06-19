@@ -10,7 +10,7 @@
       >
         <div class="card-wrap">
           <div class="row">
-            <div class="col-auto">
+            <div v-if="el.offerData.listPhotos.length > 0" class="col-auto">
               <el-image
                 @click="
                   el.state == '1'
@@ -112,7 +112,7 @@
               <div class="row">
                 <div class="col-lg d-flex align-items-center">
                   Изменение объявления -&nbsp;
-                  <span class="text-blue"> {{ offerData.type }}</span>
+                  <span class="text-blue"> {{ offerData.name }}</span>
                 </div>
                 <div
                   class="col-lg d-flex justify-content-lg-end justify-content-center"

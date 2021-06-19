@@ -74,10 +74,10 @@
           <div class="card-wrap" v-for="(item, id) in serviceData" :key="id">
             <div class="row">
               <div class="col">
-                <el-collapse-item :name="item.offerData.specialization">
+                <el-collapse-item :name="item.offerData.name">
                   <template slot="title">
                     <span class="fs-18">
-                      {{ item.offerData.specialization }}
+                      {{ item.offerData.name }}
                     </span>
                   </template>
                   <div class="mt-10 fs-14 ">
@@ -97,6 +97,7 @@
                       {{ item.offerData.description }}
                     </div>
                     <div
+                      v-if="item.offerData.listPhotos.length > 0"
                       class="pt-20 pb-30"
                       style="border-bottom: 1px solid #ccc;"
                     >
@@ -164,19 +165,63 @@
             </div>
           </div>
         </el-collapse>
-        <div class="card-wrap" ref="reviews">
-          <div class="d-flex">
-            <div style="font-size: 56px; line-height: 0.6">
-              <!-- {{ accountData.review }} -->
-            </div>
-            <div class="ml-20">
-              <!-- <el-rate v-model="accountData.review" disabled> </el-rate> -->
-              <div class="text-grey">
-                <!-- {{ accountData.list_reviews.length }} отзыва/ов -->
+        <!-- <div class="card-wrap">
+          <div
+            v-for="(review, idx) in accountData.list_reviews"
+            :key="idx"
+            class="d-flex py-20"
+            style="border-bottom: 1px solid #ccc"
+          >
+            <div>
+              <div class="text-blue">{{ review.user }}</div>
+              <div class="text-grey fs-12">{{ review.date }}</div>
+              <el-rate
+                class=" mt-5"
+                v-model="review.value"
+                disabled
+                show-score
+                text-color="#ff9900"
+              >
+              </el-rate>
+              <div>
+                {{ review.text }}
               </div>
             </div>
           </div>
-        </div>
+          <div class="mt-20" v-if="localStore">
+            <div class="d-flex ">
+              <div class=" w-100">
+                <div>
+                  {{ localStore.surname }} {{ localStore.name }}
+                  {{ localStore.companyName }}
+                </div>
+                <div class="fs-12 text-grey ">Оцените агентство</div>
+                <el-rate
+                  class=" mt-5"
+                  show-score
+                  text-color="#ff9900"
+                  v-model="reviewRate"
+                ></el-rate>
+              </div>
+            </div>
+            <el-input
+              type="textarea"
+              class="mt-20 "
+              placeholder="Распиште отзыв конструктивно.."
+              v-model="reviewText"
+            ></el-input>
+            <button
+              class="el-button el-button--primary is-round mt-16 "
+              @click="add_review()"
+            >
+              опубликовать
+            </button>
+          </div>
+          <div class="mt-20" v-else>
+            Чтобы оставить отзыв пожалуйста
+            <nuxt-link to="/account/login"> авторизуйтесь</nuxt-link>
+          </div>
+        </div> -->
       </div>
       <div class="col-lg-4 d-none d-sm-block mb-30">
         <div class="card-wrap sticky">
@@ -248,6 +293,7 @@ export default {
     return axios
       .get(`https://mirllex.site/server/api/v1/get_services/${id}`)
       .then(response => {
+        console.log(response.data);
         userData = response.data.user;
         serviceData = response.data.list_services;
         return { userData, serviceData };
@@ -261,6 +307,8 @@ export default {
   },
   data() {
     return {
+      reviewRate: null,
+      reviewText: null,
       index: null,
       dialogSlider: false,
       images: [],
@@ -271,6 +319,7 @@ export default {
   mounted() {
     if (localStorage.getItem("ui")) {
       this.localStore = JSON.parse(localStorage.getItem("ui"));
+      console.log(this.serviceData);
     }
   },
   methods: {
@@ -289,22 +338,21 @@ export default {
         this.$refs.slider[i].restart();
       }
     },
-    // add_review() {
-    //   if (this.reviewRate == 0 || !this.reviewRate || !this.reviewText) {
-    //     alert("пошел нахъуй");
-    //   } else {
-    //     Api.getInstance()
-    //       .clients.add_review({
-    //         id: this.$route.params.id,
-    //         text: this.reviewText,
-    //         value: this.reviewRate
-    //       })
-    //       .then(response => {})
-    //       .catch(error => {
-    //         Api.typicalNTFS(error.response.status);
-    //       });
-    //   }
-    // },
+    add_review() {
+      if (this.reviewRate == 0 || !this.reviewRate || !this.reviewText) {
+      } else {
+        Api.getInstance()
+          .clients.add_review({
+            id: this.$route.params.id,
+            text: this.reviewText,
+            value: this.reviewRate
+          })
+          .then(response => {})
+          .catch(error => {
+            Api.typicalNTFS(error.response.status);
+          });
+      }
+    },
     // get_info_account() {
     //   Api.getInstance()
     //     .clients.get_info_account(this.$route.params.id)

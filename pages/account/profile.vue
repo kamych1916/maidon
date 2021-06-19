@@ -346,7 +346,6 @@ export default {
         this.userData.specialization = this.localStore.specialization;
         this.userData.about = this.localStore.about;
         this.userData.website = this.localStore.website;
-
         this.checkAccess = true;
       }
     } else {
@@ -394,10 +393,10 @@ export default {
     upload_avatar(e) {
       const file = e.target.files[0];
       if (file !== undefined) {
-        if (file.size > 256 * 256) {
+        if (file.size > 570 * 570) {
           this.sendNTFS(
             "Предупрждение!",
-            "Размер фотографии не должно превышать 256 килобайт!",
+            "Размер фотографии не должно превышать 321 килобайт!",
             "warning"
           );
         } else {
@@ -407,7 +406,8 @@ export default {
             .account.upload_avatar(formData)
             .then(response => {
               this.userData.avatar = response.data.avatar;
-              localStorage.setItem("ui", JSON.stringify(this.userData));
+              this.localStore.avatar = response.data.avatar;
+              localStorage.setItem("ui", JSON.stringify(this.localStore));
               Api.typicalNTFS(false, "аватарка была загружена");
             })
             .catch(error => {

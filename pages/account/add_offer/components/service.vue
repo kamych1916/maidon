@@ -195,29 +195,29 @@
                 </div>
               </div>
 
-              <div v-if="offerData.listPhotos">
-                <div
-                  class="col-auto px-10 my-10"
-                  v-for="(item, id) in offerData.listPhotos"
-                  :key="id"
-                >
-                  <div class="avatar" style=" width: 100px; height:100px">
-                    <div
-                      class="delete"
-                      @click="offerData.listPhotos.splice(id, 1)"
-                    >
-                      <!-- <div class="delete"> -->
-                      <i class="bi bi-x-circle-fill fs-12"></i>
-                    </div>
-                    <img
-                      :src="item.imgSrc"
-                      width="100"
-                      height="100"
-                      style="background-color: #ccc; object-fit: cover"
-                      class="border-rad-10 "
-                    />
+              <!-- <div v-if="offerData.listPhotos"> -->
+              <div
+                class="col-auto px-10 my-10"
+                v-for="(item, id) in offerData.listPhotos"
+                :key="id"
+              >
+                <div class="avatar" style=" width: 100px; height:100px">
+                  <div
+                    class="delete"
+                    @click="offerData.listPhotos.splice(id, 1)"
+                  >
+                    <!-- <div class="delete"> -->
+                    <i class="bi bi-x-circle-fill fs-12"></i>
                   </div>
+                  <img
+                    :src="item.imgSrc"
+                    width="100"
+                    height="100"
+                    style="background-color: #ccc; object-fit: cover"
+                    class="border-rad-10 "
+                  />
                 </div>
+                <!-- </div> -->
               </div>
             </div>
           </div>
@@ -345,6 +345,7 @@
 
 <script>
 import Api from "~/utils/api";
+import NTFS from "~/utils/notifications";
 export default {
   props: {
     serviceID: {
@@ -414,6 +415,9 @@ export default {
           Api.typicalNTFS(error.response.status);
         });
     },
+    sendNTFS(title, message, type) {
+      NTFS.getInstance().NTFS(title, message, type);
+    },
     patch_services() {
       Api.getInstance()
         .offer.patch_services({
@@ -435,30 +439,38 @@ export default {
         });
     },
     offer_uplodfile(e) {
-      const file = e.target.files[0];
-      if (file !== undefined) {
-        if (file.size > 1024 * 1024) {
-          this.sendNTFS(
-            "Предупрждение!",
-            "Размер фотографии не должно превышать одного мегабайт!",
-            "warning"
-          );
-        } else {
-          let url = URL.createObjectURL(file);
-          const formData = new FormData();
-          formData.append("file", file);
-          Api.getInstance()
-            .offer.offer_uploadfile_services(formData)
-            .then(response => {
-              this.offerData.listPhotos.push({
-                imgSrc: url,
-                imgName: file.name
+      if (this.offerData.listPhotos.length <= 6) {
+        const file = e.target.files[0];
+        if (file !== undefined) {
+          if (file.size > 1024 * 1024) {
+            this.sendNTFS(
+              "Предупрждение!",
+              "Размер фотографии не должно превышать одного мегабайт!",
+              "warning"
+            );
+          } else {
+            let url = URL.createObjectURL(file);
+            const formData = new FormData();
+            formData.append("file", file);
+            Api.getInstance()
+              .offer.offer_uploadfile_services(formData)
+              .then(response => {
+                this.offerData.listPhotos.push({
+                  imgSrc: url,
+                  imgName: file.name
+                });
+              })
+              .catch(error => {
+                Api.typicalNTFS(error.response.status);
               });
-            })
-            .catch(error => {
-              Api.typicalNTFS(error.response.status);
-            });
+          }
         }
+      } else {
+        this.sendNTFS(
+          "Ошибка",
+          "Количество фотографий не должно превышать 7",
+          "warning"
+        );
       }
     },
     addService() {

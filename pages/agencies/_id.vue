@@ -94,7 +94,7 @@
         <div
           v-for="(review, idx) in accountData.list_reviews"
           :key="idx"
-          class="d-flex py-40"
+          class="d-flex py-20"
           style="border-bottom: 1px solid #ccc"
         >
           <!-- <div>
@@ -252,7 +252,9 @@ export default {
             text: this.reviewText,
             value: this.reviewRate
           })
-          .then(response => {})
+          .then(response => {
+            window.location.reload();
+          })
           .catch(error => {
             Api.typicalNTFS(error.response.status);
           });

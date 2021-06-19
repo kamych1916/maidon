@@ -93,9 +93,6 @@
           class="d-flex py-40"
           style="border-bottom: 1px solid #ccc"
         >
-          <!-- <div>
-            <div class="avatar"></div>
-          </div> -->
           <div>
             <div class="text-blue">{{ review.user }}</div>
             <div class="text-grey fs-12">{{ review.date }}</div>
@@ -244,7 +241,9 @@ export default {
             text: this.reviewText,
             value: this.reviewRate
           })
-          .then(response => {})
+          .then(response => {
+            window.location.reload();
+          })
           .catch(error => {
             Api.typicalNTFS(error.response.status);
           });
