@@ -3,7 +3,7 @@
     <div class="col-lg-12">
       <div class="row">
         <div class="col-lg-4 mt-30" @click="openDialog()">
-          <nuxt-link to="/">
+          <nuxt-link to="/builders/partner/bustoncity">
             <div class="wrap-img h-100">
               <span class="title-img">Жилые комплексы</span>
               <img

@@ -383,7 +383,7 @@ export default {
     return {
       dialogVisible: false,
 
-      sitekey: "6LdiThobAAAAAItMcl2pIIj9JZFb8EVH1Vrzyurd",
+      sitekey: "6LcAGE0bAAAAAMlaW3SS5J0Zhs_67UeCLlPX9Kr2",
       isVerify: true,
 
       userData: {
