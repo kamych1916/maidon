@@ -1,5 +1,5 @@
 <template>
-  <div class="main-block">
+  <div class="main-block container">
     <Title />
     <div class="row mt-50 mb-100 d-flex justify-content-center">
       <Offers />

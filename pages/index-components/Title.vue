@@ -1,5 +1,5 @@
 <template>
-  <div class="title-block">
+  <div class="title-block container">
     <div class="row d-flex justify-content-center">
       <div class="col-lg-6 title d-flex align-items-center my-30">
         <div class="w-100">

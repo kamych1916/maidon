@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <div class="card-wrap" style="postion: relative">
       <div v-if="mapMarkers.length > 0" class="all-offers">
         <!-- <div class="show-markers"></div> -->

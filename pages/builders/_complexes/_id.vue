@@ -1,7 +1,10 @@
 <template>
   <div>
     <section class="complex-wrap">
-      <div class="w-100 " style="height: 87vh; position: relative">
+      <div
+        class="w-100 d-flex justify-content-center"
+        style="height: 90vh; position: relative"
+      >
         <div
           style="position: absolute; z-index: 2"
           class="w-100 container mt-20 text-white mb-auto d-flex justify-content-end align-items-center"
@@ -11,9 +14,9 @@
         </div>
         <div
           style="position: absolute; z-index: 2; bottom: 0px"
-          class="w-100   text-white mb-auto d-flex justify-content-center align-items-center"
+          class="w-100 container text-white mb-auto d-flex justify-content-center align-items-center"
         >
-          <div style="width: 70%" class="">
+          <div style="width: 100%">
             <div class="mb-40">
               <div class="fs-28 mb-20">
                 ЖК «Бустон Сити»
@@ -34,7 +37,7 @@
               </button>
             </div>
             <div
-              class="w-100 p-20 row d-none d-lg-flex"
+              class="w-100 p-20 mx-0 row d-none d-lg-flex"
               style="background: #152242; "
             >
               <div class="col-lg">
@@ -65,18 +68,18 @@
           :autoPlay="true"
           :playSpeed="3000"
         >
-          <slide draggable="false" class="">
+          <slide draggable="false" class="p-0 m-0">
             <el-image
               draggable="false"
-              class="w-100 h-100 border-rad-10"
+              class="w-100 h-100"
               src="/images/hide-moskva-jk-989757839-10.jpg"
               fit="cover"
             ></el-image>
           </slide>
-          <slide draggable="false" class="">
+          <slide draggable="false" class="p-0 m-0">
             <el-image
               draggable="false"
-              class="w-100 h-100 border-rad-10"
+              class="w-100 h-100"
               src="/images/hide-moskva-jk-989757847-10.jpg"
               fit="cover"
             ></el-image>
@@ -94,7 +97,7 @@
       height="100%"
     /> -->
     </section>
-    <section class="mt-100 ">
+    <section class="mt-100 container">
       <div class="row">
         <div class="col-lg my-10">
           <div class=" fs-18 text-grey">
@@ -252,6 +255,95 @@
         </div>
       </div>
     </section>
+
+    <section class="mt-100 svg-container d-none d-lg-block">
+      <img width="100%" src="/images/complex-svg.jpeg" />
+
+      <svg class="svg-wrap" width="100%" height="100%" viewBox="0 0 1920 1298">
+        <path
+          @mouseover="mouseHoverEvent($event, 1)"
+          @mouseleave="mouseleaveHoverEvent($event, 1)"
+          class="frame-wrap"
+          d="M 675.9118679342 289.6833294446, 816.5396661905 255.9451884862, 895.2912332141 280.3116236228, 898.1037891792 1080.030522796, 825.914852741 1125.9518813226, 677.7869052443 1095.962422693 Z"
+        ></path>
+
+        <path
+          @mouseover="mouseHoverEvent($event, 2)"
+          @mouseleave="mouseleaveHoverEvent($event, 2)"
+          class="frame-wrap"
+          d="M 1014.3561024044 299.0550352663, 1084.6700015326 284.9974765337, 1115.608117149 1099.3987124443, 1015.2936210595 1090.0270066226 Z"
+        ></path>
+        <path
+          @mouseover="mouseHoverEvent($event, 3)"
+          @mouseleave="mouseleaveHoverEvent($event, 3)"
+          class="frame-wrap"
+          d="M 1085.6075201876 173.4741772548, 1268.4236579208 131.3015010569, 1367.8006353553 172.5370066726, 1334.0499637738 1193.4281632393, 1268.4236579208 1193.4281632393, 1118.4206731141 1156.8785105344 Z"
+        ></path>
+      </svg>
+      <div
+        id="description1"
+        :class="['description', active_1 ? ' ' : 'activate']"
+      >
+        <div class="p-20">
+          <div class="fs-14 pb-10">
+            West Dale (корпус 1)
+          </div>
+          <div class="fs-12 text-dblue pb-10">
+            Сдача в 1 кв. 2023 • 41 этажей
+          </div>
+          <div class="fs-14 pb-10">
+            2-комн. от 49 м² от 21 474 375 ₽
+          </div>
+          <div class="fs-14 pb-10">
+            3-комн. от 74 м² от 27 832 500 ₽
+          </div>
+          <div class="fs-14 pb-10">
+            3-комн. от 74 м² от 27 832 500 ₽
+          </div>
+          <div class="fs-14 text-blue pb-10">
+            18 квартир в продаже
+          </div>
+        </div>
+      </div>
+      <div
+        id="description2"
+        :class="['description', active_2 ? ' ' : 'activate']"
+      >
+        <div class="p-20">
+          <div class="fs-14 pb-10">
+            Park Lane (корпус 2)
+          </div>
+          <div class="fs-12 text-dblue pb-10">
+            Сдача в 1 кв. 2023 • 41 этажей
+          </div>
+          <div class="fs-14 pb-10">
+            2-комн. от 47 м² от 20 315 350 ₽
+          </div>
+          <div class="fs-14 pb-10">
+            3-комн. от 75 м² от 29 106 000 ₽
+          </div>
+          <div class="fs-14 pb-10">
+            4-комн. от 101 м² от 51 663 300 ₽
+          </div>
+          <div class="fs-14 text-blue pb-10">
+            25 квартир в продаже
+          </div>
+        </div>
+      </div>
+      <div
+        id="description3"
+        :class="['description', active_3 ? ' ' : 'activate']"
+      >
+        <div class="p-20">
+          <div class="fs-14 pb-10">
+            River Side (корпус 3)
+          </div>
+          <div class="fs-14 text-blue pb-10">
+            Нет квартир в продаже
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </template>
 
@@ -264,11 +356,94 @@ export default {
     Slide,
     HooperNavigation
   },
-  methods: {}
+  data() {
+    return {
+      active_1: false,
+      active_2: false,
+      active_3: false
+    };
+  },
+  methods: {
+    mouseHoverEvent(e, which) {
+      if (which == 1) {
+        this.active_1 = true;
+      } else if (which == 2) {
+        this.active_2 = true;
+      } else {
+        this.active_3 = true;
+      }
+      console.log(which);
+      document.getElementById(
+        "description" + which
+      ).style.left = `${e.pageX}px`;
+
+      document.getElementById("description" + which).style.top = `${e.clientY +
+        130}px`;
+    },
+    mouseleaveHoverEvent(e, which) {
+      if (which == 1) {
+        this.active_1 = false;
+      } else if (which == 2) {
+        this.active_2 = false;
+      } else {
+        this.active_3 = false;
+      }
+    }
+  }
 };
 </script>
 
 <style lang="scss">
+.svg-container {
+  margin: 0 auto 55px;
+  max-width: 1920px !important;
+  position: relative;
+
+  .description {
+    pointer-events: none;
+    position: absolute;
+    font-size: 18px;
+    background: white;
+    z-index: 999999999999;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0 0 0 1px #eee;
+  }
+  .activate {
+    display: none !important;
+  }
+  &:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 100%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid white;
+  }
+  svg {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    .frame-wrap {
+      position: absolute;
+      fill: #fff;
+      fill-opacity: 0;
+      cursor: pointer;
+      -webkit-transition: all 0.2s ease;
+      transition: all 0.2s ease;
+      &:hover {
+        fill-opacity: 0.4;
+      }
+    }
+  }
+}
+
 .complex-wrap {
   position: inherit;
   .gallery-slide {
@@ -286,12 +461,11 @@ export default {
     }
     &:after {
       z-index: 1;
-      border-radius: 10px;
-      margin-left: 3px;
+      margin-left: 0px;
       position: absolute;
       top: 0;
       left: 0;
-      width: 99.5%;
+      width: 100%;
       height: 100%;
       pointer-events: none;
       content: " ";
@@ -305,7 +479,9 @@ export default {
         -webkit-gradient(linear, left top, left bottom, color-stop(55.21%, transparent), to(rgba(0, 0, 0, 0.8)));
     }
   }
-
+  .hooper .hooper-list {
+    border-radius: 0px !important;
+  }
   .gallery-thumb {
     height: 100% !important;
 
@@ -322,7 +498,6 @@ export default {
     .hooper-slide {
       width: auto !important;
       opacity: 0.8;
-      padding: 15px 10px !important;
     }
     .is-current {
       opacity: 1;

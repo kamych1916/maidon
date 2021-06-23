@@ -1,10 +1,10 @@
 <template>
-  <div class="container">
+  <div>
     <Header />
     <slide-y-down-transition :duration="700">
       <Nuxt />
     </slide-y-down-transition>
-    <Footer v-if="$route.path.split('/')[1] !== 'account'" />
+    <Footer class="container" v-if="$route.path.split('/')[1] !== 'account'" />
     <back-to-top text="Back to top" visibleoffset="0" right="30px">
       <el-button type="primary" circle>
         <i class="bi bi-arrow-up-circle"></i>

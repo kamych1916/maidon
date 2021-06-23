@@ -1,5 +1,5 @@
 <template>
-  <div class="card-wrap">
+  <div class="card-wrap container">
     <div>
       <Breadcrumbs />
     </div>

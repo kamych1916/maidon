@@ -1,5 +1,5 @@
 <template>
-  <OfferCard :offerData="offerData" typeDeal="Посуточно" />
+  <OfferCard class="container" :offerData="offerData" typeDeal="Посуточно" />
 </template>
 <script>
 import axios from "axios";
