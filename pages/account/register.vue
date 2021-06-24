@@ -1,12 +1,10 @@
 <template>
-  <div class="auth-dialog-wrap register">
-    <div class="radio-types ">
-      <h4 class="mt-30">
-        Выберите тип аккаунта:
-      </h4>
+  <div class="auth-dialog-wrap register container">
+    <div class="radio-types">
+      <h4 class="mt-30">Выберите тип аккаунта:</h4>
       <div class="row mt-30">
         <div class="col-md-4 col-6 my-10">
-          <label class="custom-radio w-100 ">
+          <label class="custom-radio w-100">
             <input
               type="radio"
               value="owner"
@@ -48,7 +46,7 @@
           </label>
         </div>
         <div class="col-md-4 col-6 my-10">
-          <label class="custom-radio w-100 ">
+          <label class="custom-radio w-100">
             <input
               type="radio"
               value="services"
@@ -73,8 +71,8 @@
             class="form-group mb-18"
             v-if="
               picked_account == 'owner' ||
-                picked_account == 'realtor' ||
-                (picked_account == 'services' && service_type == 'individual')
+              picked_account == 'realtor' ||
+              (picked_account == 'services' && service_type == 'individual')
             "
           >
             <el-input
@@ -93,8 +91,8 @@
             class="form-group mb-18"
             v-if="
               picked_account == 'owner' ||
-                picked_account == 'realtor' ||
-                (picked_account == 'services' && service_type == 'individual')
+              picked_account == 'realtor' ||
+              (picked_account == 'services' && service_type == 'individual')
             "
           >
             <el-input
@@ -113,7 +111,7 @@
             class="form-group mb-18"
             v-if="
               picked_account == 'agency' ||
-                (picked_account == 'services' && service_type == 'entity')
+              (picked_account == 'services' && service_type == 'entity')
             "
           >
             <el-input
@@ -161,8 +159,8 @@
             class="form-group mb-18"
             v-if="
               picked_account == 'agency' ||
-                picked_account == 'realtor' ||
-                picked_account == 'services'
+              picked_account == 'realtor' ||
+              picked_account == 'services'
             "
           >
             <el-date-picker
@@ -370,14 +368,13 @@ export default {
     script: [
       {
         async: true,
-        src:
-          "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit"
-      }
-    ]
+        src: "https://www.google.com/recaptcha/api.js?onload=vueRecaptchaApiLoaded&render=explicit",
+      },
+    ],
   },
   components: {
     "vue-recaptcha": VueRecaptcha,
-    SlideYDownTransition
+    SlideYDownTransition,
   },
   data() {
     return {
@@ -396,7 +393,7 @@ export default {
         workDate: null,
         specialization: null,
         about: null,
-        website: null
+        website: null,
       },
       picked_account: null,
       passwordСonfirm: null,
@@ -405,33 +402,33 @@ export default {
       services_options: [
         {
           value: "entity",
-          label: "юридическое лицо"
+          label: "юридическое лицо",
         },
         {
           value: "individual",
-          label: "физическое лицо"
-        }
+          label: "физическое лицо",
+        },
       ],
 
-      SMScode: null
+      SMScode: null,
     };
   },
   methods: {
     send_activate_code() {
       let data = {
         tel: this.userData.tel,
-        code: this.SMScode
+        code: this.SMScode,
       };
       Api.getInstance()
         .auth.send_activate_code(data)
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             this.$router.push("/account/login");
           } else {
             this.sendNTFS("Ошибка", "Код введён неверно :(", "warning");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -456,20 +453,20 @@ export default {
             surname: this.userData.surname,
             tel: this.userData.tel,
             workDate: this.userData.workDate,
-            password: this.userData.password
+            password: this.userData.password,
           };
           this.userData.account_type = this.picked_account;
 
           Api.getInstance()
             .auth.signup(this.service_type ? serviceData : this.userData)
-            .then(response => {
+            .then((response) => {
               Api.typicalNTFS(
                 false,
                 "Подтвердите свой аккаунт SMS кодом, проверьте свой телефон!"
               );
               this.openDialog();
             })
-            .catch(error => {
+            .catch((error) => {
               Api.typicalNTFS(error.response.status);
             });
         }
@@ -491,14 +488,14 @@ export default {
         password: null,
         workDate: null,
         specialization: null,
-        website: null
+        website: null,
       };
       this.service_type = null;
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -28,11 +28,11 @@ export default {
       { property: "og:image:type", content: "image/png" },
       {
         property: "og:image",
-        content: "https://mirllex.site/maidon-promo.png"
+        content: "https://maidon.tj/maidon-promo.png"
       },
       {
         property: "twitter:image",
-        content: "https://mirllex.site/maidon-promo.png"
+        content: "https://maidon.tj/maidon-promo.png"
       }
     ],
     link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]

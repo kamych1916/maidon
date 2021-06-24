@@ -1,11 +1,11 @@
 <template>
   <!-- отличий кода в REALTORS и AGENTS  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
-  <div v-if="list" class="agencies">
+  <div v-if="list" class="agencies container">
     <div class="row" style="position-relative">
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs />
-          <span class="fs-24 ">
+          <span class="fs-24">
             Найдено агентств:
             <span class="text-blue">
               {{ list.count }}
@@ -30,7 +30,7 @@
                     <div
                       class="avatar"
                       :style="{
-                        background: item.avatar ? 'none' : '#b9d7f7'
+                        background: item.avatar ? 'none' : '#b9d7f7',
                       }"
                     >
                       <el-image
@@ -46,7 +46,7 @@
                       ></i>
                     </div>
                   </div>
-                  <div class="ml-10 ">
+                  <div class="ml-10">
                     <div>
                       <span class="fs-18" style="color: black">
                         {{ item.name }}
@@ -98,7 +98,7 @@ import Api from "~/utils/api";
 export default {
   data() {
     return {
-      list: null
+      list: null,
     };
   },
   watch: {
@@ -106,7 +106,7 @@ export default {
       if (to !== from) {
         this.get_accounts();
       }
-    }
+    },
   },
   mounted() {
     this.get_accounts();
@@ -118,18 +118,18 @@ export default {
       Api.getInstance()
         .clients.get_accounts({
           type: "agency",
-          page: page
+          page: page,
         })
-        .then(response => {
+        .then((response) => {
           // this.offerData = response.data;
           console.log(response.data);
           this.list = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

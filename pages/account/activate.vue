@@ -26,7 +26,7 @@ export default {
       access: true,
       success: false,
       currentTime: 6,
-      timer: null
+      timer: null,
     };
   },
   mounted() {
@@ -40,11 +40,11 @@ export default {
       console.log(this.$router.currentRoute.query["access"]);
       Api.getInstance()
         .auth.send_activate_code(this.$router.currentRoute.query["access"])
-        .then(response => {
+        .then((response) => {
           this.success = true;
           this.startTimer();
         })
-        .catch(error => {
+        .catch((error) => {
           let status = error.response.status;
           if (status == 500) {
             this.access = false;
@@ -71,7 +71,7 @@ export default {
     },
     stopTimer() {
       clearTimeout(this.timer);
-    }
+    },
   },
   watch: {
     currentTime(time) {
@@ -79,8 +79,8 @@ export default {
         this.stopTimer();
         this.$router.push("/");
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -1,7 +1,7 @@
 <template>
-  <div class="services">
+  <div class="services container">
     <div class="row">
-      <div class="col-lg-4 mb-30 ">
+      <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs />
           <el-select
@@ -52,13 +52,13 @@
           <div class="row">
             <div class="col-lg my-10 d-none d-lg-block">
               <div>
-                <div class="avatar border-rad-10" style="background:#b9d7f7">
+                <div class="avatar border-rad-10" style="background: #b9d7f7">
                   <img
                     :src="item.avatar"
                     width="100"
                     height="100"
                     style="background-color: #ccc; object-fit: cover"
-                    class="border-rad-10 "
+                    class="border-rad-10"
                     v-if="item.avatar"
                   />
                   <i
@@ -160,18 +160,18 @@ export default {
       options_account_type: [
         {
           value: "entity",
-          label: "Юр. лица"
+          label: "Юр. лица",
         },
         {
           value: "individual",
-          label: "Физ. лица"
-        }
+          label: "Физ. лица",
+        },
       ],
       specialization: "",
       account_type: "",
 
       serviceData: null,
-      pages: null
+      pages: null,
     };
   },
   watch: {
@@ -180,7 +180,7 @@ export default {
         window.scrollTo(0, 0);
         this.list_services();
       }
-    }
+    },
   },
   mounted() {
     this.get_list_specialization();
@@ -192,12 +192,12 @@ export default {
         Object.keys(this.$route.query).length > 0 ? this.$route.query.page : 1;
       Api.getInstance()
         .clients.list_services(this.specialization, this.account_type, page)
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.serviceData = response.data.account_list;
           this.pages = response.data.pages;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -205,14 +205,14 @@ export default {
     get_list_specialization() {
       Api.getInstance()
         .offer.get_list_specialization()
-        .then(response => {
+        .then((response) => {
           this.options_specialization = response.data.options;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

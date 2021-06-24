@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess" class="profile">
+  <div v-if="checkAccess" class="profile container">
     <Tabs />
     <div class="row">
       <div class="col-lg-3">
@@ -9,7 +9,7 @@
               <div
                 class="avatar"
                 :style="{
-                  background: userData.avatar ? 'none' : '#b9d7f7'
+                  background: userData.avatar ? 'none' : '#b9d7f7',
                 }"
               >
                 <el-image
@@ -36,12 +36,12 @@
                   class="box-photo-input"
                   accept="image/png, image/jpeg, image/jpg"
                   @change="upload_avatar"
-                  style="opacity: 0; position: absolute; z-index: -1; "
+                  style="opacity: 0; position: absolute; z-index: -1"
                 />
                 <label
                   for="upload-photo"
                   class="cursor"
-                  style="margin-bottom: 0px !important;"
+                  style="margin-bottom: 0px !important"
                   >Изменить</label
                 >
               </div>
@@ -65,8 +65,8 @@
               type="text"
               v-if="
                 localStore.account_type == 'owner' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'individual'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'individual'
               "
             ></el-input>
             <el-input
@@ -79,8 +79,8 @@
               type="text"
               v-if="
                 localStore.account_type == 'owner' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'individual'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'individual'
               "
             ></el-input>
 
@@ -94,7 +94,7 @@
               type="text"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'entity'
+                localStore.account_type == 'entity'
               "
             ></el-input>
 
@@ -113,9 +113,9 @@
               value-format="yyyy"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'entity' ||
-                  localStore.account_type == 'individual'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'entity' ||
+                localStore.account_type == 'individual'
               "
             >
             </el-date-picker>
@@ -124,9 +124,9 @@
               class="form-group d-flex mb-18"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'entity' ||
-                  localStore.account_type == 'individual'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'entity' ||
+                localStore.account_type == 'individual'
               "
             >
               <el-input
@@ -143,7 +143,7 @@
                 placement="top-start"
                 v-if="
                   localStore.account_type != 'entity' &&
-                    localStore.account_type != 'individual'
+                  localStore.account_type != 'individual'
                 "
               >
                 <div slot="content">
@@ -168,9 +168,9 @@
               class="form-group d-flex mb-18"
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'entity' ||
-                  localStore.account_type == 'individual'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'entity' ||
+                localStore.account_type == 'individual'
               "
             >
               <el-input
@@ -192,7 +192,7 @@
                 placement="top-start"
                 v-if="
                   localStore.account_type != 'entity' &&
-                    localStore.account_type != 'individual'
+                  localStore.account_type != 'individual'
                 "
               >
                 <div slot="content" v-if="localStore.account_type == 'realtor'">
@@ -226,8 +226,8 @@
             <el-input
               v-if="
                 localStore.account_type == 'agency' ||
-                  localStore.account_type == 'realtor' ||
-                  localStore.account_type == 'entity'
+                localStore.account_type == 'realtor' ||
+                localStore.account_type == 'entity'
               "
               required
               v-model="userData.website"
@@ -254,7 +254,15 @@
             ></el-input>
             <button
               type="submit"
-              class="el-button el-button--primary is-round fs-14 py-14 px-5 mx-0 w-100"
+              class="
+                el-button el-button--primary
+                is-round
+                fs-14
+                py-14
+                px-5
+                mx-0
+                w-100
+              "
             >
               Изменить
             </button>
@@ -286,7 +294,15 @@
             ></el-input>
             <button
               type="submit"
-              class="el-button el-button--primary is-round fs-14 py-14 px-5 mx-0 w-100"
+              class="
+                el-button el-button--primary
+                is-round
+                fs-14
+                py-14
+                px-5
+                mx-0
+                w-100
+              "
             >
               Изменить
             </button>
@@ -306,7 +322,7 @@ import NTFS from "~/utils/notifications";
 export default {
   mixins: [cookiesEvents],
   components: {
-    Tabs
+    Tabs,
   },
   data() {
     return {
@@ -321,12 +337,12 @@ export default {
         specialization: null,
         about: null,
         website: null,
-        avatar: null
+        avatar: null,
       },
       userPass: {
         old_password: null,
-        new_password: null
-      }
+        new_password: null,
+      },
     };
   },
   mounted() {
@@ -357,36 +373,36 @@ export default {
       console.log(this.userData);
       Api.getInstance()
         .account.patch_info(this.userData)
-        .then(response => {
+        .then((response) => {
           localStorage.setItem("ui", JSON.stringify(response.data));
           console.log(JSON.parse(localStorage.getItem("ui")));
           Api.typicalNTFS(false, "данные успешно изменены");
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     patch_pass() {
       Api.getInstance()
         .account.patch_pass(this.userPass)
-        .then(response => {
+        .then((response) => {
           this.userPass.old_password = "";
           this.userPass.new_password = "";
           Api.typicalNTFS(false, "пароль успешно изменён");
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     delete_avatar() {
       Api.getInstance()
         .account.delete_avatar()
-        .then(response => {
+        .then((response) => {
           this.userData.avatar = "";
           localStorage.setItem("ui", JSON.stringify(this.userData));
           Api.typicalNTFS(false, "аватарка была удалена");
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -404,13 +420,13 @@ export default {
           formData.append("file", file);
           Api.getInstance()
             .account.upload_avatar(formData)
-            .then(response => {
+            .then((response) => {
               this.userData.avatar = response.data.avatar;
               this.localStore.avatar = response.data.avatar;
               localStorage.setItem("ui", JSON.stringify(this.localStore));
               Api.typicalNTFS(false, "аватарка была загружена");
             })
-            .catch(error => {
+            .catch((error) => {
               Api.typicalNTFS(error.response.status);
             });
         }
@@ -418,8 +434,8 @@ export default {
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>
 

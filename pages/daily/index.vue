@@ -1,13 +1,15 @@
 <template>
-  <div class="card-wrap container">
-    <div>
-      <Breadcrumbs />
-    </div>
-    <div class="mt-20">
-      <ObjectLinks
-        title="Снять недвижимость посуточно в Таджикистане"
-        link="daily"
-      />
+  <div class="container">
+    <div class="card-wrap">
+      <div>
+        <Breadcrumbs />
+      </div>
+      <div class="mt-20">
+        <ObjectLinks
+          title="Снять недвижимость посуточно в Таджикистане"
+          link="daily"
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -16,9 +18,9 @@
 export default {
   head() {
     return {
-      title: "Снять недвижимость посуточно в Таджикистане"
+      title: "Снять недвижимость посуточно в Таджикистане",
     };
-  }
+  },
 };
 </script>
 

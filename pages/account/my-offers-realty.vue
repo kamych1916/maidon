@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess && offersList">
+  <div v-if="checkAccess && offersList" class="container">
     <Tabs />
     <div class="row" v-if="offersList.length > 0">
       <div
@@ -20,7 +20,7 @@
                     : ''
                 "
                 draggable="false"
-                style="height: 200px;"
+                style="height: 200px"
                 class="w-100 border-rad-10 cursor"
                 :src="el.photos[0].imgSrc"
                 fit="cover"
@@ -65,7 +65,15 @@
               <div class="row mt-12">
                 <button
                   @click="openOffer(el)"
-                  class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5 "
+                  class="
+                    el-button el-button--primary
+                    is-round
+                    fs-14
+                    py-10
+                    px-20
+                    mx-5
+                    my-5
+                  "
                 >
                   изменить
                 </button>
@@ -101,7 +109,15 @@
                   </div>
                   <button
                     slot="reference"
-                    class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--danger
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     удалить
                   </button>
@@ -120,17 +136,37 @@
                     <span class="text-blue"> {{ offerData.title }}</span>
                   </div>
                   <div
-                    class="col-lg d-flex justify-content-lg-end justify-content-center"
+                    class="
+                      col-lg
+                      d-flex
+                      justify-content-lg-end justify-content-center
+                    "
                   >
                     <button
                       type="submit"
-                      class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                      class="
+                        el-button el-button--primary
+                        is-round
+                        fs-14
+                        py-10
+                        px-20
+                        mx-5
+                        my-5
+                      "
                     >
                       изменить
                     </button>
                     <div
                       @click="closeOffer()"
-                      class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                      class="
+                        el-button el-button--primary
+                        is-round
+                        fs-14
+                        py-10
+                        px-20
+                        mx-5
+                        my-5
+                      "
                     >
                       отменить
                     </div>
@@ -138,11 +174,11 @@
                 </div>
               </div>
               <div class="row">
-                <div class="col-md-6 ">
+                <div class="col-md-6">
                   <OfferObject
                     :offerObject="offerData.offerObject"
                     @input="
-                      newData => {
+                      (newData) => {
                         offerData.offerObject = newData;
                       }
                     "
@@ -153,7 +189,7 @@
                   <OfferPrice
                     :offerPrice="offerData.offerPrice"
                     @input="
-                      newData => {
+                      (newData) => {
                         offerData.offerPrice = newData;
                       }
                     "
@@ -212,7 +248,7 @@ export default {
     CurrencyInput,
     OfferPhotos,
     OfferObject,
-    OfferPrice
+    OfferPrice,
   },
   data() {
     return {
@@ -227,8 +263,8 @@ export default {
         photos: [],
         description: null,
         offerObject: {},
-        offerPrice: {}
-      }
+        offerPrice: {},
+      },
     };
   },
   mounted() {
@@ -243,10 +279,10 @@ export default {
     get_user_offers() {
       Api.getInstance()
         .account.get_user_offers()
-        .then(response => {
+        .then((response) => {
           this.offersList = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -388,7 +424,7 @@ export default {
         let objCopy = JSON.parse(JSON.stringify(this.offerData));
         Api.getInstance()
           .account.change_offer(this.deleteEmptyObjects(objCopy))
-          .then(response => {
+          .then((response) => {
             // this.offersList[idx].price = this.offerData.price;
             // this.offersList[idx].description = this.offerData.description;
             // this.offersList[idx].photos = this.offerData.photos;
@@ -401,7 +437,7 @@ export default {
               this.$router.go(this.$router.currentRoute);
             }, 2000);
           })
-          .catch(error => {
+          .catch((error) => {
             Api.typicalNTFS(error.response.status);
           });
         // } else {
@@ -430,7 +466,7 @@ export default {
     delete_offer(item) {
       Api.getInstance()
         .account.delete_offer({ id: item.id })
-        .then(response => {
+        .then((response) => {
           this.offersList.forEach((el, idx) => {
             if (el.id == item.id) {
               this.$refs["popover-" + el.id][0].doClose();
@@ -439,14 +475,14 @@ export default {
           });
           Api.typicalNTFS(false, "объявление успешно удалено");
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>
 

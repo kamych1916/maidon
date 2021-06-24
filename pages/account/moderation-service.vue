@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess">
+  <div v-if="checkAccess" class="container">
     <Tabs />
     <div class="row">
       <div
@@ -17,11 +17,19 @@
             <div class="col-6 my-5">Время работы:</div>
             <div class="col-6 my-5">{{ el.offerData.workTime }}</div>
           </div>
-          <div class="row mt-10 ">
+          <div class="row mt-10">
             <div class="col px-10">
               <div
                 v-if="el.offerData.listPhotos.length"
-                class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                class="
+                  el-button el-button--primary
+                  is-round
+                  fs-14
+                  py-10
+                  px-20
+                  mx-5
+                  my-5
+                "
                 @click="
                   openOffer(
                     'photos',
@@ -33,7 +41,15 @@
                 Фотографии
               </div>
               <div
-                class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                class="
+                  el-button el-button--primary
+                  is-round
+                  fs-14
+                  py-10
+                  px-20
+                  mx-5
+                  my-5
+                "
                 @click="
                   openOffer(
                     'infos',
@@ -50,13 +66,29 @@
             <div class="col px-10">
               <button
                 @click="acceptOffer(el.id)"
-                class="el-button el-button--success is-round fs-14 py-10 px-20 mx-5 my-5 "
+                class="
+                  el-button el-button--success
+                  is-round
+                  fs-14
+                  py-10
+                  px-20
+                  mx-5
+                  my-5
+                "
               >
                 Разрешить
               </button>
               <button
                 @click="openOffer('cancel', el.id, el.type)"
-                class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5 "
+                class="
+                  el-button el-button--danger
+                  is-round
+                  fs-14
+                  py-10
+                  px-20
+                  mx-5
+                  my-5
+                "
               >
                 Отменить и указать причину
               </button>
@@ -77,7 +109,15 @@
                   <div class="col-lg d-flex justify-content-end">
                     <div
                       @click="closeDialog()"
-                      class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                      class="
+                        el-button el-button--primary
+                        is-round
+                        fs-14
+                        py-10
+                        px-20
+                        mx-5
+                        my-5
+                      "
                     >
                       выйти
                     </div>
@@ -94,7 +134,7 @@
                     <el-image
                       draggable="false"
                       style="width: 295px; height: 200px"
-                      class="border-rad-10 "
+                      class="border-rad-10"
                       :src="lP.imgSrc"
                       fit="cover"
                     ></el-image>
@@ -117,7 +157,15 @@
                 <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -125,14 +173,14 @@
               </div>
             </div>
             <div
-              class="card-wrap "
+              class="card-wrap"
               v-for="(item, id) in offerData.storeService"
               :key="id"
             >
               <div>
-                <div class="mt-20 ">
+                <div class="mt-20">
                   <div class="d-flex row justify-content-between">
-                    <div class="col ">
+                    <div class="col">
                       {{ item.kind }}
                     </div>
                     <div class="col text-blue" style="text-align: end">
@@ -160,13 +208,29 @@
                 <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="acceptOffer()"
-                    class="el-button el-button--warning is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--warning
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     подтвердить
                   </div>
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -202,7 +266,7 @@ import Tabs from "@/pages/account/components/tabs.vue";
 export default {
   mixins: [cookiesEvents],
   components: {
-    Tabs
+    Tabs,
   },
   data() {
     return {
@@ -222,8 +286,8 @@ export default {
         acive: null,
         storeService: null,
         title: null,
-        listPhotos: []
-      }
+        listPhotos: [],
+      },
     };
   },
   mounted() {
@@ -243,9 +307,9 @@ export default {
         .account.active_services({
           id: id ? id : this.offerData.id,
           state: id ? 1 : -1,
-          note: id ? "" : this.reasonOfCancel
+          note: id ? "" : this.reasonOfCancel,
         })
-        .then(response => {
+        .then((response) => {
           this.moderOfferData.forEach((element, idx) => {
             if (element.id === id ? id : this.offerData.id) {
               this.moderOfferData.splice(idx, 1);
@@ -256,18 +320,18 @@ export default {
             this.closeDialog();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     get_moder_services() {
       Api.getInstance()
         .account.get_moder_services()
-        .then(response => {
+        .then((response) => {
           this.moderOfferData = response.data;
           console.log(response.data);
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -291,8 +355,8 @@ export default {
         this.dialogCancel = true;
       }
       document.body.style.overflow = "hidden";
-    }
-  }
+    },
+  },
 };
 </script>
 

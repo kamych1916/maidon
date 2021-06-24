@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess">
+  <div v-if="checkAccess" class="container">
     <Tabs />
     <div v-if="listChats">
       <div class="row" v-if="listChats.length > 0">
@@ -15,7 +15,7 @@
                   <div
                     class="avatar"
                     :style="{
-                      background: item.image ? 'none' : '#b9d7f7'
+                      background: item.image ? 'none' : '#b9d7f7',
                     }"
                     v-if="!isModer"
                   >
@@ -32,9 +32,9 @@
                   </div>
                 </div>
 
-                <div class="ml-10 ">
+                <div class="ml-10">
                   <div>
-                    <span style="word-break: break-all;">
+                    <span style="word-break: break-all">
                       <span v-if="item.user_name === 'Модератор'">{{
                         item.user_name
                       }}</span>
@@ -52,7 +52,7 @@
                         <div slot="content">
                           У вас имеются непрочитанные сообщения
                         </div>
-                        <span class="text-blue ">
+                        <span class="text-blue">
                           <i class="bi bi-chat-dots-fill fs-12 ml-8"></i>
                         </span>
                       </el-tooltip>
@@ -65,7 +65,7 @@
               </div>
               <div
                 v-if="item.user_name != 'Модератор'"
-                style="position: absolute; top: 40px;right: 20px"
+                style="position: absolute; top: 40px; right: 20px"
               >
                 <el-popover trigger="hover" width="183" placement="top">
                   <div>
@@ -82,7 +82,15 @@
                   </div>
                   <button
                     slot="reference"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     <i class="bi bi-trash"></i>
                   </button>
@@ -104,14 +112,14 @@ import Tabs from "@/pages/account/components/tabs.vue";
 export default {
   mixins: [cookiesEvents],
   components: {
-    Tabs
+    Tabs,
   },
   data() {
     return {
       checkAccess: false,
       currentPath: this.$nuxt.$route.path,
       listChats: [],
-      isModer: null
+      isModer: null,
     };
   },
 
@@ -128,17 +136,17 @@ export default {
     get_user_chats() {
       Api.getInstance()
         .account.get_user_chats()
-        .then(response => {
+        .then((response) => {
           this.listChats = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     delete_chat(id) {
       Api.getInstance()
         .account.delete_chat({ id_chat: id })
-        .then(response => {
+        .then((response) => {
           let storeList = this.listChats;
           this.listChats.forEach((el, idx) => {
             if (el.id == id) {
@@ -147,10 +155,10 @@ export default {
           });
           this.listChats = storeList;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
-    }
-  }
+    },
+  },
 };
 </script>

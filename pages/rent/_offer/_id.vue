@@ -8,8 +8,8 @@ export default {
     let offerData;
     const { id } = route.params;
     return axios
-      .get(`https://mirllex.site/server/api/v1/get_offer/${id}`)
-      .then(response => {
+      .get(`https://maidon.tj/server/api/v1/get_offer/${id}`)
+      .then((response) => {
         offerData = response.data;
         return { offerData };
       });
@@ -22,29 +22,29 @@ export default {
         {
           hid: "description",
           name: "description",
-          content: this.cutDescription()
+          content: this.cutDescription(),
         },
         {
           hid: "twitter:image",
           name: "twitter:image",
-          content: this.offerData.offerPhothos[0].imgName
+          content: this.offerData.offerPhothos[0].imgName,
         },
         {
           hid: "og:image",
           property: "og:image",
-          content: this.offerData.offerPhothos[0].imgName
+          content: this.offerData.offerPhothos[0].imgName,
         },
         {
           hid: "og:image:secure_url",
           property: "og:image:secure_url",
-          content: this.offerData.offerPhothos[0].imgName
+          content: this.offerData.offerPhothos[0].imgName,
         },
         {
           hid: "og:image:alt",
           property: "og:image:alt",
-          content: this.title
-        }
-      ]
+          content: this.title,
+        },
+      ],
     };
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
           return "Посуточно " + this.offerData.title;
         }
       }
-    }
-  }
+    },
+  },
 };
 </script>

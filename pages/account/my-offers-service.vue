@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess && offersList">
+  <div v-if="checkAccess && offersList" class="container">
     <Tabs />
     <div class="row" v-if="offersList.length > 0">
       <div
@@ -20,8 +20,8 @@
                     : ''
                 "
                 draggable="false"
-                style="height: 100px; width: 100px;"
-                class="border-rad-10  cursor"
+                style="height: 100px; width: 100px"
+                class="border-rad-10 cursor"
                 :src="el.offerData.listPhotos[0].imgSrc"
                 fit="cover"
               ></el-image>
@@ -30,7 +30,7 @@
               <!-- <nuxt-link :to="'/offer/' + el.id" class="text-blue"> -->
               <h3
                 v-if="el.state == '1'"
-                class="text-blue cursor fs-14 "
+                class="text-blue cursor fs-14"
                 @click="
                   el.state == '1'
                     ? $router.push(
@@ -61,7 +61,15 @@
               <div class="row mt-12">
                 <button
                   @click="openOffer(el)"
-                  class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5 "
+                  class="
+                    el-button el-button--primary
+                    is-round
+                    fs-14
+                    py-10
+                    px-20
+                    mx-5
+                    my-5
+                  "
                 >
                   изменить
                 </button>
@@ -97,7 +105,15 @@
                   </div>
                   <button
                     slot="reference"
-                    class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--danger
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     удалить
                   </button>
@@ -115,11 +131,23 @@
                   <span class="text-blue"> {{ offerData.name }}</span>
                 </div>
                 <div
-                  class="col-lg d-flex justify-content-lg-end justify-content-center"
+                  class="
+                    col-lg
+                    d-flex
+                    justify-content-lg-end justify-content-center
+                  "
                 >
                   <div
                     @click="closeOffer()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     отменить
                   </div>
@@ -150,7 +178,7 @@ export default {
   mixins: [cookiesEvents],
   components: {
     Tabs,
-    Service
+    Service,
   },
   data() {
     return {
@@ -162,7 +190,7 @@ export default {
 
       offerData: {},
       storeService: [],
-      serviceID: null
+      serviceID: null,
     };
   },
   mounted() {
@@ -177,10 +205,10 @@ export default {
     get_user_services() {
       Api.getInstance()
         .account.get_user_services()
-        .then(response => {
+        .then((response) => {
           this.offersList = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -207,7 +235,7 @@ export default {
     delete_services(id) {
       Api.getInstance()
         .account.delete_services({ id: id })
-        .then(response => {
+        .then((response) => {
           this.offersList.forEach((el, idx) => {
             if (el.id == id) {
               this.$refs["popover-" + el.id][0].doClose();
@@ -216,14 +244,14 @@ export default {
           });
           Api.typicalNTFS(false, "объявление успешно удалено");
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>
 

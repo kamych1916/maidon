@@ -7,38 +7,47 @@
       >
         <div
           style="position: absolute; z-index: 2"
-          class="w-100 container mt-20 text-white mb-auto d-flex justify-content-end align-items-center"
+          class="
+            w-100
+            container
+            mt-20
+            text-white
+            mb-auto
+            d-flex
+            justify-content-end
+            align-items-center
+          "
         >
           <i class="bi bi-heart mr-20"></i>
           <button class="el-button">Галерея Комплекса</button>
         </div>
         <div
           style="position: absolute; z-index: 2; bottom: 0px"
-          class="w-100 container text-white mb-auto d-flex justify-content-center align-items-center"
+          class="
+            w-100
+            container
+            text-white
+            mb-auto
+            d-flex
+            justify-content-center
+            align-items-center
+          "
         >
           <div style="width: 100%">
             <div class="mb-40">
-              <div class="fs-28 mb-20">
-                ЖК «Бустон Сити»
-              </div>
-              <div class="fs-22 mb-20">
-                от 20,31 млн ₽ до 57,34 млн ₽
-              </div>
-              <div class="fs-14">
-                от 375 091 до 594 000 ₽/м²
-              </div>
+              <div class="fs-28 mb-20">ЖК «Бустон Сити»</div>
+              <div class="fs-22 mb-20">от 1 млн сомони до 2,7 млн сомони</div>
+              <div class="fs-14">от 10 000 до 27 00 сомони/м²</div>
             </div>
             <div class="mb-40">
-              <el-button type="primary">
-                Контакты застройщика
-              </el-button>
+              <el-button type="primary"> Контакты застройщика </el-button>
               <button class="el-button d-none d-lg-inline">
                 Перезвоните мне
               </button>
             </div>
             <div
               class="w-100 p-20 mx-0 row d-none d-lg-flex"
-              style="background: #152242; "
+              style="background: #152242"
             >
               <div class="col-lg">
                 <div class="fs-14 text-grey">Сдача комплекса</div>
@@ -46,7 +55,10 @@
               </div>
               <div
                 class="col-lg"
-                style="border-right: 1px solid #ccc; border-left: 1px solid #ccc"
+                style="
+                  border-right: 1px solid #ccc;
+                  border-left: 1px solid #ccc;
+                "
               >
                 <div>
                   <div class="fs-14 text-grey">Класс комплекса</div>
@@ -100,12 +112,8 @@
     <section class="mt-100 container">
       <div class="row">
         <div class="col-lg my-10">
-          <div class=" fs-18 text-grey">
-            Местоположение
-          </div>
-          <div class="fs-28">
-            Aini 45, Душанбе
-          </div>
+          <div class="fs-18 text-grey">Местоположение</div>
+          <div class="fs-28">Aini 45, Душанбе</div>
           <div class="row mt-20">
             <div class="col-auto p-10 d-flex">
               <div class="p-10">
@@ -125,7 +133,7 @@
                 </svg>
               </div>
               <div class="p-10">
-                <div class=" fs-14" style="color: #737a8e">Срок сдачи</div>
+                <div class="fs-14" style="color: #737a8e">Срок сдачи</div>
                 <div class="fs-14">2023</div>
               </div>
             </div>
@@ -154,7 +162,7 @@
                 </svg>
               </div>
               <div class="p-10">
-                <div class=" fs-14" style="color: #737a8e">Класс</div>
+                <div class="fs-14" style="color: #737a8e">Класс</div>
                 <div class="fs-14">Премиум</div>
               </div>
             </div>
@@ -183,7 +191,7 @@
                 </svg>
               </div>
               <div class="p-10">
-                <div class=" fs-14" style="color: #737a8e">Этажность</div>
+                <div class="fs-14" style="color: #737a8e">Этажность</div>
                 <div class="fs-14">41</div>
               </div>
             </div>
@@ -214,7 +222,7 @@
                 </svg>
               </div>
               <div class="p-10">
-                <div class=" fs-14" style="color: #737a8e">Корпусов</div>
+                <div class="fs-14" style="color: #737a8e">Корпусов</div>
                 <div class="fs-14">3 корпуса</div>
               </div>
             </div>
@@ -236,14 +244,19 @@
                 </svg>
               </div>
               <div class="p-10">
-                <div class=" fs-14" style="color: #737a8e">Тип дома</div>
+                <div class="fs-14" style="color: #737a8e">Тип дома</div>
                 <div class="fs-14">Монолитно-кирпичный</div>
               </div>
             </div>
           </div>
         </div>
         <div
-          class="col-lg-auto my-10 d-flex justify-content-center justify-content-lg-end"
+          class="
+            col-lg-auto
+            my-10
+            d-flex
+            justify-content-center justify-content-lg-end
+          "
         >
           <img
             class="border-rad-20"
@@ -285,24 +298,14 @@
         :class="['description', active_1 ? ' ' : 'activate']"
       >
         <div class="p-20">
-          <div class="fs-14 pb-10">
-            West Dale (корпус 1)
-          </div>
+          <div class="fs-14 pb-10">West Dale (корпус 1)</div>
           <div class="fs-12 text-dblue pb-10">
             Сдача в 1 кв. 2023 • 41 этажей
           </div>
-          <div class="fs-14 pb-10">
-            2-комн. от 49 м² от 21 474 375 ₽
-          </div>
-          <div class="fs-14 pb-10">
-            3-комн. от 74 м² от 27 832 500 ₽
-          </div>
-          <div class="fs-14 pb-10">
-            3-комн. от 74 м² от 27 832 500 ₽
-          </div>
-          <div class="fs-14 text-blue pb-10">
-            18 квартир в продаже
-          </div>
+          <div class="fs-14 pb-10">2-комн. от 49 м² от 332 052 сомони</div>
+          <div class="fs-14 pb-10">3-комн. от 74 м² от 445 000 сомони</div>
+          <div class="fs-14 pb-10">4-комн. от 102 м² от 603 832 сомони</div>
+          <div class="fs-14 text-blue pb-10">18 квартир в продаже</div>
         </div>
       </div>
       <div
@@ -310,24 +313,14 @@
         :class="['description', active_2 ? ' ' : 'activate']"
       >
         <div class="p-20">
-          <div class="fs-14 pb-10">
-            Park Lane (корпус 2)
-          </div>
+          <div class="fs-14 pb-10">Park Lane (корпус 2)</div>
           <div class="fs-12 text-dblue pb-10">
             Сдача в 1 кв. 2023 • 41 этажей
           </div>
-          <div class="fs-14 pb-10">
-            2-комн. от 47 м² от 20 315 350 ₽
-          </div>
-          <div class="fs-14 pb-10">
-            3-комн. от 75 м² от 29 106 000 ₽
-          </div>
-          <div class="fs-14 pb-10">
-            4-комн. от 101 м² от 51 663 300 ₽
-          </div>
-          <div class="fs-14 text-blue pb-10">
-            25 квартир в продаже
-          </div>
+          <div class="fs-14 pb-10">2-комн. от 47 м² от 332 052 сомони</div>
+          <div class="fs-14 pb-10">3-комн. от 75 м² от 445 000 сомони</div>
+          <div class="fs-14 pb-10">4-комн. от 101 м² от 603 832 сомони</div>
+          <div class="fs-14 text-blue pb-10">25 квартир в продаже</div>
         </div>
       </div>
       <div
@@ -335,11 +328,215 @@
         :class="['description', active_3 ? ' ' : 'activate']"
       >
         <div class="p-20">
-          <div class="fs-14 pb-10">
-            River Side (корпус 3)
+          <div class="fs-14 pb-10">River Side (корпус 3)</div>
+          <div class="fs-14 text-blue pb-10">Нет квартир в продаже</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-100 container">
+      <div class="row">
+        <div class="col-lg my-20">
+          <div class="row">
+            <div class="col-auto">
+              <img width="70" src="/images/buston-logo-complex.png" />
+            </div>
+            <div class="col-auto">
+              <div class="fs-14 text-dblue">Застройщик</div>
+
+              <div class="fs-28">Партнёр групп</div>
+            </div>
           </div>
-          <div class="fs-14 text-blue pb-10">
-            Нет квартир в продаже
+        </div>
+        <div class="col-lg my-20">
+          <div class="row">
+            <div class="col my-5">
+              <div class="fs-28">2003</div>
+              <div class="fs-12 text-dblue">
+                <div>год основания</div>
+              </div>
+            </div>
+            <div class="col my-5">
+              <div class="fs-28">79</div>
+              <div class="fs-12 text-dblue">
+                <div>домов сдано в 20 ЖК</div>
+              </div>
+            </div>
+            <div class="col my-5">
+              <div class="fs-28">64</div>
+              <div class="fs-12 text-dblue">
+                <div>дома строится в 13 ЖК</div>
+              </div>
+            </div>
+          </div>
+          <div class="mt-20">
+            Партнёр групп успешно работает на таджикском рынке с 2003 года и
+            является одной из крупнейших компаний по объему продаж и
+            строительства жилой и коммерческой недвижимости в Таджикистане.
+            Входит в число лидеров..
+          </div>
+          <div class="fs-14 link mt-20">Узнать больше о застройщике</div>
+        </div>
+      </div>
+      <!-- <div class="fs-28">Застройщик</div> -->
+    </section>
+    <section class="container mt-100">
+      <div class="fs-28">Ход строительства ЖК «Buston («Бустон»)»</div>
+      <div class="fs-14 text-dblue mt-10">Обновлено 1 мая 2021</div>
+      <div class="row">
+        <div class="col-lg my-20">
+          <img
+            style="background-size: cover; object-fit: cover"
+            width="100%"
+            src="/images/buston-building-procces-1.jpg"
+          />
+        </div>
+        <div class="col-lg my-20">
+          <img
+            style="background-size: cover; object-fit: cover"
+            width="100%"
+            src="/images/buston-building-procces-2.jpg"
+          />
+        </div>
+        <div class="col-lg my-20">
+          <img
+            style="background-size: cover; object-fit: cover"
+            width="100%"
+            src="/images/buston-building-procces-3.jpg"
+          />
+        </div>
+      </div>
+    </section>
+    <section class="container mt-100 d-none d-lg-block">
+      <div class="fs-28">Планировки</div>
+      <div class="row ml-0">
+        <div class="col-lg-4 my-20 card-wrap" style="border-radius: 0">
+          <div>Выбрать планировку</div>
+          <div class="row mt-20">
+            <div class="col-auto">
+              <div
+                style="position: relative; border: 2px solid #f5f5f5"
+                class="cursor border-rad-10"
+                :class="plane_btn_1 ? 'plane_active' : ''"
+                @click="
+                  plane_btn_1 = true;
+                  plane_btn_2 = false;
+                "
+              >
+                <img
+                  class="border-rad-10"
+                  style="background-size: cover; object-fit: cover"
+                  width="100"
+                  height="100"
+                  src="/images/buston-apartment-house-1.jpg"
+                />
+                <div class="fs-12 p-6 circle-3D">3D</div>
+              </div>
+            </div>
+            <div class="col-auto">
+              <div
+                style="position: relative; border: 2px solid #f5f5f5"
+                class="cursor border-rad-10"
+                :class="plane_btn_2 ? 'plane_active' : ''"
+                @click="
+                  plane_btn_2 = true;
+                  plane_btn_1 = false;
+                "
+              >
+                <img
+                  class="border-rad-10"
+                  style="background-size: cover; object-fit: cover"
+                  width="100"
+                  height="100"
+                  src="/images/buston-apartment-house-2.jpg"
+                />
+                <div class="fs-12 p-6 circle-3D">3D</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="plane_btn_1" class="col-lg">
+          <div
+            class="card-wrap my-20 d-flex justify-content-center"
+            style="position: relative; border-radius: 0"
+          >
+            <div class="mt-10" style="position: absolute">
+              <el-button
+                @click="
+                  plane_preview_1 = true;
+                  plane_preview_2 = false;
+                "
+                :type="plane_preview_1 ? 'primary' : ' '"
+                >План квартиры</el-button
+              >
+              <el-button
+                @click="
+                  plane_preview_1 = false;
+                  plane_preview_2 = true;
+                "
+                :type="!plane_preview_1 ? 'primary' : ' '"
+                >3D-планировка</el-button
+              >
+            </div>
+            <div v-if="plane_preview_1">
+              <img
+                style="background-size: cover; object-fit: cover"
+                width="550"
+                height="550"
+                src="/images/buston-apartment-house-1.jpg"
+              />
+            </div>
+            <div v-if="!plane_preview_1" class="w-100 h-100">
+              <iframe
+                class="w-100"
+                style="height: 550px"
+                src="https://s2m-maps3d.vrnet.io/view1/?model=126778/126808/2&lang=ru"
+                frameborder="0"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="plane_btn_2" class="col-lg">
+          <div
+            class="card-wrap my-20 d-flex justify-content-center"
+            style="position: relative; border-radius: 0"
+          >
+            <div class="mt-10" style="position: absolute">
+              <el-button
+                @click="
+                  plane_preview_1 = false;
+                  plane_preview_2 = true;
+                "
+                :type="plane_preview_2 ? 'primary' : ' '"
+                >План квартиры</el-button
+              >
+              <el-button
+                @click="
+                  plane_preview_1 = true;
+                  plane_preview_2 = false;
+                "
+                :type="!plane_preview_2 ? 'primary' : ' '"
+                >3D-планировка</el-button
+              >
+            </div>
+            <div v-if="plane_preview_2">
+              <img
+                style="background-size: cover; object-fit: cover"
+                width="550"
+                height="550"
+                src="/images/buston-apartment-house-2.jpg"
+              />
+            </div>
+            <div v-if="!plane_preview_2" class="w-100 h-100">
+              <iframe
+                class="w-100"
+                style="height: 550px"
+                src="https://s2-maps3d.vrnet.io/cian/1896273_3675315_59280_86227_4/2"
+                frameborder="0"
+              ></iframe>
+            </div>
           </div>
         </div>
       </div>
@@ -354,13 +551,17 @@ export default {
   components: {
     Hooper,
     Slide,
-    HooperNavigation
+    HooperNavigation,
   },
   data() {
     return {
       active_1: false,
       active_2: false,
-      active_3: false
+      active_3: false,
+      plane_preview_1: true,
+      plane_preview_2: true,
+      plane_btn_1: true,
+      plane_btn_2: false,
     };
   },
   methods: {
@@ -377,8 +578,9 @@ export default {
         "description" + which
       ).style.left = `${e.pageX}px`;
 
-      document.getElementById("description" + which).style.top = `${e.clientY +
-        130}px`;
+      document.getElementById("description" + which).style.top = `${
+        e.clientY + 130
+      }px`;
     },
     mouseleaveHoverEvent(e, which) {
       if (which == 1) {
@@ -388,12 +590,25 @@ export default {
       } else {
         this.active_3 = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style lang="scss">
+.plane_active {
+  border: 2px solid #0468ff !important;
+  transition: ease all 0.4s;
+}
+.circle-3D {
+  color: #fff;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  border-radius: 100%;
+  background-color: rgba(21, 34, 66, 0.6);
+}
+
 .svg-container {
   margin: 0 auto 55px;
   max-width: 1920px !important;
@@ -411,18 +626,6 @@ export default {
   }
   .activate {
     display: none !important;
-  }
-  &:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 100%;
-    width: 0;
-    height: 0;
-    margin-left: -10px;
-    border-left: 10px solid transparent;
-    border-right: 10px solid transparent;
-    border-top: 10px solid white;
   }
   svg {
     position: absolute;

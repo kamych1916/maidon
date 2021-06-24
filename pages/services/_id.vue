@@ -1,20 +1,20 @@
 <template>
-  <div class="services-wrap">
+  <div class="services-wrap container">
     <div class="row">
       <div class="col-lg-8">
-        <div class="card-wrap w-100 ">
+        <div class="card-wrap w-100">
           <div class="row">
             <div class="col-lg my-10">
               <div
                 class="avatar border-rad-10"
-                style="background:#b9d7f7; width: 100px; height: 100px"
+                style="background: #b9d7f7; width: 100px; height: 100px"
               >
                 <img
                   :src="userData.avatar"
                   width="100"
                   height="100"
                   style="background-color: #ccc; object-fit: cover"
-                  class="border-rad-10 "
+                  class="border-rad-10"
                   v-if="userData.avatar"
                 />
                 <i
@@ -50,7 +50,7 @@
                 </div>
                 <div class="my-10 fs-14">
                   Телефон:
-                  <a :href="'tel:' + userData.tel" class="mx-0 is-round ">
+                  <a :href="'tel:' + userData.tel" class="mx-0 is-round">
                     {{ userData.tel }}
                   </a>
                 </div>
@@ -80,7 +80,7 @@
                       {{ item.offerData.name }}
                     </span>
                   </template>
-                  <div class="mt-10 fs-14 ">
+                  <div class="mt-10 fs-14">
                     <!-- TODO дописать логику для вывода города -->
                     <div class="row">
                       <div class="col-6 my-5">Опыт</div>
@@ -93,13 +93,13 @@
                         {{ item.offerData.workTime }}
                       </div>
                     </div>
-                    <div class="mt-20  text-light">
+                    <div class="mt-20 text-light">
                       {{ item.offerData.description }}
                     </div>
                     <div
                       v-if="item.offerData.listPhotos.length > 0"
                       class="pt-20 pb-30"
-                      style="border-bottom: 1px solid #ccc;"
+                      style="border-bottom: 1px solid #ccc"
                     >
                       <hooper
                         ref="slider"
@@ -145,9 +145,9 @@
                       v-for="(service, id) in item.storeService"
                       :key="id"
                     >
-                      <div class="mt-20 ">
+                      <div class="mt-20">
                         <div class="d-flex row justify-content-between">
-                          <div class="col ">
+                          <div class="col">
                             {{ service.kind }}
                           </div>
                           <div class="col text-blue" style="text-align: end">
@@ -229,14 +229,14 @@
           <div class="d-flex mt-20">
             <div
               class="avatar border-rad-10"
-              style="background:#b9d7f7; width: 100px; height: 100px"
+              style="background: #b9d7f7; width: 100px; height: 100px"
             >
               <img
                 :src="userData.avatar"
                 width="100"
                 height="100"
                 style="background-color: #ccc; object-fit: cover"
-                class="border-rad-10 "
+                class="border-rad-10"
                 v-if="userData.avatar"
               />
               <i
@@ -251,7 +251,7 @@
               </div>
               <div class="my-10 fs-14">
                 Телефон:
-                <a :href="'tel:' + userData.tel" class="mx-0 is-round ">
+                <a :href="'tel:' + userData.tel" class="mx-0 is-round">
                   {{ userData.tel }}
                 </a>
               </div>
@@ -291,8 +291,8 @@ export default {
     let serviceData;
     const { id } = route.params;
     return axios
-      .get(`https://mirllex.site/server/api/v1/get_services/${id}`)
-      .then(response => {
+      .get(`https://maidon.tj/server/api/v1/get_services/${id}`)
+      .then((response) => {
         console.log(response.data);
         userData = response.data.user;
         serviceData = response.data.list_services;
@@ -303,7 +303,7 @@ export default {
     Hooper,
     Slide,
     HooperNavigation,
-    VueGallerySlideshow
+    VueGallerySlideshow,
   },
   data() {
     return {
@@ -312,7 +312,7 @@ export default {
       index: null,
       dialogSlider: false,
       images: [],
-      activeNames: []
+      activeNames: [],
       // indexSlide: 0
     };
   },
@@ -345,10 +345,10 @@ export default {
           .clients.add_review({
             id: this.$route.params.id,
             text: this.reviewText,
-            value: this.reviewRate
+            value: this.reviewRate,
           })
-          .then(response => {})
-          .catch(error => {
+          .then((response) => {})
+          .catch((error) => {
             Api.typicalNTFS(error.response.status);
           });
       }
@@ -367,8 +367,8 @@ export default {
       data == "reviews"
         ? this.$refs.reviews.scrollIntoView({ behavior: "smooth" })
         : this.$refs.offers.scrollIntoView({ behavior: "smooth" });
-    }
-  }
+    },
+  },
 };
 </script>
 

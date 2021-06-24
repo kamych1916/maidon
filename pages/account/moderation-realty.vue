@@ -1,5 +1,5 @@
 <template>
-  <div v-if="checkAccess">
+  <div v-if="checkAccess" class="container">
     <Tabs />
     <div class="row">
       <div
@@ -9,18 +9,34 @@
         style="position: initial"
       >
         <div class="card-wrap">
-          <div class=" my-10">
+          <div class="my-10">
             {{ el.title }}
           </div>
           <div class="row">
             <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+              class="
+                el-button el-button--primary
+                is-round
+                fs-14
+                py-10
+                px-20
+                mx-5
+                my-5
+              "
               @click="openOffer('photos', el.offerPhothos, el.title)"
             >
               Фотографии
             </div>
             <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+              class="
+                el-button el-button--primary
+                is-round
+                fs-14
+                py-10
+                px-20
+                mx-5
+                my-5
+              "
               @click="
                 openOffer(
                   'infos',
@@ -32,7 +48,15 @@
               Информация
             </div>
             <div
-              class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+              class="
+                el-button el-button--primary
+                is-round
+                fs-14
+                py-10
+                px-20
+                mx-5
+                my-5
+              "
               @click="openOffer('description', el.offerDescription, el.title)"
             >
               Описание
@@ -41,13 +65,29 @@
           <div class="row mt-12">
             <button
               @click="acceptOffer(el.id)"
-              class="el-button el-button--success is-round fs-14 py-10 px-20 mx-5 my-5 "
+              class="
+                el-button el-button--success
+                is-round
+                fs-14
+                py-10
+                px-20
+                mx-5
+                my-5
+              "
             >
               Разрешить
             </button>
             <button
               @click="openOffer('cancel', el.id, el.title)"
-              class="el-button el-button--danger is-round fs-14 py-10 px-20 mx-5 my-5 "
+              class="
+                el-button el-button--danger
+                is-round
+                fs-14
+                py-10
+                px-20
+                mx-5
+                my-5
+              "
             >
               Отменить и указать причину
             </button>
@@ -66,7 +106,15 @@
                 <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -84,7 +132,7 @@
                   <el-image
                     draggable="false"
                     style="width: 295px; height: 200px"
-                    class="border-rad-10 "
+                    class="border-rad-10"
                     :src="p.imgName"
                     fit="cover"
                   ></el-image>
@@ -106,7 +154,15 @@
                 <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -133,10 +189,18 @@
                     <span class="text-blue">{{ offerData.title }}</span>
                   </div>
                 </div>
-                <div class="col-lg d-flex justify-content-end ">
+                <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -145,7 +209,7 @@
             </div>
             <div class="card-wrap">
               <h2>Описание</h2>
-              <div style="white-space: pre-line;">
+              <div style="white-space: pre-line">
                 {{ offerData.offerDescription }}
               </div>
             </div>
@@ -164,13 +228,29 @@
                 <div class="col-lg d-flex justify-content-end">
                   <div
                     @click="acceptOffer()"
-                    class="el-button el-button--warning is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--warning
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     подтвердить
                   </div>
                   <div
                     @click="closeDialog()"
-                    class="el-button el-button--primary is-round fs-14 py-10 px-20 mx-5 my-5"
+                    class="
+                      el-button el-button--primary
+                      is-round
+                      fs-14
+                      py-10
+                      px-20
+                      mx-5
+                      my-5
+                    "
                   >
                     выйти
                   </div>
@@ -205,7 +285,7 @@ import Tabs from "@/pages/account/components/tabs.vue";
 export default {
   mixins: [cookiesEvents],
   components: {
-    Tabs
+    Tabs,
   },
   data() {
     return {
@@ -224,8 +304,8 @@ export default {
         offer_price: null,
         title: null,
         offerPhothos: [],
-        offerDescription: "123"
-      }
+        offerDescription: "123",
+      },
     };
   },
   mounted() {
@@ -242,9 +322,9 @@ export default {
         .account.active_offer({
           id: id ? id : this.offerData.id,
           state: id ? 1 : -1,
-          note: id ? "" : this.reasonOfCancel
+          note: id ? "" : this.reasonOfCancel,
         })
-        .then(response => {
+        .then((response) => {
           this.moderOfferData.forEach((element, idx) => {
             if (element.id === id) {
               this.moderOfferData.splice(idx, 1);
@@ -255,17 +335,17 @@ export default {
             this.closeDialog();
           });
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     get_moder_offer() {
       Api.getInstance()
         .account.get_moder_offer()
-        .then(response => {
+        .then((response) => {
           this.moderOfferData = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -293,8 +373,8 @@ export default {
         this.dialogCancel = true;
       }
       document.body.style.overflow = "hidden";
-    }
-  }
+    },
+  },
 };
 </script>
 

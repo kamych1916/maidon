@@ -31,7 +31,7 @@
         ></el-input>
       </div>
 
-      <div class=" w-100">
+      <div class="w-100">
         <button
           class="el-button el-button--primary is-round mt-14 py-14 w-100"
           type="submit"
@@ -91,21 +91,21 @@ export default {
 
       userData: {
         tel: null,
-        password: null
+        password: null,
       },
 
-      SMScode: null
+      SMScode: null,
     };
   },
   methods: {
     send_activate_code() {
       let data = {
         tel: this.userData.tel,
-        code: this.SMScode
+        code: this.SMScode,
       };
       Api.getInstance()
         .auth.send_activate_code(data)
-        .then(response => {
+        .then((response) => {
           if (response.data) {
             this.dialogVisible = false;
             Api.typicalNTFS(false, "Аккаунт активирован успешно!");
@@ -113,14 +113,14 @@ export default {
             this.sendNTFS("Ошибка", "Код введён неверно :(", "warning");
           }
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
     openDialog() {
       this.dialogVisible = true;
     },
-    setCookie: function(cname, cvalue, exdays) {
+    setCookie: function (cname, cvalue, exdays) {
       var d = new Date();
       d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
       var expires = "expires=" + d.toUTCString();
@@ -130,7 +130,7 @@ export default {
       if (!this.isVerify)
         Api.getInstance()
           .auth.signin(this.userData)
-          .then(response => {
+          .then((response) => {
             localStorage.setItem("ui", JSON.stringify(response.data));
             this.setCookie(
               "session_token",
@@ -148,7 +148,7 @@ export default {
               this.$router.push("/account/profile");
             }
           })
-          .catch(error => {
+          .catch((error) => {
             if (error.response.status == 426) {
               this.openDialog();
             }
@@ -157,8 +157,8 @@ export default {
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>
 

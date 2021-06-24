@@ -1,11 +1,11 @@
 <template>
   <!-- отличий кода в REALTORS и AGENTS  - никаких нет, кроме пару слов (риелтор и агентства), желательно бы разделить на компоненты. -->
-  <div v-if="list" class="realtors">
+  <div v-if="list" class="realtors container">
     <div class="row">
       <div class="col-lg-4 mb-30">
         <div class="card-wrap sticky">
           <Breadcrumbs />
-          <span class="fs-24 ">
+          <span class="fs-24">
             Найдено риелторов:
             <span class="text-blue">
               {{ list.count }}
@@ -30,7 +30,7 @@
                     <div
                       class="avatar"
                       :style="{
-                        background: item.avatar ? 'none' : '#b9d7f7'
+                        background: item.avatar ? 'none' : '#b9d7f7',
                       }"
                     >
                       <el-image
@@ -43,7 +43,7 @@
                       <i class="bi bi-briefcase fs-22" v-if="!item.avatar"></i>
                     </div>
                   </div>
-                  <div class="ml-10 ">
+                  <div class="ml-10">
                     <div>
                       <span class="fs-18" style="color: black">
                         {{ item.name }}
@@ -96,7 +96,7 @@ export default {
   data() {
     return {
       rate: 3.5,
-      list: null
+      list: null,
     };
   },
   watch: {
@@ -105,7 +105,7 @@ export default {
         window.scrollTo(0, 0);
         this.get_accounts();
       }
-    }
+    },
   },
   mounted() {
     this.get_accounts();
@@ -117,16 +117,16 @@ export default {
       Api.getInstance()
         .clients.get_accounts({
           type: "realtor",
-          page: page
+          page: page,
         })
-        .then(response => {
+        .then((response) => {
           this.list = response.data;
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
-    }
-  }
+    },
+  },
 };
 </script>
 

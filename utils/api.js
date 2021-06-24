@@ -1,6 +1,6 @@
 import axios from "axios";
-const API_BASE_URL = "https://mirllex.site/server/api/v1";
-const API_SERVICES_URL = "https://mirllex.site/services/api/v1";
+const API_BASE_URL = "https://maidon.tj/server/api/v1";
+const API_SERVICES_URL = "https://maidon.tj/services/api/v1";
 import NTFS from "~/utils/notifications";
 
 export default class Api {
