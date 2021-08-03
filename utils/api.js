@@ -190,6 +190,14 @@ export default class Api {
           "Content-Type": "multipart/form-data"
         }
       });
+    },
+    async get_new_offer_inputs(formData) {
+      return axios.post(`${API_BASE_URL}/static/get_new_offer_inputs`, formData, {
+        headers: {
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+          "Content-Type": "multipart/form-data"
+        }
+      });
     }
   };
 

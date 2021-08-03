@@ -1,5 +1,5 @@
 <template>
-  <div class="pb-100" v-if="checkAccess">
+  <div class="pb-100 container" v-if="checkAccess">
     <div v-if="!isServices" class="pt-50">
       <OfferTypes @checkOfferTypes="checkOfferTypes"></OfferTypes>
       <form @submit.prevent="create_offer()">
@@ -54,7 +54,7 @@
                 <OfferObject
                   :offerObject="offerData.offerObject"
                   @input="
-                    newData => {
+                    (newData) => {
                       offerData.offerObject = newData;
                     }
                   "
@@ -65,7 +65,7 @@
                 <OfferPrice
                   :offerPrice="offerData.offerPrice"
                   @input="
-                    newData => {
+                    (newData) => {
                       offerData.offerPrice = newData;
                     }
                   "
@@ -102,7 +102,7 @@
             <div class="row justify-content-center mt-30">
               <div class="col-md-4">
                 <button
-                  class="el-button el-button--primary is-round py-14 w-100 "
+                  class="el-button el-button--primary is-round py-14 w-100"
                   type="submit"
                 >
                   Разместить объявление
@@ -139,7 +139,7 @@ export default {
     OfferObject,
     OfferPrice,
     OfferPhotos,
-    Service
+    Service,
   },
 
   data() {
@@ -150,15 +150,15 @@ export default {
         offerType: null,
         offerMap: {
           map_address: null,
-          map_marker: null
+          map_marker: null,
         },
         offerObject: {},
         offerPrice: {},
         offerPhothos: [],
-        offerDescription: null
+        offerDescription: null,
       },
       coords: [],
-      accessToForm: false
+      accessToForm: false,
     };
   },
   mounted() {
@@ -241,7 +241,7 @@ export default {
             );
             this.$router.push("/");
           })
-          .catch(error => {
+          .catch((error) => {
             Api.typicalNTFS(error.response.status);
           });
       } else if (this.offerData.offerPhothos.length < 4) {
@@ -265,9 +265,9 @@ export default {
       if (queryString !== null && queryString !== "") {
         Api.getInstance()
           .offer.get_marker({
-            map_address: queryString
+            map_address: queryString,
           })
-          .then(response => {
+          .then((response) => {
             this.coords = response.data[0].coords;
             this.offerData.offerMap.map_marker = response.data[0].coords;
             let results = queryString ? response.data : "";
@@ -285,7 +285,7 @@ export default {
         deal: data.picked_deal,
         estate: data.picked_estate,
         object_living: data.picked_object_living,
-        object_commercy: data.picked_object_commercy
+        object_commercy: data.picked_object_commercy,
       };
       this.offerData.offerMap.map_address = null;
       this.offerData.offerMap.map_marker = null;
@@ -298,23 +298,30 @@ export default {
         picked_object
       ) {
         this.accessToForm = true;
-        // this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
+        Api.getInstance()
+          .offer.get_new_offer_inputs(this.offerData.offerType)
+          .then((response) => {
+            this.offerData.offerObject = response.data.object;
+            this.offerData.offerPrice = response.data.price;
+          });
+        this.$refs.inputs.scrollIntoView({ behavior: "smooth" });
       }
-      let helperData = Helper.getInstance().offer.checkOfferTypes(
-        JSON.parse(localStorage.getItem("ui")).account_type,
-        data.picked_deal,
-        data.picked_estate,
-        data.picked_object_living,
-        data.picked_object_commercy
-      );
-      helperData
-        ? ((this.offerData.offerObject = helperData.object),
-          (this.offerData.offerPrice = helperData.price))
-        : helperData;
+
+      // let helperData = Helper.getInstance().offer.checkOfferTypes(
+      //   JSON.parse(localStorage.getItem("ui")).account_type,
+      //   data.picked_deal,
+      //   data.picked_estate,
+      //   data.picked_object_living,
+      //   data.picked_object_commercy
+      // );
+      // helperData
+      //   ? ((this.offerData.offerObject = helperData.object),
+      //     (this.offerData.offerPrice = helperData.price))
+      //   : helperData;
     },
     sendNTFS(title, message, type) {
       NTFS.getInstance().NTFS(title, message, type);
-    }
-  }
+    },
+  },
 };
 </script>

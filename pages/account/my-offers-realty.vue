@@ -299,55 +299,61 @@ export default {
           estate = offer.type_object;
           object_living = offer.offerObject.object;
           object_commercy = offer.offerObject.object;
+
+          Api.getInstance()
+            .offer.get_new_offer_inputs({
+              account: JSON.parse(localStorage.getItem("ui")).account_type,
+              deal: deal,
+              estate: estate,
+              object_living: object_living,
+              object_commercy: object_commercy,
+            })
+            .then((response) => {
+              this.offerData.offerObject = response.data.object;
+              this.offerData.offerPrice = response.data.price;
+              for (let item in this.offerData.offerObject) {
+                Object.entries(this.offerData.offerObject[item]).forEach(
+                  ([oKey, oValue]) => {
+                    if (oValue) {
+                      Object.entries(el.offerObject).forEach(
+                        ([elKey, elValue]) => {
+                          if (oKey === elKey) {
+                            this.offerData.offerObject[item][oKey].value =
+                              el.offerObject[elKey];
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+              for (let item in this.offerData.offerPrice) {
+                Object.entries(this.offerData.offerPrice[item]).forEach(
+                  ([oKey, oValue]) => {
+                    if (oValue) {
+                      Object.entries(el.offerPrice).forEach(
+                        ([elKey, elValue]) => {
+                          if (oKey === elKey) {
+                            this.offerData.offerPrice[item][oKey].value =
+                              el.offerPrice[elKey];
+                          }
+                        }
+                      );
+                    }
+                  }
+                );
+              }
+              this.offerData.offerPrice.deal = el.offerPrice.deal;
+              this.offerData.offerObject.object = el.offerObject.object;
+              this.offerData.id = el.id;
+              this.offerData.title = el.title;
+              this.offerData.photos = el.photos;
+              this.offerData.description = el.description;
+              this.dialogChange = true;
+              document.body.style.overflow = "hidden";
+            });
         }
       });
-      let helperData = Helper.getInstance().offer.checkOfferTypes(
-        agent,
-        deal,
-        estate,
-        object_living,
-        object_commercy
-      );
-      helperData
-        ? ((this.offerData.offerObject = helperData.object),
-          (this.offerData.offerPrice = helperData.price))
-        : helperData;
-      for (let item in this.offerData.offerObject) {
-        Object.entries(this.offerData.offerObject[item]).forEach(
-          ([oKey, oValue]) => {
-            if (oValue) {
-              Object.entries(el.offerObject).forEach(([elKey, elValue]) => {
-                if (oKey === elKey) {
-                  this.offerData.offerObject[item][oKey].value =
-                    el.offerObject[elKey];
-                }
-              });
-            }
-          }
-        );
-      }
-      for (let item in this.offerData.offerPrice) {
-        Object.entries(this.offerData.offerPrice[item]).forEach(
-          ([oKey, oValue]) => {
-            if (oValue) {
-              Object.entries(el.offerPrice).forEach(([elKey, elValue]) => {
-                if (oKey === elKey) {
-                  this.offerData.offerPrice[item][oKey].value =
-                    el.offerPrice[elKey];
-                }
-              });
-            }
-          }
-        );
-      }
-      this.offerData.offerPrice.deal = el.offerPrice.deal;
-      this.offerData.offerObject.object = el.offerObject.object;
-      this.offerData.id = el.id;
-      this.offerData.title = el.title;
-      this.offerData.photos = el.photos;
-      this.offerData.description = el.description;
-      this.dialogChange = true;
-      document.body.style.overflow = "hidden";
     },
     closeOffer() {
       this.dialogChange = false;
