@@ -2,7 +2,13 @@
   <div class="search-wrap">
     <button
       @click="openMap(true)"
-      class="map-btn d-none d-lg-block el-button el-button--success is-round py-10 "
+      class="
+        map-btn
+        d-none d-lg-block
+        el-button el-button--success
+        is-round
+        py-10
+      "
     >
       смотреть на карте
       <i class="bi bi-map ml-10 p-0"></i>
@@ -10,7 +16,12 @@
     <h1 class="fs-28 my-20">{{ title }}</h1>
     <div class="collapse-btn" :class="[isAccorActive ? 'active' : '']">
       <button
-        class="el-button el-button--primary py-10 d-flex justify-content-between"
+        class="
+          el-button el-button--primary
+          py-10
+          d-flex
+          justify-content-between
+        "
         @click="openAccor()"
         style="border-radius: 25px"
       >
@@ -19,24 +30,29 @@
       </button>
       <button
         @click="openMap(true)"
-        class="el-button el-button--success  py-10 d-flex justify-content-between"
+        class="
+          el-button el-button--success
+          py-10
+          d-flex
+          justify-content-between
+        "
         style="border-radius: 25px"
       >
         на карте
         <i class="bi bi-map ml-10 px-0"></i>
       </button>
     </div>
-    <div class="search-filters">
+    <div class="search-filters" v-if="searchData">
       <div class="row gx-100">
-        <div class="col-lg-4 d-flex my-10 w-100 search-two-selects">
+        <div class="col-lg-4 my-10 d-flex w-100 search-two-selects">
           <el-select
             clearable
             class="deal w-100"
-            v-model="searchData.deals.value"
-            @change="clearSearchData()"
+            v-model="searchData.selects.deals.value"
+            :placeholder="searchData.selects.deals.placeholder"
           >
             <el-option
-              v-for="item in searchData.deals.options"
+              v-for="item in searchData.selects.deals.options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -46,13 +62,12 @@
           <el-select
             clearable
             class="object w-100"
-            v-model="searchData.objects.value"
-            @change="
-              clearSearchData(), eventListenObjects(searchData.objects.value)
-            "
+            v-model="searchData.selects.objects.value"
+            :placeholder="searchData.selects.objects.placeholder"
+            @change="eventListenObjects(searchData.selects.objects.value)"
           >
             <el-option
-              v-for="item in searchData.objects.options"
+              v-for="item in searchData.selects.objects.options"
               :key="item.value"
               :label="item.label"
               :value="item.value"
@@ -60,123 +75,42 @@
             </el-option>
           </el-select>
         </div>
-        <div class="col-lg-4 my-10" v-if="rooms">
-          <el-select
-            class="w-100"
-            v-model="searchData.rooms.value"
-            placeholder="Количество комнат"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.rooms.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
+        <div
+          class="col-lg-4 my-10"
+          v-for="(items, id) in objCopy.selects"
+          :key="id"
+        >
+          <template>
+            <el-select
+              class="w-100"
+              v-model="items.value"
+              :placeholder="items.placeholder"
+              clearable
             >
-            </el-option>
-          </el-select>
+              <el-option
+                v-for="item in items.options"
+                :key="item.value"
+                :label="item.label"
+                :value="item.value"
+              >
+              </el-option>
+            </el-select>
+          </template>
         </div>
-        <div class="col-lg-4 my-10" v-if="repair">
-          <el-select
-            class="w-100"
-            v-model="searchData.repair.value"
-            placeholder="Ремонт"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.repair.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-lg-4 my-10" v-if="typeBuilding">
-          <el-select
-            class="w-100"
-            v-model="searchData.typeBuilding.value"
-            placeholder="Тип застройки"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.typeBuilding.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-lg-4 my-10" v-if="typeGround">
-          <el-select
-            class="w-100"
-            v-model="searchData.typeGround.value"
-            placeholder="Статус участка"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.typeGround.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-lg-4 my-10" v-if="typeCommercy">
-          <el-select
-            class="w-100"
-            v-model="searchData.typeCommercy.value"
-            placeholder="Тип помещения"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.typeCommercy.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <div class="col-lg-4 my-10">
-          <el-select
-            class="w-100"
-            v-model="searchData.cities.value"
-            placeholder="Выберите город"
-            clearable
-          >
-            <el-option
-              v-for="item in searchData.cities.options"
-              :key="item.value"
-              :label="item.label"
-              :value="item.value"
-            >
-            </el-option>
-          </el-select>
-        </div>
-        <!-- <div class="col-lg-4 flex-fill d-flex my-10">
-          <el-input
-            v-model="searchData.address"
-            placeholder="Адрес"
-            suffix-icon="bi bi-geo-alt-fill"
-          ></el-input>
-        </div> -->
         <div class="col-lg-4 my-10 d-flex search-size">
-          <el-input v-model="searchData.sizeFrom" class="from">
+          <el-input v-model="searchData.inputs.sizeFrom" class="from">
             <span slot="prefix">Площадь от</span>
           </el-input>
-          <el-input v-model="searchData.sizeTo" class="to">
+          <el-input v-model="searchData.inputs.sizeTo" class="to">
             <span slot="prefix">до</span>
             <span slot="suffix">м<sup>2</sup></span>
           </el-input>
         </div>
         <div class="col-lg-4 my-10 d-flex serach-price">
-          <el-input v-model="searchData.priceFrom" class="from">
+          <el-input v-model="searchData.inputs.priceFrom" class="from">
             <span slot="prefix">Цена от</span>
           </el-input>
-          <el-input v-model="searchData.priceTo" class="to">
+          <el-input v-model="searchData.inputs.priceTo" class="to">
             <span slot="prefix">до</span>
             <span slot="suffix">сомони</span>
           </el-input>
@@ -185,7 +119,7 @@
           <button
             style="border-radius: 25px"
             @click="changePath()"
-            class="el-button el-button--primary is-round py-16 w-100 "
+            class="el-button el-button--primary is-round py-16 w-100"
           >
             Найти
           </button>
@@ -197,471 +131,15 @@
 
 <script>
 import Api from "~/utils/api";
-const cleanSearchData = {
-  sizeFrom: null,
-  sizeTo: null,
-  priceFrom: null,
-  priceTo: null,
-  // address: null,
-  deals: {
-    value: "",
-    options: [
-      {
-        value: "buy",
-        label: "Купить"
-      },
-      {
-        value: "rent",
-        label: "Снять"
-      },
-      {
-        value: "daily",
-        label: "Посуточно"
-      }
-    ]
-  },
-  objects: {
-    value: "",
-    options: [
-      {
-        value: "apartment",
-        label: "Квартиру"
-      },
-      {
-        value: "room",
-        label: "Комнату"
-      },
-      {
-        value: "house",
-        label: "Дом"
-      },
-      {
-        value: "ground",
-        label: "Участок"
-      },
-      {
-        value: "commercy",
-        label: "Коммерческую"
-      }
-    ]
-  },
-  rooms: {
-    value: "",
-    options: [
-      {
-        value: "oneroom",
-        label: "Однокомнатые"
-      },
-      {
-        value: "tworoom",
-        label: "Двухкомнатные"
-      },
-      {
-        value: "threeroom",
-        label: "Трёхкомнатные"
-      },
-      {
-        value: "fourroomormore",
-        label: "Четыре комнаты и более"
-      },
-      {
-        value: "allRooms",
-        label: "Все варианты"
-      }
-    ]
-  },
-  repair: {
-    value: "",
-    options: [
-      {
-        value: "cosmetic",
-        label: "Косметический"
-      },
-      {
-        value: "euro",
-        label: "Евро"
-      },
-      {
-        value: "design",
-        label: "Дизайнерский"
-      },
-      {
-        value: "without",
-        label: "Без ремонта"
-      }
-    ]
-  },
-  typeBuilding: {
-    value: "",
-    options: [
-      {
-        value: "allTypes",
-        label: "Вторичка, Новостройки"
-      },
-      {
-        value: "secondaryBuilding",
-        label: "Вторичный рынок"
-      },
-      {
-        value: "newBuilding",
-        label: "Новостройки"
-      }
-    ]
-  },
-  typeGround: {
-    value: "",
-    options: [
-      {
-        value: "farm",
-        label: "Фермерское хоз-во"
-      },
-      {
-        value: "subsidiaryFarm",
-        label: "Личное подсобное хозяйство"
-      },
-      {
-        value: "secondaryBuilding",
-        label: "Садоводство"
-      },
-      {
-        value: "individualСonstruction",
-        label: "ИЖС"
-      },
-      {
-        value: "industrialDestination",
-        label: "Земля промназначения"
-      },
-      {
-        value: "nonProfitPartnership",
-        label: "ДНП"
-      }
-    ]
-  },
-  typeCommercy: {
-    value: "",
-    options: [
-      {
-        value: "office",
-        label: "Офис"
-      },
-      {
-        value: "garage",
-        label: "Гараж"
-      },
-      {
-        value: "warehouse",
-        label: "Склад"
-      },
-      {
-        value: "premisessFreeAppointment",
-        label: "Помещения свободного назначения"
-      },
-      {
-        value: "smallArchitecturalForms",
-        label: "Малые архитектурные формы"
-      },
-      {
-        value: "productionPremises",
-        label: "Производственное помещение"
-      },
-      {
-        value: "shop",
-        label: "Магазин"
-      },
-      {
-        value: "restaurant",
-        label: "Общепит"
-      },
-      {
-        value: "salon",
-        label: "Салон"
-      },
-      {
-        value: "recreationСenter",
-        label: "База отдыха"
-      },
-      {
-        value: "healthСare",
-        label: "Здравоохранение"
-      },
-      {
-        value: "service",
-        label: "Сервис"
-      },
-      {
-        value: "sport",
-        label: "Спорткомплекс"
-      }
-    ]
-  },
-  cities: {
-    value: "",
-    options: [
-      {
-        value: "dushanbe",
-        label: "Душанбе"
-      },
-      {
-        value: "Hudzhand",
-        label: "Худжанд"
-      },
-      {
-        value: "AburahmoniDzhomi",
-        label: "Абдурахмони Джоми"
-      },
-      {
-        value: "Aini",
-        label: "Айни"
-      },
-      {
-        value: "Asht",
-        label: "Ашт"
-      },
-      {
-        value: "Baldzhuvan",
-        label: "Бальджуван"
-      },
-      {
-        value: "BobdjonGafurov",
-        label: "Бободжон Гафуров"
-      },
-      {
-        value: "Bohtar",
-        label: "Бохтар (Курган-Тюбе)"
-      },
-      {
-        value: "Buston",
-        label: "Бустон (Чкаловск)"
-      },
-      {
-        value: "Vanzh",
-        label: "Вандж"
-      },
-      {
-        value: "Varzob",
-        label: "Варзоб"
-      },
-      {
-        value: "Vahdat",
-        label: "Вахдат"
-      },
-      {
-        value: "Vash",
-        label: "Вахш"
-      },
-      {
-        value: "Vose",
-        label: "Восе"
-      },
-      {
-        value: "Gissar",
-        label: "Гиссар"
-      },
-      {
-        value: "GornayaMatcha",
-        label: "Горная Матча"
-      },
-      {
-        value: "Guliston",
-        label: "Гулистон (Кайраккум)"
-      },
-      {
-        value: "Dangara",
-        label: "Дангара"
-      },
-      {
-        value: "Devashtich",
-        label: "Деваштич (Ганчи)"
-      },
-      {
-        value: "DzhaborRasulov",
-        label: "Джаббор Расулов"
-      },
-      {
-        value: "Dzhaihun",
-        label: "Джайхун (Кумсангир)"
-      },
-      {
-        value: "DzhaloliddinaBalhi",
-        label: "Джалолиддина Балхи (Руми)"
-      },
-      {
-        value: "Dzhami",
-        label: "Джами"
-      },
-      {
-        value: "Dusti",
-        label: "Дусти (Джиликуль)"
-      },
-      {
-        value: "Zafarbad",
-        label: "Зафарабад"
-      },
-      {
-        value: "Istaravshan",
-        label: "Истаравшан"
-      },
-      {
-        value: "Istiklol",
-        label: "Истиклол"
-      },
-      {
-        value: "Isfara",
-        label: "Исфара"
-      },
-      {
-        value: "Ishkamshim",
-        label: "Ишкашим"
-      },
-      {
-        value: "Kabodien",
-        label: "Кабодиён"
-      },
-      {
-        value: "Kanibadam",
-        label: "Канибадам"
-      },
-      {
-        value: "Kulyab",
-        label: "Куляб"
-      },
-      {
-        value: "Kushonien",
-        label: "Кушониён (Бохтар)"
-      },
-      {
-        value: "Lahsh",
-        label: "Лахш (Джиргиталь)"
-      },
-      {
-        value: "Levakand",
-        label: "Леваканд (Сарбанд)"
-      },
-      {
-        value: "Matcha",
-        label: "Матча"
-      },
-      {
-        value: "Muminabad",
-        label: "Муминабад"
-      },
-      {
-        value: "Murgab",
-        label: "Мургаб"
-      },
-      {
-        value: "Nosiri Husrav",
-        label: "Носири Хусрав"
-      },
-      {
-        value: "Nurabad",
-        label: "Нурабад"
-      },
-      {
-        value: "Nurek",
-        label: "Нурек"
-      },
-      {
-        value: "Pendjakent",
-        label: "Пенджикент"
-      },
-      {
-        value: "Pyandzh",
-        label: "Пяндж"
-      },
-      {
-        value: "Rasht",
-        label: "Рашт"
-      },
-      {
-        value: "Rogun",
-        label: "Рогун"
-      },
-      {
-        value: "Roshtkala",
-        label: "Рошткала"
-      },
-      {
-        value: "Rudaki",
-        label: "Рудаки"
-      },
-      {
-        value: "Rushan",
-        label: "Рушан"
-      },
-      {
-        value: "Sangvor",
-        label: "Сангвор (Тавильдара)"
-      },
-      {
-        value: "Spitamen",
-        label: "Спитамен"
-      },
-      {
-        value: "Tadzhikabad",
-        label: "Таджикабад"
-      },
-      {
-        value: "Temurmalik",
-        label: "Темурмалик"
-      },
-      {
-        value: "Tursunzade",
-        label: "Турсунзаде"
-      },
-      {
-        value: "Faizabad",
-        label: "Файзабад"
-      },
-      {
-        value: "Farhor",
-        label: "Фархор"
-      },
-      {
-        value: "Hamadani",
-        label: "Хамадани"
-      },
-      {
-        value: "Hovaling",
-        label: "Ховалинг"
-      },
-      {
-        value: "Horog",
-        label: "Хорог"
-      },
-      {
-        value: "Huroson",
-        label: "Хуросон"
-      },
-      {
-        value: "ShamsiddinShohin",
-        label: "Шамсиддин Шохин (Шуроабад)"
-      },
-      {
-        value: "Shahrinav",
-        label: "Шахринав"
-      },
-      {
-        value: "Shariston",
-        label: "Шахристон"
-      },
-      {
-        value: "Shahritus",
-        label: "Шахритус"
-      },
-      {
-        value: "Shugan",
-        label: "Шугнан"
-      },
-      {
-        value: "Yavan",
-        label: "Яван"
-      }
-    ]
-  }
-};
+
 export default {
-  props: ["title"],
+  props: {
+    title: {
+      type: String,
+      required: false,
+      default: null,
+    },
+  },
   data() {
     return {
       isAccorActive: true,
@@ -670,19 +148,28 @@ export default {
       typeBuilding: false,
       typeGround: false,
       typeCommercy: false,
-      searchData: cleanSearchData
+      searchData: null,
+      objCopy: null,
     };
   },
   mounted() {
     this.resizeFilters();
     this.get_filter_offers();
   },
+  computed: {
+    // withoutFirstFilters() {
+    //   let objCopy = JSON.parse(JSON.stringify(this.searchData));
+    //   delete objCopy.selects.deals;
+    //   delete objCopy.selects.objects;
+    //   return objCopy.selects;
+    // },
+  },
   watch: {
     $route(to, from) {
       if (to !== from) {
         this.get_filter_offers();
       }
-    }
+    },
   },
   methods: {
     changePath() {
@@ -690,57 +177,85 @@ export default {
       let url = "/";
       let queryData = {};
       let data = this.searchData;
+      console.log(this.searchData);
 
-      if (data.deals.value == "buy") {
-        url = url + "buy/";
-      } else if (data.deals.value == "rent") {
-        url = url + "rent/";
-      } else if (data.deals.value == "daily") {
-        url = url + "daily/";
+      // this.searchData.selects.ob((element) => {});
+
+      for (let select of Object.keys(this.searchData.selects)) {
+        if (select === "deals" && this.searchData.selects[select].value) {
+          url = url + this.searchData.selects[select].value + "/";
+        }
+        if (select === "objects" && this.searchData.selects[select].value) {
+          url = url + this.searchData.selects[select].value;
+        }
+        if (
+          this.searchData.selects[select].value &&
+          select !== "deals" &&
+          select !== "objects"
+        ) {
+          queryData[select] = this.searchData.selects[select].value;
+        }
       }
 
-      if (data.objects.value == "apartment") {
-        url = url + "apartment";
-      } else if (data.objects.value == "room") {
-        url = url + "room";
-      } else if (data.objects.value == "house") {
-        url = url + "house";
-      } else if (data.objects.value == "ground") {
-        url = url + "ground";
-      } else if (data.objects.value == "commercy") {
-        url = url + "commercy";
+      for (let inputs of Object.keys(this.searchData.inputs)) {
+        if (this.searchData.inputs[inputs]) {
+          queryData[inputs] = this.searchData.inputs[inputs];
+        }
       }
-      data.rooms.value ? (queryData.rooms = data.rooms.value) : null;
 
-      data.repair.value ? (queryData.repair = data.repair.value) : null;
+      // for(let select of this.searchData.selects)
 
-      data.typeBuilding.value
-        ? (queryData.typeBuilding = data.typeBuilding.value)
-        : null;
+      // if (data.deals.value == "buy") {
+      //   url = url + "buy/";
+      // } else if (data.deals.value == "rent") {
+      //   url = url + "rent/";
+      // } else if (data.deals.value == "daily") {
+      //   url = url + "daily/";
+      // }
 
-      data.typeGround.value
-        ? (queryData.typeGround = data.typeGround.value)
-        : null;
+      // if (data.objects.value == "apartment") {
+      //   url = url + "apartment";
+      // } else if (data.objects.value == "room") {
+      //   url = url + "room";
+      // } else if (data.objects.value == "house") {
+      //   url = url + "house";
+      // } else if (data.objects.value == "ground") {
+      //   url = url + "ground";
+      // } else if (data.objects.value == "commercy") {
+      //   url = url + "commercy";
+      // }
 
-      data.typeCommercy.value
-        ? (queryData.typeCommercy = data.typeCommercy.value)
-        : null;
+      // data.rooms.value ? (queryData.rooms = data.rooms.value) : null;
 
-      data.cities.value ? (queryData.city = data.cities.value) : null;
+      // data.repair.value ? (queryData.repair = data.repair.value) : null;
 
-      // data.address ? (queryData.address = data.address) : null;
+      // data.typeBuilding.value
+      //   ? (queryData.typeBuilding = data.typeBuilding.value)
+      //   : null;
 
-      data.sizeFrom ? (queryData.sizeFrom = data.sizeFrom) : null;
+      // data.typeGround.value
+      //   ? (queryData.typeGround = data.typeGround.value)
+      //   : null;
 
-      data.sizeTo ? (queryData.sizeTo = data.sizeTo) : null;
+      // data.typeCommercy.value
+      //   ? (queryData.typeCommercy = data.typeCommercy.value)
+      //   : null;
 
-      data.priceFrom ? (queryData.priceFrom = data.priceFrom) : null;
+      // data.cities.value ? (queryData.city = data.cities.value) : null;
 
-      data.priceTo ? (queryData.priceTo = data.priceTo) : null;
+      // // data.address ? (queryData.address = data.address) : null;
+
+      // data.sizeFrom ? (queryData.sizeFrom = data.sizeFrom) : null;
+
+      // data.sizeTo ? (queryData.sizeTo = data.sizeTo) : null;
+
+      // data.priceFrom ? (queryData.priceFrom = data.priceFrom) : null;
+
+      // data.priceTo ? (queryData.priceTo = data.priceTo) : null;
 
       this.$router.push({
         path: url,
-        query: queryData
+        query: queryData,
       });
     },
     eventListenObjects(data) {
@@ -779,108 +294,29 @@ export default {
     openAccor() {
       this.isAccorActive = !this.isAccorActive;
     },
-    clearSearchData() {
-      this.searchData.rooms.value = "";
-      this.searchData.repair.value = "";
-      this.searchData.typeBuilding.value = "";
-      this.searchData.typeGround.value = "";
-      this.searchData.typeCommercy.value = "";
-      this.searchData.cities.value = "";
-      // this.searchData.address = "";
-      this.searchData.sizeFrom = "";
-      this.searchData.sizeTo = "";
-      this.searchData.priceFrom = "";
-      this.searchData.priceTo = "";
-    },
+    // clearSearchData() {
+    //   this.searchData = null;
+    // },
     get_filter_offers() {
-      this.clearSearchData();
-      let deal = this.$route.path.split("/")[1];
-      let kind = this.$route.path.split("/")[2];
-
-      let rooms =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.rooms
-          : "";
-      let repair =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.repair
-          : "";
-      let typeBuilding =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.typeBuilding
-          : "";
-      let typeGround =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.typeGround
-          : "";
-      let typeCommercy =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.typeCommercy
-          : "";
-      // let address =
-      //   Object.keys(this.$route.query).length > 0
-      //     ? this.$route.query.address
-      //     : "";
-      let sizeFrom =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.sizeFrom
-          : "";
-      let sizeTo =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.sizeTo
-          : "";
-      let priceFrom =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.priceFrom
-          : "";
-      let priceTo =
-        Object.keys(this.$route.query).length > 0
-          ? this.$route.query.priceTo
-          : "";
-      let city =
-        Object.keys(this.$route.query).length > 0 ? this.$route.query.city : "";
-
-      let page =
-        Object.keys(this.$route.query).length > 0 ? this.$route.query.page : "";
-
-      // this.searchData.address = address || this.searchData.address;
-      this.searchData.sizeFrom = sizeFrom || this.searchData.sizeFrom;
-      this.searchData.sizeTo = sizeTo || this.searchData.sizeTo;
-      this.searchData.priceFrom = priceFrom || this.searchData.priceFrom;
-      this.searchData.priceTo = priceTo || this.searchData.priceTo;
-      this.searchData.page = page || this.searchData.page;
-
-      this.searchData.cities.value = city || this.searchData.cities.value;
-      this.searchData.deals.value = deal || this.searchData.deals.value;
-      this.searchData.objects.value = kind || this.searchData.objects.value;
-      this.searchData.rooms.value = rooms || this.searchData.rooms.value;
-      this.searchData.repair.value = repair || this.searchData.repair.value;
-      this.searchData.typeBuilding.value =
-        typeBuilding || this.searchData.typeBuilding.value;
-      this.searchData.typeGround.value =
-        typeGround || this.searchData.typeGround.value;
-      this.searchData.typeCommercy.value =
-        typeCommercy || this.searchData.typeCommercy.value;
-      this.eventListenObjects(kind);
-
-      let objCopy = JSON.parse(JSON.stringify(this.searchData));
-      for (let prop in objCopy) {
-        delete objCopy[prop].options;
-        if (objCopy[prop].value == "") {
-          delete objCopy[prop];
-        }
-        if (objCopy[prop] == "") {
-          delete objCopy[prop];
-        }
-      }
+      // this.clearSearchData();
+      let routeData = {
+        deal: this.$route.path.split("/")[1],
+        kind: this.$route.path.split("/")[2],
+        ...this.$route.query,
+      };
       Api.getInstance()
-        .offer.get_filter_offers(objCopy)
-        .then(response => {
+        .offer.get_filter_offers(routeData)
+        .then((response) => {
+          this.searchData = response.data.static;
+          this.objCopy = JSON.parse(JSON.stringify(this.searchData));
+          delete this.objCopy.selects.deals;
+          delete this.objCopy.selects.objects;
+          console.log(this.objCopy);
           this.$emit("uploadOffers", {
-            data: response.data
+            data: response.data,
           });
         })
-        .catch(error => {
+        .catch((error) => {
           Api.typicalNTFS(error.response.status);
         });
     },
@@ -891,7 +327,7 @@ export default {
           : null
         : null;
       this.$emit("openMap", {
-        data: data
+        data: data,
       });
     },
     resizeFilters() {
@@ -900,8 +336,8 @@ export default {
       } else {
         this.isAccorActive = true;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 

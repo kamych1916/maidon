@@ -704,16 +704,14 @@ const cleanSearchData = {
 export default {
   async asyncData({ route }) {
     let offerData;
-    // const { id } = route.params;
-    let deal = route.path.split("/")[1];
-    let kind = route.path.split("/")[2];
-    console.log(route.query);
-
+    let routeData = {
+      deal: route.path.split("/")[1],
+      kind: route.path.split("/")[2],
+      ...route.query,
+    };
+    console.log(routeData);
     return axios
-      .post(`https://maidon.tj/server/api/v1/get_filter_offers`, {
-        deal: "buy",
-        kind: "apartment",
-      })
+      .post(`https://maidon.tj/server/api/v1/get_filter_offers`, routeData)
       .then((response) => {
         offerData = response.data;
         console.log(offerData);
