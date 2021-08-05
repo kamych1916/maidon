@@ -165,18 +165,19 @@
             </div>
           </div>
         </el-collapse>
-        <!-- <div class="card-wrap">
+        <div class="card-wrap">
           <div
-            v-for="(review, idx) in accountData.list_reviews"
+            v-for="(review, idx) in userData.list_reviews"
             :key="idx"
             class="d-flex py-20"
             style="border-bottom: 1px solid #ccc"
           >
+            <!-- FIXME изменить паддинг, надо для первого комментарий паддинг топ убрать -->
             <div>
               <div class="text-blue">{{ review.user }}</div>
               <div class="text-grey fs-12">{{ review.date }}</div>
               <el-rate
-                class=" mt-5"
+                class="mt-5"
                 v-model="review.value"
                 disabled
                 show-score
@@ -189,15 +190,15 @@
             </div>
           </div>
           <div class="mt-20" v-if="localStore">
-            <div class="d-flex ">
-              <div class=" w-100">
+            <div class="d-flex">
+              <div class="w-100">
                 <div>
                   {{ localStore.surname }} {{ localStore.name }}
                   {{ localStore.companyName }}
                 </div>
-                <div class="fs-12 text-grey ">Оцените агентство</div>
+                <div class="fs-12 text-grey">Оцените специалиста</div>
                 <el-rate
-                  class=" mt-5"
+                  class="mt-5"
                   show-score
                   text-color="#ff9900"
                   v-model="reviewRate"
@@ -206,12 +207,12 @@
             </div>
             <el-input
               type="textarea"
-              class="mt-20 "
+              class="mt-20"
               placeholder="Распиште отзыв конструктивно.."
               v-model="reviewText"
             ></el-input>
             <button
-              class="el-button el-button--primary is-round mt-16 "
+              class="el-button el-button--primary is-round mt-16"
               @click="add_review()"
             >
               опубликовать
@@ -221,7 +222,7 @@
             Чтобы оставить отзыв пожалуйста
             <nuxt-link to="/account/login"> авторизуйтесь</nuxt-link>
           </div>
-        </div> -->
+        </div>
       </div>
       <div class="col-lg-4 d-none d-sm-block mb-30">
         <div class="card-wrap sticky">
@@ -255,6 +256,20 @@
                   {{ userData.tel }}
                 </a>
               </div>
+              <el-rate
+                class="mt-5"
+                v-model="userData.review"
+                disabled
+                show-score
+                text-color="#ff9900"
+              >
+              </el-rate>
+              <!-- <button
+                class="mt-20 mx-0 el-button el-button--primary is-round"
+                @click="scrollTo('reviews')"
+              >
+                отзывы: {{ userData.list_reviews.length }}
+              </button> -->
             </div>
           </div>
         </div>
@@ -266,13 +281,13 @@
         y="0px"
         viewBox="0 0 3841 120"
         xml:space="preserve"
-        style="overflow:scroll"
+        style="overflow: scroll"
       >
         <path
           d="M3360.5,97.739c-242,0-480-48.375-480-48.375
                     S2647.5,0.5,2400.5,0.5s-480,48.375-480,48.375s-238,48.864-480,48.864s-480-48.375-480-48.375S727.5,0.5,480.5,0.5
                     S0.5,48.875,0.5,48.875V108h1920h1920V48.875C3840.5,48.875,3602.5,97.739,3360.5,97.739z"
-          style="fill:#f4efff;stroke-miterlimit:10;"
+          style="fill: #f4efff; stroke-miterlimit: 10"
         ></path>
       </svg>
     </div> -->
@@ -284,6 +299,7 @@ import { Hooper, Slide, Navigation as HooperNavigation } from "hooper";
 import "hooper/dist/hooper.css";
 import axios from "axios";
 import VueGallerySlideshow from "vue-gallery-slideshow";
+import Api from "~/utils/api";
 
 export default {
   async asyncData({ route }) {
@@ -313,13 +329,13 @@ export default {
       dialogSlider: false,
       images: [],
       activeNames: [],
+      localStore: "",
       // indexSlide: 0
     };
   },
   mounted() {
     if (localStorage.getItem("ui")) {
       this.localStore = JSON.parse(localStorage.getItem("ui"));
-      console.log(this.serviceData);
     }
   },
   methods: {
@@ -340,6 +356,7 @@ export default {
     },
     add_review() {
       if (this.reviewRate == 0 || !this.reviewRate || !this.reviewText) {
+        // TODO добавить всплывающее окно о том что пользователь не ввел текст, или не вы брал оценку
       } else {
         Api.getInstance()
           .clients.add_review({
@@ -347,7 +364,9 @@ export default {
             text: this.reviewText,
             value: this.reviewRate,
           })
-          .then((response) => {})
+          .then((response) => {
+            window.location.reload();
+          })
           .catch((error) => {
             Api.typicalNTFS(error.response.status);
           });
