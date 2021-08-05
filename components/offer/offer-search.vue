@@ -77,7 +77,7 @@
         </div>
         <div
           class="col-lg-4 my-10"
-          v-for="(items, id) in objCopy.selects"
+          v-for="(items, id) in searchDataCopy.selects"
           :key="id"
         >
           <template>
@@ -143,26 +143,13 @@ export default {
   data() {
     return {
       isAccorActive: true,
-      repair: false,
-      rooms: false,
-      typeBuilding: false,
-      typeGround: false,
-      typeCommercy: false,
       searchData: null,
-      objCopy: null,
+      searchDataCopy: null,
     };
   },
   mounted() {
     this.resizeFilters();
     this.get_filter_offers();
-  },
-  computed: {
-    // withoutFirstFilters() {
-    //   let objCopy = JSON.parse(JSON.stringify(this.searchData));
-    //   delete objCopy.selects.deals;
-    //   delete objCopy.selects.objects;
-    //   return objCopy.selects;
-    // },
   },
   watch: {
     $route(to, from) {
@@ -176,10 +163,6 @@ export default {
       this.openMap(false);
       let url = "/";
       let queryData = {};
-      let data = this.searchData;
-      console.log(this.searchData);
-
-      // this.searchData.selects.ob((element) => {});
 
       for (let select of Object.keys(this.searchData.selects)) {
         if (select === "deals" && this.searchData.selects[select].value) {
@@ -188,12 +171,11 @@ export default {
         if (select === "objects" && this.searchData.selects[select].value) {
           url = url + this.searchData.selects[select].value;
         }
-        if (
-          this.searchData.selects[select].value &&
-          select !== "deals" &&
-          select !== "objects"
-        ) {
-          queryData[select] = this.searchData.selects[select].value;
+      }
+
+      for (let select of Object.keys(this.searchDataCopy.selects)) {
+        if (this.searchDataCopy.selects[select].value) {
+          queryData[select] = this.searchDataCopy.selects[select].value;
         }
       }
 
@@ -203,102 +185,16 @@ export default {
         }
       }
 
-      // for(let select of this.searchData.selects)
-
-      // if (data.deals.value == "buy") {
-      //   url = url + "buy/";
-      // } else if (data.deals.value == "rent") {
-      //   url = url + "rent/";
-      // } else if (data.deals.value == "daily") {
-      //   url = url + "daily/";
-      // }
-
-      // if (data.objects.value == "apartment") {
-      //   url = url + "apartment";
-      // } else if (data.objects.value == "room") {
-      //   url = url + "room";
-      // } else if (data.objects.value == "house") {
-      //   url = url + "house";
-      // } else if (data.objects.value == "ground") {
-      //   url = url + "ground";
-      // } else if (data.objects.value == "commercy") {
-      //   url = url + "commercy";
-      // }
-
-      // data.rooms.value ? (queryData.rooms = data.rooms.value) : null;
-
-      // data.repair.value ? (queryData.repair = data.repair.value) : null;
-
-      // data.typeBuilding.value
-      //   ? (queryData.typeBuilding = data.typeBuilding.value)
-      //   : null;
-
-      // data.typeGround.value
-      //   ? (queryData.typeGround = data.typeGround.value)
-      //   : null;
-
-      // data.typeCommercy.value
-      //   ? (queryData.typeCommercy = data.typeCommercy.value)
-      //   : null;
-
-      // data.cities.value ? (queryData.city = data.cities.value) : null;
-
-      // // data.address ? (queryData.address = data.address) : null;
-
-      // data.sizeFrom ? (queryData.sizeFrom = data.sizeFrom) : null;
-
-      // data.sizeTo ? (queryData.sizeTo = data.sizeTo) : null;
-
-      // data.priceFrom ? (queryData.priceFrom = data.priceFrom) : null;
-
-      // data.priceTo ? (queryData.priceTo = data.priceTo) : null;
-
       this.$router.push({
         path: url,
         query: queryData,
       });
     },
-    eventListenObjects(data) {
-      if (data == "apartment") {
-        this.repair = true;
-        this.rooms = true;
-        this.typeBuilding = true;
-        this.typeCommercy = false;
-        this.typeGround = false;
-      } else if (data == "room") {
-        this.repair = true;
-        this.rooms = false;
-        this.typeBuilding = true;
-        this.typeCommercy = false;
-        this.typeGround = false;
-      } else if (data == "house") {
-        this.repair = true;
-        this.rooms = false;
-        this.typeBuilding = false;
-        this.typeCommercy = false;
-        this.typeGround = true;
-      } else if (data == "ground") {
-        this.repair = false;
-        this.rooms = false;
-        this.typeBuilding = false;
-        this.typeCommercy = false;
-        this.typeGround = true;
-      } else if (data == "commercy") {
-        this.repair = false;
-        this.rooms = false;
-        this.typeBuilding = false;
-        this.typeCommercy = true;
-        this.typeGround = false;
-      }
-    },
+
     openAccor() {
       this.isAccorActive = !this.isAccorActive;
     },
-    // clearSearchData() {
-    //   this.searchData = null;
-    // },
     get_filter_offers() {
-      // this.clearSearchData();
       let routeData = {
         deal: this.$route.path.split("/")[1],
         kind: this.$route.path.split("/")[2],
@@ -308,10 +204,11 @@ export default {
         .offer.get_filter_offers(routeData)
         .then((response) => {
           this.searchData = response.data.static;
-          this.objCopy = JSON.parse(JSON.stringify(this.searchData));
-          delete this.objCopy.selects.deals;
-          delete this.objCopy.selects.objects;
-          console.log(this.objCopy);
+          console.log(this.searchData);
+          this.searchDataCopy = JSON.parse(JSON.stringify(this.searchData));
+          delete this.searchDataCopy.selects.deals;
+          delete this.searchDataCopy.selects.objects;
+
           this.$emit("uploadOffers", {
             data: response.data,
           });
