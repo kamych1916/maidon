@@ -284,8 +284,12 @@ export default {
         account: JSON.parse(localStorage.getItem("ui")).account_type,
         deal: data.picked_deal,
         estate: data.picked_estate,
-        object_living: data.picked_object_living,
-        object_commercy: data.picked_object_commercy,
+        object_living: data.picked_object_living
+          ? data.picked_object_living
+          : "",
+        object_commercy: data.picked_object_commercy
+          ? data.picked_object_commercy
+          : "",
       };
       this.offerData.offerMap.map_address = null;
       this.offerData.offerMap.map_marker = null;
@@ -298,8 +302,9 @@ export default {
         picked_object
       ) {
         this.accessToForm = true;
+        let data = { ...this.offerData.offerType };
         Api.getInstance()
-          .offer.get_new_offer_inputs(this.offerData.offerType)
+          .offer.get_new_offer_inputs(data)
           .then((response) => {
             this.offerData.offerObject = response.data.object;
             this.offerData.offerPrice = response.data.price;

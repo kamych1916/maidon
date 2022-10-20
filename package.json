@@ -17,6 +17,7 @@
     "hooper": "^0.3.4",
     "nuxt": "^2.14.6",
     "nuxt-i18n": "^6.24.0",
+    "sass": "^1.55.0",
     "v-mask": "^2.2.4",
     "vue-backtotop": "^1.6.1",
     "vue-browser-geolocation": "^1.8.0",
@@ -31,7 +32,6 @@
   "devDependencies": {
     "@nuxtjs/google-analytics": "^2.4.0",
     "@nuxtjs/style-resources": "^1.0.0",
-    "node-sass": "^5.0.0",
     "sass-loader": "^10.1.1"
   }
 }

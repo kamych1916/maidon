@@ -1,6 +1,6 @@
 import axios from "axios";
-const API_BASE_URL = "https://maidon.tj/server/api/v1";
-const API_SERVICES_URL = "https://maidon.tj/services/api/v1";
+const API_BASE_URL = "http://176.57.221.67:8000/api/v1";
+const API_SERVICES_URL = "http://176.57.221.67:8000/services/api/v1";
 import NTFS from "~/utils/notifications";
 
 export default class Api {
@@ -108,8 +108,8 @@ export default class Api {
     async add_review(data) {
       return axios.post(`${API_BASE_URL}/add_review`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async list_services(specialization, type, page) {
@@ -119,15 +119,15 @@ export default class Api {
     },
     async get_services(data) {
       return axios.get(`${API_BASE_URL}/get_services/${data}`);
-    }
+    },
   };
 
   offer = {
     async open_chat(data) {
       return axios.post(`${API_BASE_URL}/open_chat`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async add_complaint(data) {
@@ -163,15 +163,15 @@ export default class Api {
     async create_offer(offerData) {
       return axios.post(`${API_BASE_URL}/create_offer`, offerData, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async patch_services(offerData) {
       return axios.patch(`${API_BASE_URL}/patch_services`, offerData, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
 
@@ -179,119 +179,124 @@ export default class Api {
       return axios.post(`${API_BASE_URL}/offer_uploadfile`, formData, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`,
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
     },
     async offer_uploadfile_services(formData) {
       return axios.post(`${API_BASE_URL}/offer_uploadfile_services`, formData, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`,
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
     },
     async get_new_offer_inputs(formData) {
-      return axios.post(`${API_BASE_URL}/static/get_new_offer_inputs`, formData, {
-        headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`,
-          "Content-Type": "multipart/form-data"
+      console.log(formData);
+      return axios.post(
+        `${API_BASE_URL}/static/get_new_offer_inputs`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${Api.getCookie("session_token")}`,
+            "Content-Type": "application/json",
+          },
         }
-      });
-    }
+      );
+    },
   };
 
   account = {
     async delete_chat(data) {
       return axios.post(`${API_BASE_URL}/delete_chat`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_user_chats() {
       return axios.get(`${API_BASE_URL}/get_user_chats`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_messages(data) {
       return axios.post(`${API_BASE_URL}/get_messages`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_user_offers() {
       return axios.get(`${API_BASE_URL}/get_user_offers`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_user_services() {
       return axios.get(`${API_BASE_URL}/get_user_services`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_moder_offer() {
       return axios.get(`${API_BASE_URL}/get_moder_offer`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async get_moder_services() {
       return axios.get(`${API_BASE_URL}/get_moder_services`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async active_offer(data) {
       return axios.post(`${API_BASE_URL}/active_offer`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async active_services(data) {
       return axios.post(`${API_BASE_URL}/active_services`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
 
     async patch_info(data) {
       return axios.post(`${API_BASE_URL}/patch_info`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async patch_pass(data) {
       return axios.post(`${API_BASE_URL}/patch_pass`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async change_offer(data) {
       return axios.post(`${API_BASE_URL}/change_offer`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async delete_avatar() {
       return axios.delete(`${API_BASE_URL}/delete_avatar`, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async delete_offer(data) {
@@ -300,8 +305,8 @@ export default class Api {
     async delete_services(data) {
       return axios.post(`${API_BASE_URL}/delete_services`, data, {
         headers: {
-          Authorization: `Bearer ${Api.getCookie("session_token")}`
-        }
+          Authorization: `Bearer ${Api.getCookie("session_token")}`,
+        },
       });
     },
     async reset_pass(data) {
@@ -314,10 +319,10 @@ export default class Api {
       return axios.post(`${API_BASE_URL}/upload_avatar`, formData, {
         headers: {
           Authorization: `Bearer ${Api.getCookie("session_token")}`,
-          "Content-Type": "multipart/form-data"
-        }
+          "Content-Type": "multipart/form-data",
+        },
       });
-    }
+    },
   };
 
   auth = {
@@ -344,9 +349,9 @@ export default class Api {
     async check_is_admin() {
       return axios.get(`${API_BASE_URL}/is_admin`, {
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("st")}`
-        }
+          Authorization: `Bearer ${localStorage.getItem("st")}`,
+        },
       });
-    }
+    },
   };
 }

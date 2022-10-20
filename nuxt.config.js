@@ -17,25 +17,25 @@ export default {
       {
         name: "description",
         content:
-          "Maidon - сайт недвижисоти об аренде и продаже недвижимости в Таджикистане. Описание объектов, фото, контакты продавца."
+          "Maidon - сайт недвижисоти об аренде и продаже недвижимости в Таджикистане. Описание объектов, фото, контакты продавца.",
       },
       {
         name: "keywords",
         content:
-          "майдон, maidon, недвижимость, аренда, продажа, купить, снять, квартиры, дома, новостройки в Таджикистане, купить недвижимость в Таджикистане"
+          "майдон, maidon, недвижимость, аренда, продажа, купить, снять, квартиры, дома, новостройки в Таджикистане, купить недвижимость в Таджикистане",
       },
 
       { property: "og:image:type", content: "image/png" },
       {
         property: "og:image",
-        content: "https://maidon.tj/maidon-promo.png"
+        content: "https://maidon.tj/maidon-promo.png",
       },
       {
         property: "twitter:image",
-        content: "https://maidon.tj/maidon-promo.png"
-      }
+        content: "https://maidon.tj/maidon-promo.png",
+      },
     ],
-    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }]
+    link: [{ rel: "icon", type: "image/x-icon", href: "/favicon.ico" }],
   },
 
   // Global CSS (https://go.nuxtjs.dev/config-css)
@@ -44,8 +44,10 @@ export default {
     // 'element-ui/lib/theme-chalk/index.css'
     "@assets/css/index.css",
     // "@assets/scss/index.scss",
-    "~/assets/scss/index.scss"
   ],
+  styleResources: {
+    scss: ["~/assets/scss/index.scss"],
+  },
 
   // styleResources: {
   //   scss: ["./assets/scss/*.scss"]
@@ -55,41 +57,41 @@ export default {
   plugins: [
     { src: "@/plugins/plugins", ssr: false },
     "@/plugins/element-ui",
-    { src: "@/plugins/ymapPlugin.js", mode: "client" }
+    { src: "@/plugins/ymapPlugin.js", mode: "client" },
   ],
 
   // Auto import components (https://go.nuxtjs.dev/config-components)
   components: {
-    dirs: ["~/components", "~/components/offer"]
+    dirs: ["~/components", "~/components/offer"],
   },
 
   // Modules for dev and build (recommended) (https://go.nuxtjs.dev/config-modules)
   buildModules: ["@nuxtjs/style-resources", "@nuxtjs/google-analytics"],
 
   googleAnalytics: {
-    id: "UA-196575354-1"
+    id: "UA-196575354-1",
   },
 
   // Modules (https://go.nuxtjs.dev/config-modules)
   modules: [
     // https://go.nuxtjs.dev/axios
     "nuxt-i18n",
-    "@nuxtjs/axios"
+    "@nuxtjs/axios",
   ],
   i18n: {
     locales: [
       {
         code: "ru",
-        file: "ru.js"
-      }
+        file: "ru.js",
+      },
     ],
     lazy: true,
     langDir: "lang/",
-    defaultLocale: "ru"
+    defaultLocale: "ru",
   },
   // Axios module configuration (https://go.nuxtjs.dev/config-axios)
   axios: {},
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
-  build: {}
+  build: {},
 };
